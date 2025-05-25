@@ -21,7 +21,7 @@ public class FastORM {
     public static void main(String[] args) {
         FastORM orm = new FastORM();
         orm.queryable(BaseEntity.class)
-                .join(Base2Entity.class, On.of(BaseEntity.class, Base2Entity.class))
-                .join(Base2Entity.class, On.of(BaseEntity.class, Base2Entity.class));
+                .join(Base2Entity.class,
+                        On.of(BaseEntity.class, Base2Entity.class));
     }
 }

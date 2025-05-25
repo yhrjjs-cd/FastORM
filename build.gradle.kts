@@ -12,6 +12,7 @@ repositories {
 
 dependencies {
     implementation(libs.lombok)
+    implementation(libs.commons.lang3)
     implementation(libs.spring.boot.starter.web)
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")

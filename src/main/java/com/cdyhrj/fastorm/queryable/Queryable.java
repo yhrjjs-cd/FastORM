@@ -2,7 +2,11 @@ package com.cdyhrj.fastorm.queryable;
 
 import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.lambda.PropFun;
+import com.cdyhrj.fastorm.queryable.inner.Join;
 import org.springframework.lang.NonNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Queryable
@@ -15,16 +19,18 @@ public class Queryable<E extends Entity> {
      */
     private Class<E> entityClazz;
 
+    /**
+     * 连接
+     */
+    private List<Join<?>> joins = new ArrayList<>();
+
+
     public Queryable(Class<E> entityClazz) {
         this.entityClazz = entityClazz;
     }
 
-    public <E1 extends Entity> Queryable<E> join(Class<E1> targetClazz, On<E, E1> on) {
-        return this;
-    }
-
-    public <E1 extends Entity> Queryable<E> join(Class<E1> targetClazz, @NonNull PropFun<E, ?> sourceKeyFun, @NonNull PropFun<E1, ?> targetKeyFun) {
-        On<E, E1> on = On.of(entityClazz, targetClazz);
+    public <E1 extends Entity> Queryable<E> join(Class<E1> targetClass, On<E, E1> on) {
+        joins.add(Join.of(targetClass, on));
 
         return this;
     }
