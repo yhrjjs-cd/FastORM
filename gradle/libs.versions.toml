@@ -1,0 +1,89 @@
+[versions]
+kotlinVersion = "1.9.3"
+springBootVersion = "3.4.4"
+springDependencyManagementVersion = "1.1.7"
+alibabaDruidStarterVersion = "1.2.22"
+easyexcelversion = "4.0.2"
+fastjson2Version = "2.0.53"
+com-alibaba-qlexpress4 = "4.0.0-beta.2"
+com-aliyun-alibabacloud-push20160801 = "1.0.13"
+com-aliyun-dysmsapi20170525 = "3.1.2"
+com-aliyun-oss-aliyun-sdk-oss = "3.17.4"
+com-auth0-java-jwt = "4.4.0"
+com-aventrix-jnanoid-jnanoid = "2.0.0"
+com-feiniaojin-graceful-response = "5.0.5-boot3"
+guavaVersion = "33.2.0-jre"
+com-googlecode-aviator-aviator = "5.4.3"
+com-mysql-mysql-connector-j = "9.1.0"
+okhttp3Version = "4.12.0"
+commonsIoVersion = "2.16.1"
+xdocreportVersion = "2.1.0"
+jakartaServletApiVersion = "4.0.4"
+junit-junit = "4.13.2"
+net-coobird-thumbnailator = "0.4.20"
+net-lingala-zip4j-zip4j = "2.11.5"
+org-antlr-st4 = "4.3.4"
+commonsLang3Version = "3.17.0"
+commonsPool2Version = "2.12.1"
+groovyVersion = "4.0.23"
+poi = "5.3.0"
+org-apache-velocity-velocity-engine-core = "2.3"
+freemarkerVersion = "2.3.33"
+javassistVersion = "3.29.0-GA"
+lombokVersion = "1.18.36"
+org-slf4j-slf4j-api = "2.0.13"
+springVersion = "6.2.5"
+redis-clients-jedis = "5.1.5"
+
+[libraries]
+alibaba-druid-starter = { module = "com.alibaba:druid-spring-boot-starter", version.ref = "alibabaDruidStarterVersion" }
+easyexcel = { module = "com.alibaba:easyexcel", version.ref = "easyexcelversion" }
+fastjson2 = { module = "com.alibaba.fastjson2:fastjson2", version.ref = "fastjson2Version" }
+fastjson2-extension = { module = "com.alibaba.fastjson2:fastjson2-extension", version.ref = "fastjson2Version" }
+fastjson2-extension-spring6 = { module = "com.alibaba.fastjson2:fastjson2-extension-spring6", version.ref = "fastjson2Version" }
+com-alibaba-qlexpress4 = { module = "com.alibaba:QLExpress4", version.ref = "com-alibaba-qlexpress4" }
+com-aliyun-alibabacloud-push20160801 = { module = "com.aliyun:alibabacloud-push20160801", version.ref = "com-aliyun-alibabacloud-push20160801" }
+com-aliyun-dysmsapi20170525 = { module = "com.aliyun:dysmsapi20170525", version.ref = "com-aliyun-dysmsapi20170525" }
+com-aliyun-oss-aliyun-sdk-oss = { module = "com.aliyun.oss:aliyun-sdk-oss", version.ref = "com-aliyun-oss-aliyun-sdk-oss" }
+com-auth0-java-jwt = { module = "com.auth0:java-jwt", version.ref = "com-auth0-java-jwt" }
+com-aventrix-jnanoid-jnanoid = { module = "com.aventrix.jnanoid:jnanoid", version.ref = "com-aventrix-jnanoid-jnanoid" }
+com-feiniaojin-graceful-response = { module = "com.feiniaojin:graceful-response", version.ref = "com-feiniaojin-graceful-response" }
+guava = { module = "com.google.guava:guava", version.ref = "guavaVersion" }
+com-googlecode-aviator-aviator = { module = "com.googlecode.aviator:aviator", version.ref = "com-googlecode-aviator-aviator" }
+com-mysql-mysql-connector-j = { module = "com.mysql:mysql-connector-j", version.ref = "com-mysql-mysql-connector-j" }
+okhttp3 = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp3Version" }
+commons-io = { module = "commons-io:commons-io", version.ref = "commonsIoVersion" }
+xdocreport-pdf = { module = "fr.opensagres.xdocreport:fr.opensagres.odfdom.converter.pdf", version.ref = "xdocreportVersion" }
+xdocreport = { module = "fr.opensagres.xdocreport:xdocreport", version.ref = "xdocreportVersion" }
+jakarta-servlet-api = { module = "jakarta.servlet:jakarta.servlet-api", version.ref = "jakartaServletApiVersion" }
+junit-junit = { module = "junit:junit", version.ref = "junit-junit" }
+net-coobird-thumbnailator = { module = "net.coobird:thumbnailator", version.ref = "net-coobird-thumbnailator" }
+net-lingala-zip4j-zip4j = { module = "net.lingala.zip4j:zip4j", version.ref = "net-lingala-zip4j-zip4j" }
+org-antlr-st4 = { module = "org.antlr:ST4", version.ref = "org-antlr-st4" }
+commons-lang3 = { module = "org.apache.commons:commons-lang3", version.ref = "commonsLang3Version" }
+commons-pool2 = { module = "org.apache.commons:commons-pool2", version.ref = "commonsPool2Version" }
+groovy = { module = "org.apache.groovy:groovy", version.ref = "groovyVersion" }
+poi = { module = "org.apache.poi:poi", version.ref = "poi" }
+poi-ooxml = { module = "org.apache.poi:poi-ooxml", version.ref = "poi" }
+poi-ooxml-full = { module = "org.apache.poi:poi-ooxml-full", version.ref = "poi" }
+org-apache-velocity-velocity-engine-core = { module = "org.apache.velocity:velocity-engine-core", version.ref = "org-apache-velocity-velocity-engine-core" }
+freemarker = { module = "org.freemarker:freemarker", version.ref = "freemarkerVersion" }
+javassist = { module = "org.javassist:javassist", version.ref = "javassistVersion" }
+lombok = { module = "org.projectlombok:lombok", version.ref = "lombokVersion" }
+org-slf4j-slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "org-slf4j-slf4j-api" }
+spring-boot-autoconfigure = { module = "org.springframework.boot:spring-boot-autoconfigure", version.ref = "springBootVersion" }
+spring-boot-starter-data-redis = { module = "org.springframework.boot:spring-boot-starter-data-redis", version.ref = "springBootVersion" }
+spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "springBootVersion" }
+spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "springBootVersion" }
+spring-jdbc = { module = "org.springframework:spring-jdbc", version.ref = "springVersion" }
+spring-tx = { module = "org.springframework:spring-tx", version.ref = "springVersion" }
+redis-clients-jedis = { module = "redis.clients:jedis", version.ref = "redis-clients-jedis" }
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlinVersion" }
+spring-boot = { id = "org.springframework.boot", version.ref = "springBootVersion" }
+spring-dependency-management = { id = "io.spring.dependency-management", version.ref = "springDependencyManagementVersion" }
+docker-palantir = { id = "com.palantir.docker", version = "0.36.0" }
+
+[bundles]
+fastjson2 = ["fastjson2", "fastjson2-extension", "fastjson2-extension-spring6"]
