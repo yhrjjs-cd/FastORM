@@ -51,7 +51,8 @@ public class SimpleQueryable {
                 .andEqual(Student::getId, BaseEntity::getName)
                 .andLeftEqual(Student::getName, 100)
                 .andRightEqual(BaseEntity::getName, 100)
-                .ret();
+                .ret()
+                .where(AndCondition.of());
 
         System.out.println(queryable.toSqlString());
     }

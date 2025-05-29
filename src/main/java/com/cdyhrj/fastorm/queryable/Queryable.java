@@ -11,6 +11,7 @@ import org.springframework.lang.NonNull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.StringJoiner;
 
 /**
@@ -122,6 +123,11 @@ public class Queryable<E extends Entity> {
                 .add(baseAliasEntity.toSqlString());
 
         joins.forEach(join -> sj.add(join.toSqlString()));
+
+        if (Objects.nonNull(this.condition)) {
+            sj.add("WHERE")
+                    .add(this.condition.toSqlString());
+        }
 
         return sj.toString();
     }
