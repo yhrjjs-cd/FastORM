@@ -43,7 +43,7 @@ public class LambdaColumn {
      * @param lambda 需要解析的 lambda 对象
      * @return 返回解析后的字段名称
      */
-    public static FieldInfo resolve(PropFun<? extends Entity, ?> lambda) {
+    public static FieldInfo resolve(PropFn<? extends Entity, ?> lambda) {
         Class<?> clazz = lambda.getClass();
         String className = clazz.getName();
 
@@ -55,7 +55,7 @@ public class LambdaColumn {
      * @return 返回解析后的字段名称
      */
     @SafeVarargs
-    public static FieldInfo[] resolves(PropFun<? extends Entity, ?>... lambda) {
+    public static FieldInfo[] resolves(PropFn<? extends Entity, ?>... lambda) {
         return Arrays.stream(lambda).map(LambdaColumn::resolve).toArray(FieldInfo[]::new);
     }
 
@@ -66,7 +66,7 @@ public class LambdaColumn {
      * @param lambda    lambda表达式
      * @return 属性名
      */
-    private static FieldInfo getFieldInfo(String className, PropFun<? extends Entity, ?> lambda) {
+    private static FieldInfo getFieldInfo(String className, PropFn<? extends Entity, ?> lambda) {
         if (!lambda.getClass().isSynthetic()) {
             throw new NotLambdaSyntheticClassException();
         }

@@ -9,5 +9,5 @@ import java.util.function.Function;
  * @author huangqi
  */
 @FunctionalInterface
-public interface PropFun<T, R> extends Function<T, R>, Serializable {
+public interface PropFn<T, R> extends Function<T, R>, Serializable {
 }

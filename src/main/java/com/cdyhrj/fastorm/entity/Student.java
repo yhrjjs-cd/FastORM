@@ -4,7 +4,13 @@ import com.cdyhrj.fastorm.annotation.Column;
 import lombok.Data;
 
 @Data
-public class Base2Entity implements Entity {
+public class Student implements Entity {
+    @Column
+    private int id;
+
+    @Column
+    private String code;
+
     @Column
     private String name;
 }

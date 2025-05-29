@@ -14,8 +14,10 @@ dependencies {
     implementation(libs.lombok)
     implementation(libs.commons.lang3)
     implementation(libs.spring.boot.starter.web)
+    implementation(libs.bundles.fastjson2)
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
+    annotationProcessor(libs.lombok)
 }
 
 tasks.test {
