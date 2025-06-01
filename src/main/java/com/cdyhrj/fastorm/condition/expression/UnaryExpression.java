@@ -32,11 +32,6 @@ public class UnaryExpression extends AbstractUnaryExpression {
 
     @Override
     public String toSql() {
-        if (value instanceof String) {
-            return "%s.%s %s '%s'".formatted(alias, field, operator.getValue(), value);
-        } else {
-            return "%s.%s %s %s".formatted(alias, field, operator.getValue(), value);
-        }
-
+        return "%s.%s %s :%s".formatted(alias, field, operator.getValue(), paramName);
     }
 }

@@ -1,18 +1,16 @@
 package com.cdyhrj.fastorm.queryable;
 
+import com.alibaba.fastjson2.JSONArray;
 import com.cdyhrj.fastorm.condition.AndCondition;
 import com.cdyhrj.fastorm.entity.Entity;
-import com.cdyhrj.fastorm.lambda.PropFn;
 import com.cdyhrj.fastorm.queryable.context.Context;
-import com.cdyhrj.fastorm.queryable.context.TableEntity;
+import com.cdyhrj.fastorm.queryable.helper.ListQueryHelper;
 import com.cdyhrj.fastorm.queryable.join.Join;
 import com.cdyhrj.fastorm.queryable.join.JoinType;
 import com.cdyhrj.fastorm.queryable.join.Joins;
+import lombok.Getter;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
-import java.util.StringJoiner;
 
 /**
  * Queryable
@@ -23,24 +21,29 @@ public class Queryable<T extends Entity> {
     /**
      * 查询上下文
      */
+    @Getter
     private final Context<T> context;
     /**
      * 连接
      */
+    @Getter
     private final Joins<T> joins;
     /**
      * 主键Id值
      */
+    @Getter
     private Long id;
 
     /**
      * Name 值
      */
+    @Getter
     private String name;
 
     /**
      * 条件
      */
+    @Getter
     private AndCondition<T> condition;
 
     public Queryable(Class<T> entityClass) {
@@ -130,24 +133,12 @@ public class Queryable<T extends Entity> {
     }
 
     /**
-     * 设置参数
-     *
-     * @param keyFun 字段函数
-     * @param value  值
-     * @return 当前对象
-     */
-    public Queryable<T> param(PropFn<T, ?> keyFun, Object value) {
-
-        return this;
-    }
-
-    /**
      * 查询实体列表
      *
      * @return 实体列表
      */
     public List<T> toList() {
-        return Collections.emptyList();
+        return ListQueryHelper.of(this).query();
     }
 
     /**
@@ -156,24 +147,15 @@ public class Queryable<T extends Entity> {
      * @return 总数
      */
     public int count() {
-        return 0;
+        return ListQueryHelper.of(this).count();
     }
 
-    public String toSqlString() {
-        StringJoiner sj = new StringJoiner(" ");
-
-        TableEntity tableEntity = context.getBaseTableEntity();
-        sj.add("SELECT").add("*").add("FROM").add(tableEntity.toSql());
-
-        if (Objects.nonNull(joins)) {
-            sj.add(joins.toSql());
-        }
-
-        if (Objects.nonNull(this.condition)) {
-            sj.add("WHERE")
-                    .add(this.condition.toSql());
-        }
-
-        return sj.toString();
+    /**
+     * JSONArray
+     *
+     * @return JSON Array
+     */
+    public JSONArray toJSONArray() {
+        return ListQueryHelper.of(this).toJSONArray();
     }
 }

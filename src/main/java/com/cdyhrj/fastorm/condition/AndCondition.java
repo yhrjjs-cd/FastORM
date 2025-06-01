@@ -4,6 +4,7 @@ import com.cdyhrj.fastorm.condition.expression.Expression;
 import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.lambda.PropFn;
 import com.cdyhrj.fastorm.meta.SqlNode;
+import com.cdyhrj.fastorm.parameter.ParamMap;
 import com.cdyhrj.fastorm.queryable.Queryable;
 import com.cdyhrj.fastorm.queryable.context.Context;
 
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class AndCondition<T extends Entity> implements Condition {
+public class AndCondition<T extends Entity> implements Condition<T> {
     private final Context<T> context;
     private final Queryable<T> queryable;
 
@@ -37,10 +38,13 @@ public class AndCondition<T extends Entity> implements Condition {
     }
 
     @Override
+    public void writeToParamMap(ParamMap paramMap) {
+        this.expessionList.forEach(expression -> expression.writeToParamMap(paramMap));
+    }
+
+    @Override
     public String toSql() {
         return this.expessionList.stream().map(SqlNode::toSql)
                 .collect(Collectors.joining(" AND "));
     }
-
-
 }

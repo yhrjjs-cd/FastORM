@@ -1,6 +1,8 @@
 package com.cdyhrj.fastorm.condition.expression;
 
 import com.cdyhrj.fastorm.meta.SqlNode;
+import com.cdyhrj.fastorm.parameter.ParamMap;
+import org.springframework.lang.NonNull;
 
 /**
  * 条件表达式
@@ -9,4 +11,10 @@ import com.cdyhrj.fastorm.meta.SqlNode;
  */
 
 public interface Expression extends SqlNode {
+    /**
+     * 参数值写入参数Map
+     *
+     * @param paramMap 已经存在参数Map
+     */
+    void writeToParamMap(@NonNull ParamMap paramMap);
 }

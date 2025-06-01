@@ -6,6 +6,8 @@ import com.cdyhrj.fastorm.queryable.Queryable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * 简单查询
  */
@@ -43,18 +45,11 @@ public class SimpleQueryable {
     public static void main(String[] args) {
         FastORM fastORM = new FastORM();
 
-        Queryable<Student> queryable = fastORM.queryable(Student.class)
-                .join(Student.class, "S2")
-                .andEq("S2", Student::getName, Student::getName)
-                .andLEq("S2", Student::getId, Student::getName)
-                .ret()
-                .where()
-                .andEq("S2", Student::getId, 100)
-                .andEq(Student::getId, 100)
-                .ret()
-                //
-                ;
+        List<Student> students = fastORM.queryable(Student.class)
+                .join(Student.class, "S2").andEq("S2", Student::getName, Student::getName).andLEq("S2", Student::getId, Student::getName).ret()
+                .where().andEq(Student::getId, 100).andEq(Student::getId, "100").ret()
+                .toList();
 
-        System.out.println(queryable.toSqlString());
+        System.out.println(students);
     }
 }
