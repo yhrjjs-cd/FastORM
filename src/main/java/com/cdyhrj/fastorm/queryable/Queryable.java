@@ -3,12 +3,11 @@ package com.cdyhrj.fastorm.queryable;
 import com.cdyhrj.fastorm.condition.Condition;
 import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.lambda.PropFn;
-import com.cdyhrj.fastorm.meta.AliasEntity;
+import com.cdyhrj.fastorm.queryable.context.Context;
+import com.cdyhrj.fastorm.queryable.context.TableEntity;
 import com.cdyhrj.fastorm.queryable.join.Join;
-import com.cdyhrj.fastorm.queryable.join.JoinType;
-import org.springframework.lang.NonNull;
+import com.cdyhrj.fastorm.queryable.join.Joins;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -19,16 +18,15 @@ import java.util.StringJoiner;
  *
  * @author <a href="mailto:huangqi@cdyhrj.com">黄奇</a>
  */
-public class Queryable<E extends Entity> {
+public class Queryable<T extends Entity> {
     /**
-     * 所有使用的类
+     * 查询上下文
      */
-    private final List<AliasEntity<? extends Entity>> entityClasses = new ArrayList<>();
-
+    private final Context<T> context;
     /**
      * 连接
      */
-    private List<Join<?, ?>> joins = new ArrayList<>();
+    private final Joins<T> joins;
     /**
      * 主键Id值
      */
@@ -44,44 +42,45 @@ public class Queryable<E extends Entity> {
      */
     private Condition condition;
 
-    /**
-     * 基础类别名实体
-     */
-    private final AliasEntity<E> baseAliasEntity;
-
-    public Queryable(Class<E> entityClass) {
-        this.baseAliasEntity = newAliasEntity(entityClass);
-        this.entityClasses.add(baseAliasEntity);
+    public Queryable(Class<T> entityClass) {
+        this.context = new Context<T>(this, entityClass);
+        this.joins = new Joins<>();
     }
 
-    /**
-     * 左连接
-     *
-     * @param targetClass 目标类
-     * @param <E1>        目标类型
-     * @return 当前对象
-     */
-    public <E1 extends Entity> Join<E, E1> leftJoin(Class<E1> targetClass) {
-        AliasEntity<E1> aliasEntity = newAliasEntity(targetClass);
-        Join<E, E1> join = Join.of(this, JoinType.LEFT, baseAliasEntity, aliasEntity);
-        joins.add(join);
+    public <E extends Entity> Join<T, T, E> join(Class<E> entityClass) {
+        Join<T, T, E> join = Join.join(context, entityClass);
+        joins.addJoin(join);
 
         return join;
     }
 
-    public Queryable<E> id(Long id) {
+    public <E extends Entity> Join<T, T, E> join(Class<E> entityClass, String entityAlias) {
+        Join<T, T, E> join = Join.join(context, entityClass, entityAlias);
+        joins.addJoin(join);
+
+        return join;
+    }
+
+    public <E1 extends Entity, E2 extends Entity> Join<T, E1, E2> join(Class<E1> sourceEntityClass, Class<E2> targetEntityClass) {
+        Join<T, E1, E2> join = Join.join(context, sourceEntityClass, targetEntityClass);
+        joins.addJoin(join);
+
+        return join;
+    }
+
+    public Queryable<T> id(Long id) {
         this.id = id;
 
         return this;
     }
 
-    public Queryable<E> name(String name) {
+    public Queryable<T> name(String name) {
         this.name = name;
 
         return this;
     }
 
-    public Queryable<E> where(Condition condition) {
+    public Queryable<T> where(Condition condition) {
         this.condition = condition;
 
         return this;
@@ -94,7 +93,7 @@ public class Queryable<E extends Entity> {
      * @param value  值
      * @return 当前对象
      */
-    public Queryable<E> param(@NonNull PropFn<E, ?> keyFun, Object value) {
+    public Queryable<T> param(PropFn<T, ?> keyFun, Object value) {
 
         return this;
     }
@@ -104,7 +103,7 @@ public class Queryable<E extends Entity> {
      *
      * @return 实体列表
      */
-    public List<E> toList() {
+    public List<T> toList() {
         return Collections.emptyList();
     }
 
@@ -119,25 +118,20 @@ public class Queryable<E extends Entity> {
 
     public String toSqlString() {
         StringJoiner sj = new StringJoiner(" ");
-        sj.add("SELECT * FROM")
-                .add(baseAliasEntity.toSqlString());
 
-        joins.forEach(join -> sj.add(join.toSqlString()));
+        TableEntity tableEntity = context.getBaseTableEntity();
+        sj.add("SELECT").add("*").add("FROM").add(tableEntity.toSql());
+
+        if (Objects.nonNull(joins)) {
+            sj.add(joins.toSql());
+        }
 
         if (Objects.nonNull(this.condition)) {
             sj.add("WHERE")
-                    .add(this.condition.toSqlString());
+                    .add(this.condition.toSql());
         }
 
         return sj.toString();
     }
 
-    /**
-     * 新别名实体
-     *
-     * @param entityClass 实体类
-     */
-    private <T extends Entity> AliasEntity<T> newAliasEntity(Class<T> entityClass) {
-        return AliasEntity.of("T%d".formatted(this.entityClasses.size() + 1), entityClass);
-    }
 }

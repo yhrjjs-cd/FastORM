@@ -43,7 +43,7 @@ public class LambdaColumn {
      * @param lambda 需要解析的 lambda 对象
      * @return 返回解析后的字段名称
      */
-    public static FieldInfo resolve(PropFn<? extends Entity, ?> lambda) {
+    public static <E extends Entity> FieldInfo resolve(PropFn<E, ?> lambda) {
         Class<?> clazz = lambda.getClass();
         String className = clazz.getName();
 
@@ -66,7 +66,7 @@ public class LambdaColumn {
      * @param lambda    lambda表达式
      * @return 属性名
      */
-    private static FieldInfo getFieldInfo(String className, PropFn<? extends Entity, ?> lambda) {
+    private static <E extends Entity> FieldInfo getFieldInfo(String className, PropFn<E, ?> lambda) {
         if (!lambda.getClass().isSynthetic()) {
             throw new NotLambdaSyntheticClassException();
         }
@@ -78,8 +78,7 @@ public class LambdaColumn {
             String propertyName = methodNameToPropertyName(serializedLambda.getImplMethodName());
             String entityClassName = serializedLambda.getImplClass().replace("/", ".");
 
-            @SuppressWarnings("unchecked")
-            Class<? extends Entity> entityClass = (Class<? extends Entity>) Class.forName(entityClassName);
+            Class<E> entityClass = (Class<E>) Class.forName(entityClassName);
 
             return COLUMN_CACHE_MAP.computeIfAbsent(className, s -> propertyNameToFieldName(propertyName, entityClass));
         } catch (InvocationTargetException | IllegalAccessException | NoSuchMethodException |
@@ -88,7 +87,7 @@ public class LambdaColumn {
         }
     }
 
-    public static FieldInfo propertyNameToFieldName(String propertyName, Class<? extends Entity> entityClass) {
+    public static <E extends Entity> FieldInfo propertyNameToFieldName(String propertyName, Class<E> entityClass) {
         Field field = FieldUtils.getField(entityClass, propertyName, true);
         String name = getFieldName(field, propertyName);
 

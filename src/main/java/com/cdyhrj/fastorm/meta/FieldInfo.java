@@ -37,5 +37,5 @@ public class FieldInfo {
     /**
      * 对应表对象类
      */
-    private Class<?> entityClass;
+    private Class<? extends Entity> entityClass;
 }

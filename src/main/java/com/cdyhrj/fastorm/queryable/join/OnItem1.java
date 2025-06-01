@@ -1,32 +1,30 @@
 package com.cdyhrj.fastorm.queryable.join;
 
-import com.cdyhrj.fastorm.entity.Entity;
-import com.cdyhrj.fastorm.lambda.LambdaColumn;
-import com.cdyhrj.fastorm.lambda.PropFn;
-import com.cdyhrj.fastorm.meta.AliasEntity;
+public class OnItem1 implements OnItem {
+    public static OnItem1 of(String alias,
+                             String field,
+                             Object value) {
+        OnItem1 item = new OnItem1();
 
-public class OnItem1<E extends Entity> implements OnItem {
-    public static <E extends Entity> OnItem1<E> of(AliasEntity<E> aliasEntity) {
-        return new OnItem1<>(aliasEntity);
+        item.alias = alias;
+        item.field = field;
+        item.value = value;
+
+        return item;
     }
 
-    private final AliasEntity<E> aliasEntity;
-    private String key;
+    private String alias;
+    private String field;
     private Object value;
 
-    private OnItem1(AliasEntity<E> aliasEntity) {
-        this.aliasEntity = aliasEntity;
-    }
-
-    public OnItem1<E> keyValue(PropFn<E, ?> keyFn, Object value) {
-        this.key = LambdaColumn.resolve(keyFn).getName();
-        this.value = value;
-
-        return this;
-    }
-
     @Override
-    public String toSqlString() {
-        return "%s.%s = %s".formatted(aliasEntity.getAlias(), this.key, this.value);
+    public String toSql() {
+
+        if (value instanceof String) {
+            return "%s.%s = %s".formatted(alias, field, this.value);
+        } else {
+            return "%s.%s = %s".formatted(alias, field, this.value);
+        }
+
     }
 }

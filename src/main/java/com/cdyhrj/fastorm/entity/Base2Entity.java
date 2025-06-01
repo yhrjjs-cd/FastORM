@@ -7,4 +7,7 @@ import lombok.Data;
 public class Base2Entity implements Entity {
     @Column
     private String name;
+
+    @Column
+    private String code;
 }
