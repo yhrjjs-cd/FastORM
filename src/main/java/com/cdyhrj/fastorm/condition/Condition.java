@@ -6,5 +6,5 @@ import com.cdyhrj.fastorm.queryable.context.ContextAware;
 /**
  * 条件接口
  */
-public interface Condition extends SqlNode, ContextAware {
+public interface Condition extends SqlNode {
 }

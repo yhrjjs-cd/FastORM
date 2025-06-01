@@ -1,29 +1,42 @@
-//package com.cdyhrj.fastorm.condition.expression;
-//
-//import com.cdyhrj.fastorm.condition.enums.Operator;
-//import com.cdyhrj.fastorm.entity.Entity;
-//import com.cdyhrj.fastorm.lambda.LambdaColumn;
-//import com.cdyhrj.fastorm.lambda.PropFn;
-//import com.cdyhrj.fastorm.queryable.context.TableEntity;
-//import com.cdyhrj.fastorm.meta.FieldInfo;
-//
-//public class UnaryExpression extends AbstractUnaryExpression {
-//    protected Operator operator;
-//
-//    public static <E extends Entity> UnaryExpression of(TableEntity<?> aliasEntity, PropFn<E, ?> field, Operator operator, Object value) {
-//        FieldInfo fieldInfo = LambdaColumn.resolve(field);
-//
-//        return new UnaryExpression(aliasEntity, fieldInfo.getName(), operator, value);
-//    }
-//
-//    public UnaryExpression(TableEntity<?> aliasEntity, String field, Operator operator, Object value) {
-//        super(aliasEntity, field, value);
-//
-//        this.operator = operator;
-//    }
-//
-//    @Override
-//    public String toSql() {
-//        return "%s %s".formatted(this.aliasEntity.getAlias(), this);
-//    }
-//}
+package com.cdyhrj.fastorm.condition.expression;
+
+import com.cdyhrj.fastorm.condition.enums.Operator;
+import com.cdyhrj.fastorm.entity.Entity;
+import com.cdyhrj.fastorm.lambda.LambdaColumn;
+import com.cdyhrj.fastorm.lambda.PropFn;
+import com.cdyhrj.fastorm.meta.FieldInfo;
+import com.cdyhrj.fastorm.queryable.context.Context;
+
+import java.util.Objects;
+
+public class UnaryExpression extends AbstractUnaryExpression {
+    protected Operator operator;
+
+    public static <E extends Entity> UnaryExpression of(Context<?> context, String entityAlias, PropFn<E, ?> field, Operator operator, Object value) {
+        FieldInfo fieldInfo = LambdaColumn.resolve(field);
+
+        String alias;
+        if (Objects.isNull(entityAlias)) {
+            alias = context.getTableEntity(fieldInfo.getEntityClass().getName()).getAlias();
+        } else {
+            alias = context.getTableEntity(entityAlias).getAlias();
+        }
+        return new UnaryExpression(alias, fieldInfo.getName(), operator, value);
+    }
+
+    public UnaryExpression(String alias, String field, Operator operator, Object value) {
+        super(alias, field, value);
+
+        this.operator = operator;
+    }
+
+    @Override
+    public String toSql() {
+        if (value instanceof String) {
+            return "%s.%s %s '%s'".formatted(alias, field, operator.getValue(), value);
+        } else {
+            return "%s.%s %s %s".formatted(alias, field, operator.getValue(), value);
+        }
+
+    }
+}

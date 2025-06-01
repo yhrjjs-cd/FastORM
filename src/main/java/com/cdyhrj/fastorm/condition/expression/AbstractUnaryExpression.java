@@ -1,16 +1,13 @@
-//package com.cdyhrj.fastorm.condition.expression;
-//
-//import com.cdyhrj.fastorm.queryable.context.TableEntity;
-//
-//
-//public abstract class AbstractUnaryExpression implements Expression {
-//    protected TableEntity<?> aliasEntity;
-//    protected String field;
-//    protected Object value;
-//
-//    public AbstractUnaryExpression(TableEntity<?> aliasEntity, String field, Object value) {
-//        this.aliasEntity = aliasEntity;
-//        this.field = field;
-//        this.value = value;
-//    }
-//}
+package com.cdyhrj.fastorm.condition.expression;
+
+public abstract class AbstractUnaryExpression implements Expression {
+    protected String alias;
+    protected String field;
+    protected Object value;
+
+    public AbstractUnaryExpression(String alias, String field, Object value) {
+        this.alias = alias;
+        this.field = field;
+        this.value = value;
+    }
+}

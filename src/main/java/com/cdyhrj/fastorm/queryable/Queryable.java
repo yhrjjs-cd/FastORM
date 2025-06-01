@@ -1,11 +1,12 @@
 package com.cdyhrj.fastorm.queryable;
 
-import com.cdyhrj.fastorm.condition.Condition;
+import com.cdyhrj.fastorm.condition.AndCondition;
 import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.lambda.PropFn;
 import com.cdyhrj.fastorm.queryable.context.Context;
 import com.cdyhrj.fastorm.queryable.context.TableEntity;
 import com.cdyhrj.fastorm.queryable.join.Join;
+import com.cdyhrj.fastorm.queryable.join.JoinType;
 import com.cdyhrj.fastorm.queryable.join.Joins;
 
 import java.util.Collections;
@@ -40,7 +41,7 @@ public class Queryable<T extends Entity> {
     /**
      * 条件
      */
-    private Condition condition;
+    private AndCondition<T> condition;
 
     public Queryable(Class<T> entityClass) {
         this.context = new Context<T>(this, entityClass);
@@ -48,21 +49,63 @@ public class Queryable<T extends Entity> {
     }
 
     public <E extends Entity> Join<T, T, E> join(Class<E> entityClass) {
-        Join<T, T, E> join = Join.join(context, entityClass);
+        Join<T, T, E> join = Join.join(context, JoinType.INNER, entityClass);
         joins.addJoin(join);
 
         return join;
     }
 
     public <E extends Entity> Join<T, T, E> join(Class<E> entityClass, String entityAlias) {
-        Join<T, T, E> join = Join.join(context, entityClass, entityAlias);
+        Join<T, T, E> join = Join.join(context, JoinType.INNER, entityClass, entityAlias);
         joins.addJoin(join);
 
         return join;
     }
 
     public <E1 extends Entity, E2 extends Entity> Join<T, E1, E2> join(Class<E1> sourceEntityClass, Class<E2> targetEntityClass) {
-        Join<T, E1, E2> join = Join.join(context, sourceEntityClass, targetEntityClass);
+        Join<T, E1, E2> join = Join.join(context, JoinType.INNER, sourceEntityClass, targetEntityClass);
+        joins.addJoin(join);
+
+        return join;
+    }
+
+    public <E extends Entity> Join<T, T, E> leftJoin(Class<E> entityClass) {
+        Join<T, T, E> join = Join.join(context, JoinType.LEFT, entityClass);
+        joins.addJoin(join);
+
+        return join;
+    }
+
+    public <E extends Entity> Join<T, T, E> leftJoin(Class<E> entityClass, String entityAlias) {
+        Join<T, T, E> join = Join.join(context, JoinType.LEFT, entityClass, entityAlias);
+        joins.addJoin(join);
+
+        return join;
+    }
+
+    public <E1 extends Entity, E2 extends Entity> Join<T, E1, E2> leftJoin(Class<E1> sourceEntityClass, Class<E2> targetEntityClass) {
+        Join<T, E1, E2> join = Join.join(context, JoinType.LEFT, sourceEntityClass, targetEntityClass);
+        joins.addJoin(join);
+
+        return join;
+    }
+
+    public <E extends Entity> Join<T, T, E> rightJoin(Class<E> entityClass) {
+        Join<T, T, E> join = Join.join(context, JoinType.RIGHT, entityClass);
+        joins.addJoin(join);
+
+        return join;
+    }
+
+    public <E extends Entity> Join<T, T, E> rightJoin(Class<E> entityClass, String entityAlias) {
+        Join<T, T, E> join = Join.join(context, JoinType.RIGHT, entityClass, entityAlias);
+        joins.addJoin(join);
+
+        return join;
+    }
+
+    public <E1 extends Entity, E2 extends Entity> Join<T, E1, E2> rightJoin(Class<E1> sourceEntityClass, Class<E2> targetEntityClass) {
+        Join<T, E1, E2> join = Join.join(context, JoinType.RIGHT, sourceEntityClass, targetEntityClass);
         joins.addJoin(join);
 
         return join;
@@ -80,10 +123,10 @@ public class Queryable<T extends Entity> {
         return this;
     }
 
-    public Queryable<T> where(Condition condition) {
-        this.condition = condition;
+    public AndCondition<T> where() {
+        this.condition = new AndCondition<>(context, this);
 
-        return this;
+        return this.condition;
     }
 
     /**
@@ -133,5 +176,4 @@ public class Queryable<T extends Entity> {
 
         return sj.toString();
     }
-
 }

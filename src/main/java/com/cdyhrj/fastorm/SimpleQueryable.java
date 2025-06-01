@@ -1,5 +1,6 @@
 package com.cdyhrj.fastorm;
 
+
 import com.cdyhrj.fastorm.entity.Student;
 import com.cdyhrj.fastorm.queryable.Queryable;
 import lombok.RequiredArgsConstructor;
@@ -44,25 +45,14 @@ public class SimpleQueryable {
 
         Queryable<Student> queryable = fastORM.queryable(Student.class)
                 .join(Student.class, "S2")
-                .andEqual("S2", Student::getName, Student::getName)
-                .andREqual("S2", Student::getId, Student::getName)
+                .andEq("S2", Student::getName, Student::getName)
+                .andLEq("S2", Student::getId, Student::getName)
                 .ret()
-                .join(Student.class, "SSS3")
-                .andLEqual("S2", Student::getName, "SSS3", Student::getName)
-                .andREqual("SSS3", Student::getName, 28)
+                .where()
+                .andEq("S2", Student::getId, 100)
+                .andEq(Student::getId, 100)
                 .ret()
-//                .join(BaseEntity.class, Base2Entity.class)
-//                .andEqual(BaseEntity::getName, Base2Entity::getName)
-//                .ret()
-//                .join(BaseEntity.class, On.of(Student::getId, BaseEntity::getName).andEqual(BaseEntity::getName, "Hello"))
-//                .join(Base2Entity.class, On.of(Student::getName, Base2Entity::getName).andEqual(Base2Entity::getName, "Hello2"))
-//                .where(null);
-//                .andEqual(Student::getId, BaseEntity::getName)
-//                .andEqual(Student::getName, 100)
-//                .andEqual(BaseEntity::getName, 100)
-//                .ret()
-//                .where(Cnd.andEqual(Student::getName, "2323")
-//                        .andEqual(Student::getName, "2323"));
+                //
                 ;
 
         System.out.println(queryable.toSqlString());

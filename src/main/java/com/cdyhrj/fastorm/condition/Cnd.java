@@ -1,10 +1,8 @@
 //package com.cdyhrj.fastorm.condition;
 //
-//import com.cdyhrj.fastorm.condition.expression.AndExpressGroup;
 //import com.cdyhrj.fastorm.entity.Entity;
-//import com.cdyhrj.fastorm.lambda.LambdaColumn;
 //import com.cdyhrj.fastorm.lambda.PropFn;
-//import com.cdyhrj.fastorm.meta.FieldInfo;
+//import com.cdyhrj.fastorm.queryable.context.Context;
 //
 ///**
 // * 条件入口
@@ -14,11 +12,11 @@
 // */
 //
 //public class Cnd {
-//    public static AndExpressGroup and() {
-//        return new AndExpressGroup();
+//    public static AndCondition and(Context<?> context) {
+//        return new AndCondition(context);
 //    }
 //
-//    public static <E extends Entity> AndExpressGroup andEqual(PropFn<E, ?> propFn, Object value) {
-//        return and().andEqual(propFn, value);
+//    public static <E extends Entity> AndCondition andEqual(Context<?> context, PropFn<E, ?> propFn, Object value) {
+//        return and(context).andEqual(propFn, value);
 //    }
 //}

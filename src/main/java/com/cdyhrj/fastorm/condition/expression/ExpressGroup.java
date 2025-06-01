@@ -1,7 +1,5 @@
 //package com.cdyhrj.fastorm.condition.expression;
 //
-//import com.cdyhrj.fastorm.condition.enums.Logic;
-//
 //import java.util.ArrayList;
 //import java.util.List;
 //
@@ -10,22 +8,8 @@
 // *
 // * @author huangqi
 // */
-//public class ExpressGroup implements Expression {
-//    public static AndExpressGroup and() {
-//        return new AndExpressGroup();
-//    }
-//
-////    public static ExpressGroupOr or() {
-////        return new ExpressGroupOr();
-////    }
-//
+//public abstract class ExpressGroup implements Expression {
 //    protected List<Expression> expessionList = new ArrayList<>();
-//    protected Logic logic;
-//
-//    @Override
-//    public String toSql() {
-//        return " Where ";
-//    }
 //
 ////    @Override
 ////    public String toParametricExpression(PropertyToFieldNameMap propertyToFieldNameMap) {
