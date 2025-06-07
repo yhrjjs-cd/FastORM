@@ -1,0 +1,23 @@
+@startuml
+'https://plantuml.com/class-diagram
+skin rose
+hide methods
+hide fields
+
+interface Entity
+interface Statement
+class EntityQueryable
+class Insertable
+class Updatable
+class Deletable
+class SqlQueryable
+
+Statement .> Entity
+
+Statement <|.. EntityQueryable
+Statement <|.. Insertable
+Statement <|.. Updatable
+Statement <|.. Deletable
+Statement <|.. SqlQueryable
+
+@enduml

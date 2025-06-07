@@ -1,0 +1,37 @@
+@startuml
+'https://plantuml.com/class-diagram
+skin rose
+hide methods
+hide fields
+
+class EntityQueryable
+interface SqlSegment
+class Select implements SqlSegment
+class From implements SqlSegment
+class Joins implements SqlSegment
+class Where implements SqlSegment
+class OrderBy implements SqlSegment
+class GroupBy implements SqlSegment
+class HavingBy implements SqlSegment
+class Paging implements SqlSegment
+
+Select *-- Context
+From *-- Context
+Joins *-- Context
+Where *-- Context
+OrderBy *-- Context
+GroupBy *-- Context
+HavingBy *-- Context
+Paging *-- Context
+
+Context ---* EntityQueryable
+Select --o EntityQueryable
+From --o EntityQueryable
+Joins --o EntityQueryable
+Where --o EntityQueryable
+OrderBy --o EntityQueryable
+GroupBy --o EntityQueryable
+HavingBy --o EntityQueryable
+Paging --o EntityQueryable
+
+@enduml

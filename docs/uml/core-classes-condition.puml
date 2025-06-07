@@ -1,0 +1,45 @@
+@startuml
+'https://plantuml.com/class-diagram
+skin rose
+hide methods
+hide fields
+
+package StatementPKG{
+    interface Expression
+    interface Condition
+    abstract class GroupCondition
+    class AndCondition
+    class OrCondition
+    class AbstractExpression
+    class NullaryExpression
+    class AbstractUnaryExpression
+    class UnaryExpression
+    class BinaryExpression
+
+    Expression <|.. AbstractExpression
+    AbstractExpression <|-- NullaryExpression
+    AbstractExpression <|---- AbstractUnaryExpression
+    AbstractExpression <|-- BinaryExpression
+
+    NullaryExpression <|-- IsNullExpression
+    NullaryExpression <|-- NotNullExpression
+
+
+    AbstractUnaryExpression <|-- UnaryExpression
+    UnaryExpression <|-- LikeExpression
+    UnaryExpression <|-- StartWithExpression
+    UnaryExpression <|-- EndWithExpression
+    UnaryExpression <|-- InLongExpression
+    UnaryExpression <|-- InStringExpression
+
+    BinaryExpression <|-- BetweenNumberExpression
+    BinaryExpression <|-- BetweenDateExpression
+    BinaryExpression <|-- BetweenDatetimeExpression
+}
+
+Condition <|.. GroupCondition
+GroupCondition <|-- OrCondition
+GroupCondition <|-- AndCondition
+Expression .* GroupCondition
+
+@enduml
