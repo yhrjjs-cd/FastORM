@@ -1,6 +1,6 @@
 package com.cdyhrj.fastorm.condition.expression;
 
-import com.cdyhrj.fastorm.meta.SqlNode;
+import com.cdyhrj.fastorm.meta.SqlSegment;
 import com.cdyhrj.fastorm.parameter.ParamMap;
 import org.springframework.lang.NonNull;
 
@@ -10,7 +10,7 @@ import org.springframework.lang.NonNull;
  * @author huangqi
  */
 
-public interface Expression extends SqlNode {
+public interface Expression extends SqlSegment {
     /**
      * 参数值写入参数Map
      *

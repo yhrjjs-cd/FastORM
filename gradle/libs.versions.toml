@@ -34,6 +34,7 @@ lombokVersion = "1.18.36"
 org-slf4j-slf4j-api = "2.0.13"
 springVersion = "6.2.5"
 redis-clients-jedis = "5.1.5"
+easy-query = "2.8.25"
 
 [libraries]
 alibaba-druid-starter = { module = "com.alibaba:druid-spring-boot-starter", version.ref = "alibabaDruidStarterVersion" }
@@ -78,6 +79,9 @@ spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-start
 spring-jdbc = { module = "org.springframework:spring-jdbc", version.ref = "springVersion" }
 spring-tx = { module = "org.springframework:spring-tx", version.ref = "springVersion" }
 redis-clients-jedis = { module = "redis.clients:jedis", version.ref = "redis-clients-jedis" }
+easy-query-sql-api-proxy = { module="com.easy-query:sql-api-proxy", version.ref="easy-query"}
+easy-query-sql-api4j =  { module="com.easy-query:sql-api4j", version.ref="easy-query"}
+easy-query-sql-mysql =  { module="com.easy-query:sql-mysql", version.ref="easy-query"}
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlinVersion" }

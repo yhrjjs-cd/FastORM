@@ -4,10 +4,10 @@ import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.lambda.LambdaColumn;
 import com.cdyhrj.fastorm.lambda.PropFn;
 import com.cdyhrj.fastorm.meta.FieldInfo;
-import com.cdyhrj.fastorm.meta.SqlNode;
+import com.cdyhrj.fastorm.meta.SqlSegment;
 import com.cdyhrj.fastorm.queryable.Queryable;
 import com.cdyhrj.fastorm.queryable.context.Context;
-import com.cdyhrj.fastorm.queryable.context.TableEntity;
+import com.cdyhrj.fastorm.queryable.context.TableAvailable;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
-public class Join<T extends Entity, L extends Entity, R extends Entity> implements SqlNode {
+public class Join<T extends Entity, L extends Entity, R extends Entity> implements SqlSegment {
     public static <T extends Entity, L extends Entity, R extends Entity> Join<T, L, R> join(
             Context<T> context,
             JoinType joinType,
@@ -75,10 +75,10 @@ public class Join<T extends Entity, L extends Entity, R extends Entity> implemen
 
     public Join<T, L, R> andEq(PropFn<L, ?> leftKeyFun, PropFn<R, ?> rightKeyFun) {
         FieldInfo leftFiled = LambdaColumn.resolve(leftKeyFun);
-        TableEntity leftEntity = context.getTableEntity(leftFiled.getEntityClass().getName());
+        TableAvailable leftEntity = context.getTableEntity(leftFiled.getEntityClass().getName());
 
         FieldInfo rightFiled = LambdaColumn.resolve(rightKeyFun);
-        TableEntity rightEntity = context.getTableEntity(rightFiled.getEntityClass().getName());
+        TableAvailable rightEntity = context.getTableEntity(rightFiled.getEntityClass().getName());
 
         OnItem2 item = OnItem2.of(leftEntity.getAlias(), leftFiled.getName(), rightEntity.getAlias(), rightFiled.getName());
         items.add(item);
@@ -88,7 +88,7 @@ public class Join<T extends Entity, L extends Entity, R extends Entity> implemen
 
     public Join<T, L, R> andEq(PropFn<L, ?> leftKeyFun, Object value) {
         FieldInfo leftFiled = LambdaColumn.resolve(leftKeyFun);
-        TableEntity leftEntity = context.getTableEntity(leftFiled.getEntityClass().getName());
+        TableAvailable leftEntity = context.getTableEntity(leftFiled.getEntityClass().getName());
 
         OnItem1 item = OnItem1.of(leftEntity.getAlias(), leftFiled.getName(), value);
         items.add(item);
@@ -98,10 +98,10 @@ public class Join<T extends Entity, L extends Entity, R extends Entity> implemen
 
     public <RE extends Entity> Join<T, L, R> andLEq(PropFn<L, ?> leftKeyFun, PropFn<RE, ?> rightKeyFun) {
         FieldInfo leftFiled = LambdaColumn.resolve(leftKeyFun);
-        TableEntity leftEntity = context.getTableEntity(leftFiled.getEntityClass().getName());
+        TableAvailable leftEntity = context.getTableEntity(leftFiled.getEntityClass().getName());
 
         FieldInfo rightFiled = LambdaColumn.resolve(rightKeyFun);
-        TableEntity rightEntity = context.getTableEntity(rightFiled.getEntityClass().getName());
+        TableAvailable rightEntity = context.getTableEntity(rightFiled.getEntityClass().getName());
 
         OnItem2 item = OnItem2.of(leftEntity.getAlias(), leftFiled.getName(), rightEntity.getAlias(), rightFiled.getName());
         items.add(item);
@@ -111,7 +111,7 @@ public class Join<T extends Entity, L extends Entity, R extends Entity> implemen
 
     public Join<T, L, R> andLEq(PropFn<L, ?> leftKeyFun, Object value) {
         FieldInfo leftFiled = LambdaColumn.resolve(leftKeyFun);
-        TableEntity leftEntity = context.getTableEntity(leftFiled.getEntityClass().getName());
+        TableAvailable leftEntity = context.getTableEntity(leftFiled.getEntityClass().getName());
 
         OnItem1 item = OnItem1.of(leftEntity.getAlias(), leftFiled.getName(), value);
         items.add(item);
@@ -121,10 +121,10 @@ public class Join<T extends Entity, L extends Entity, R extends Entity> implemen
 
     public <LE extends Entity> Join<T, L, R> andREq(PropFn<R, ?> leftKeyFun, PropFn<LE, ?> rightKeyFun) {
         FieldInfo leftFiled = LambdaColumn.resolve(leftKeyFun);
-        TableEntity leftEntity = context.getTableEntity(leftFiled.getEntityClass().getName());
+        TableAvailable leftEntity = context.getTableEntity(leftFiled.getEntityClass().getName());
 
         FieldInfo rightFiled = LambdaColumn.resolve(rightKeyFun);
-        TableEntity rightEntity = context.getTableEntity(rightFiled.getEntityClass().getName());
+        TableAvailable rightEntity = context.getTableEntity(rightFiled.getEntityClass().getName());
 
         OnItem2 item = OnItem2.of(leftEntity.getAlias(), leftFiled.getName(), rightEntity.getAlias(), rightFiled.getName());
         items.add(item);
@@ -134,7 +134,7 @@ public class Join<T extends Entity, L extends Entity, R extends Entity> implemen
 
     public Join<T, L, R> andREq(PropFn<R, ?> leftKeyFun, Object value) {
         FieldInfo leftFiled = LambdaColumn.resolve(leftKeyFun);
-        TableEntity leftEntity = context.getTableEntity(leftFiled.getEntityClass().getName());
+        TableAvailable leftEntity = context.getTableEntity(leftFiled.getEntityClass().getName());
 
         OnItem1 item = OnItem1.of(leftEntity.getAlias(), leftFiled.getName(), value);
         items.add(item);
@@ -145,10 +145,10 @@ public class Join<T extends Entity, L extends Entity, R extends Entity> implemen
     // -----------------------------------------------------------------------------------------------------------------
     public Join<T, L, R> andEq(String leftAlias, PropFn<L, ?> leftKeyFun, PropFn<R, ?> rightKeyFun) {
         FieldInfo leftFiled = LambdaColumn.resolve(leftKeyFun);
-        TableEntity leftEntity = context.getTableEntity(leftAlias);
+        TableAvailable leftEntity = context.getTableEntity(leftAlias);
 
         FieldInfo rightFiled = LambdaColumn.resolve(rightKeyFun);
-        TableEntity rightEntity = context.getTableEntity(rightFiled.getEntityClass().getName());
+        TableAvailable rightEntity = context.getTableEntity(rightFiled.getEntityClass().getName());
 
         OnItem2 item = OnItem2.of(leftEntity.getAlias(), leftFiled.getName(), rightEntity.getAlias(), rightFiled.getName());
         items.add(item);
@@ -158,7 +158,7 @@ public class Join<T extends Entity, L extends Entity, R extends Entity> implemen
 
     public Join<T, L, R> andEq(String leftAlias, PropFn<L, ?> leftKeyFun, Object value) {
         FieldInfo leftFiled = LambdaColumn.resolve(leftKeyFun);
-        TableEntity leftEntity = context.getTableEntity(leftAlias);
+        TableAvailable leftEntity = context.getTableEntity(leftAlias);
 
         OnItem1 item = OnItem1.of(leftEntity.getAlias(), leftFiled.getName(), value);
         items.add(item);
@@ -168,10 +168,10 @@ public class Join<T extends Entity, L extends Entity, R extends Entity> implemen
 
     public <RE extends Entity> Join<T, L, R> andLEq(String leftAlias, PropFn<L, ?> leftKeyFun, PropFn<RE, ?> rightKeyFun) {
         FieldInfo leftFiled = LambdaColumn.resolve(leftKeyFun);
-        TableEntity leftEntity = context.getTableEntity(leftAlias);
+        TableAvailable leftEntity = context.getTableEntity(leftAlias);
 
         FieldInfo rightFiled = LambdaColumn.resolve(rightKeyFun);
-        TableEntity rightEntity = context.getTableEntity(rightFiled.getEntityClass().getName());
+        TableAvailable rightEntity = context.getTableEntity(rightFiled.getEntityClass().getName());
 
         OnItem2 item = OnItem2.of(leftEntity.getAlias(), leftFiled.getName(), rightEntity.getAlias(), rightFiled.getName());
         items.add(item);
@@ -181,7 +181,7 @@ public class Join<T extends Entity, L extends Entity, R extends Entity> implemen
 
     public Join<T, L, R> andLEq(String leftAlias, PropFn<L, ?> leftKeyFun, Object value) {
         FieldInfo leftFiled = LambdaColumn.resolve(leftKeyFun);
-        TableEntity leftEntity = context.getTableEntity(leftAlias);
+        TableAvailable leftEntity = context.getTableEntity(leftAlias);
 
         OnItem1 item = OnItem1.of(leftEntity.getAlias(), leftFiled.getName(), value);
         items.add(item);
@@ -191,10 +191,10 @@ public class Join<T extends Entity, L extends Entity, R extends Entity> implemen
 
     public <LE extends Entity> Join<T, L, R> andREq(String rightAlias, PropFn<R, ?> leftKeyFun, PropFn<LE, ?> rightKeyFun) {
         FieldInfo leftFiled = LambdaColumn.resolve(leftKeyFun);
-        TableEntity leftEntity = context.getTableEntity(rightAlias);
+        TableAvailable leftEntity = context.getTableEntity(rightAlias);
 
         FieldInfo rightFiled = LambdaColumn.resolve(rightKeyFun);
-        TableEntity rightEntity = context.getTableEntity(rightFiled.getEntityClass().getName());
+        TableAvailable rightEntity = context.getTableEntity(rightFiled.getEntityClass().getName());
 
         OnItem2 item = OnItem2.of(leftEntity.getAlias(), leftFiled.getName(), rightEntity.getAlias(), rightFiled.getName());
         items.add(item);
@@ -204,7 +204,7 @@ public class Join<T extends Entity, L extends Entity, R extends Entity> implemen
 
     public Join<T, L, R> andREq(String rightAlias, PropFn<R, ?> leftKeyFun, Object value) {
         FieldInfo leftFiled = LambdaColumn.resolve(leftKeyFun);
-        TableEntity leftEntity = context.getTableEntity(rightAlias);
+        TableAvailable leftEntity = context.getTableEntity(rightAlias);
 
         OnItem1 item = OnItem1.of(leftEntity.getAlias(), leftFiled.getName(), value);
         items.add(item);
@@ -215,10 +215,10 @@ public class Join<T extends Entity, L extends Entity, R extends Entity> implemen
     // -----------------------------------------------------------------------------------------------------------------
     public Join<T, L, R> andEq(String leftAlias, PropFn<L, ?> leftKeyFun, String rightAlias, PropFn<R, ?> rightKeyFun) {
         FieldInfo leftFiled = LambdaColumn.resolve(leftKeyFun);
-        TableEntity leftEntity = context.getTableEntity(leftAlias);
+        TableAvailable leftEntity = context.getTableEntity(leftAlias);
 
         FieldInfo rightFiled = LambdaColumn.resolve(rightKeyFun);
-        TableEntity rightEntity = context.getTableEntity(rightAlias);
+        TableAvailable rightEntity = context.getTableEntity(rightAlias);
 
         OnItem2 item = OnItem2.of(leftEntity.getAlias(), leftFiled.getName(), rightEntity.getAlias(), rightFiled.getName());
         items.add(item);
@@ -228,13 +228,13 @@ public class Join<T extends Entity, L extends Entity, R extends Entity> implemen
 
     @Override
     public String toSql() {
-        TableEntity right = context.getTableEntity(entityKey);
+        TableAvailable right = context.getTableEntity(entityKey);
 
         return "%s %s ON %s".formatted(joinType.getSqlString(), right.toSql(), getItemsSql());
     }
 
     private String getItemsSql() {
-        return this.items.stream().map(SqlNode::toSql)
+        return this.items.stream().map(SqlSegment::toSql)
                 .collect(Collectors.joining(" AND "));
     }
 }

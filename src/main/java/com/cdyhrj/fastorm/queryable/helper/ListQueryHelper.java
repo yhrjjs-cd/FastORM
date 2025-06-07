@@ -4,7 +4,7 @@ import com.alibaba.fastjson2.JSONArray;
 import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.parameter.ParamMap;
 import com.cdyhrj.fastorm.queryable.Queryable;
-import com.cdyhrj.fastorm.queryable.context.TableEntity;
+import com.cdyhrj.fastorm.queryable.context.TableAvailable;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collections;
@@ -24,8 +24,13 @@ public class ListQueryHelper<E extends Entity> {
     }
 
     public List<E> query() {
-        ParamMap paramMap = ParamMap.from(queryable.getCondition());
+        ParamMap paramMap = ParamMap.of();
+        queryable.getCondition().writeToParamMap(paramMap);
+
         String sqlText = getQueryString("*");
+
+        log.info(sqlText);
+        log.info(paramMap.toString());
 
         return Collections.emptyList();
     }
@@ -47,7 +52,7 @@ public class ListQueryHelper<E extends Entity> {
     public String getQueryString(String selectFields) {
         StringJoiner sj = new StringJoiner(" ");
 
-        TableEntity tableEntity = queryable.getContext().getBaseTableEntity();
+        TableAvailable tableEntity = queryable.getContext().getBaseTableEntity();
         sj.add("SELECT").add(selectFields).add("FROM").add(tableEntity.toSql());
 
         if (Objects.nonNull(queryable.getJoins())) {

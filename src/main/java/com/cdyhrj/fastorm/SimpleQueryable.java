@@ -1,8 +1,8 @@
 package com.cdyhrj.fastorm;
 
 
+import com.cdyhrj.fastorm.entity.BaseEntity;
 import com.cdyhrj.fastorm.entity.Student;
-import com.cdyhrj.fastorm.queryable.Queryable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -47,7 +47,7 @@ public class SimpleQueryable {
 
         List<Student> students = fastORM.queryable(Student.class)
                 .join(Student.class, "S2").andEq("S2", Student::getName, Student::getName).andLEq("S2", Student::getId, Student::getName).ret()
-                .where().andEq(Student::getId, 100).andEq(Student::getId, "100").ret()
+                .where().andEq(Student::getName, 100).andEq(Student::getId, "100").ret()
                 .toList();
 
         System.out.println(students);

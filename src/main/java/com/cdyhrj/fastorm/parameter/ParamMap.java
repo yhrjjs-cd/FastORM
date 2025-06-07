@@ -2,6 +2,7 @@ package com.cdyhrj.fastorm.parameter;
 
 import com.cdyhrj.fastorm.condition.Condition;
 import lombok.Getter;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
@@ -14,6 +15,7 @@ import java.util.Objects;
  * @author huangqi
  */
 @Slf4j
+@ToString
 public class ParamMap {
     public static ParamMap of() {
         return new ParamMap();

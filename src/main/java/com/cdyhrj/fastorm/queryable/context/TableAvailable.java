@@ -1,6 +1,6 @@
 package com.cdyhrj.fastorm.queryable.context;
 
-import com.cdyhrj.fastorm.meta.SqlNode;
+import com.cdyhrj.fastorm.meta.SqlSegment;
 import com.cdyhrj.fastorm.queryable.from.From;
 import lombok.Data;
 
@@ -8,9 +8,9 @@ import lombok.Data;
  * 表实体，对应<code>表名</code>
  */
 @Data
-public class TableEntity implements SqlNode {
-    public static TableEntity of(String alias, From from) {
-        TableEntity newInstance = new TableEntity();
+public class TableAvailable implements SqlSegment {
+    public static TableAvailable of(String alias, From from) {
+        TableAvailable newInstance = new TableAvailable();
         newInstance.setAlias(alias);
         newInstance.setFrom(from);
 

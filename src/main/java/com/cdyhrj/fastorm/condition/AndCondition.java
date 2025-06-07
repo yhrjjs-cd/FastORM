@@ -3,10 +3,11 @@ package com.cdyhrj.fastorm.condition;
 import com.cdyhrj.fastorm.condition.expression.Expression;
 import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.lambda.PropFn;
-import com.cdyhrj.fastorm.meta.SqlNode;
+import com.cdyhrj.fastorm.meta.SqlSegment;
 import com.cdyhrj.fastorm.parameter.ParamMap;
 import com.cdyhrj.fastorm.queryable.Queryable;
 import com.cdyhrj.fastorm.queryable.context.Context;
+import org.springframework.lang.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,7 @@ public class AndCondition<T extends Entity> implements Condition<T> {
 
     protected List<Expression> expessionList = new ArrayList<>();
 
-    public AndCondition(Context<T> context, Queryable<T> queryable) {
+    public AndCondition(@NonNull Context<T> context, Queryable<T> queryable) {
         this.context = context;
         this.queryable = queryable;
     }
@@ -44,7 +45,7 @@ public class AndCondition<T extends Entity> implements Condition<T> {
 
     @Override
     public String toSql() {
-        return this.expessionList.stream().map(SqlNode::toSql)
+        return this.expessionList.stream().map(SqlSegment::toSql)
                 .collect(Collectors.joining(" AND "));
     }
 }

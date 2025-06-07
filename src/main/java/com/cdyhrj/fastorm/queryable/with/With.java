@@ -1,9 +1,9 @@
 package com.cdyhrj.fastorm.queryable.with;
 
-import com.cdyhrj.fastorm.meta.SqlNode;
+import com.cdyhrj.fastorm.meta.SqlSegment;
 import lombok.Getter;
 
-public class With implements SqlNode {
+public class With implements SqlSegment {
     @Getter
     private String name;
 

@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 上下文
@@ -28,14 +29,14 @@ public class Context<E extends Entity> {
     @Getter
     private Class<E> baseEntityClass;
 
-    private final Map<String, TableEntity> entityMap = new HashMap<>();
+    private final Map<String, TableAvailable> entityMap = new HashMap<>();
 
     public Context(Queryable<E> belongTo, Class<E> baseEntityClass) {
         this.belongTo = belongTo;
         this.baseEntityClass = baseEntityClass;
         this.baseFrom = ClassFrom.of(baseEntityClass);
 
-        TableEntity newEntity = newEntityFrom(this.baseFrom);
+        TableAvailable newEntity = newEntityFrom(this.baseFrom);
         entityMap.put(baseEntityClass.getName(), newEntity);
     }
 
@@ -44,7 +45,7 @@ public class Context<E extends Entity> {
         if (entityMap.containsKey(alias)) {
             throw new TableAliasNameException();
         }
-        TableEntity newEntity = newEntityFrom(ClassFrom.of(entityClass));
+        TableAvailable newEntity = newEntityFrom(ClassFrom.of(entityClass));
 
         entityMap.put(alias, newEntity);
     }
@@ -54,27 +55,27 @@ public class Context<E extends Entity> {
             throw new TableAliasNameException();
         }
 
-        TableEntity newEntity = newEntityFrom(ClassFrom.of(entityClass), entityAlias);
+        TableAvailable newEntity = newEntityFrom(ClassFrom.of(entityClass), entityAlias);
 
         entityMap.put(entityAlias, newEntity);
     }
 
-    public TableEntity getTableEntity(String key) {
-        return entityMap.get(key);
+    public TableAvailable getTableEntity(String key) {
+        return Objects.requireNonNull(entityMap.get(key), "table '%s' not exists".formatted(key));
     }
 
-    public TableEntity getBaseTableEntity() {
+    public TableAvailable getBaseTableEntity() {
         return getTableEntity(this.baseEntityClass.getName());
     }
 
-    private TableEntity newEntityFrom(From from) {
+    private TableAvailable newEntityFrom(From from) {
         String alias = "T%s".formatted(entityMap.size() + 1);
 
-        return TableEntity.of(alias, from);
+        return TableAvailable.of(alias, from);
     }
 
-    private TableEntity newEntityFrom(From from, String entityAlias) {
-        return TableEntity.of(entityAlias, from);
+    private TableAvailable newEntityFrom(From from, String entityAlias) {
+        return TableAvailable.of(entityAlias, from);
     }
 
 }

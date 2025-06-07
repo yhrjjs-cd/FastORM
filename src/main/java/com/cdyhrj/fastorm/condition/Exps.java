@@ -6,6 +6,7 @@ import com.cdyhrj.fastorm.condition.expression.UnaryExpression;
 import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.lambda.PropFn;
 import com.cdyhrj.fastorm.queryable.context.Context;
+import org.springframework.lang.NonNull;
 
 /**
  * 辅助函数
@@ -18,7 +19,7 @@ public class Exps {
 
     }
 
-    public static <E extends Entity> UnaryExpression eq(Context<?> context, String alias, PropFn<E, ?> keyFn, Object value) {
+    public static <E extends Entity> UnaryExpression eq(@NonNull Context<?> context, String alias, PropFn<E, ?> keyFn, Object value) {
         return UnaryExpression.of(context, alias, keyFn, Operator.EQ, value);
     }
 }

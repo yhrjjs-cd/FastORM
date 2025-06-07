@@ -1,8 +1,8 @@
 package com.cdyhrj.fastorm.queryable.context;
 
-import com.cdyhrj.fastorm.meta.SqlNode;
+import com.cdyhrj.fastorm.meta.SqlSegment;
 
-public abstract class AbstractContextAware implements SqlNode, ContextAware {
+public abstract class AbstractContextAware implements SqlSegment, ContextAware {
     protected Context context;
 
     @Override
