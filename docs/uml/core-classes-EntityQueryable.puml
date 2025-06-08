@@ -4,27 +4,31 @@ skin rose
 hide methods
 hide fields
 
-class EntityQueryable
-interface SqlSegment
-class Select implements SqlSegment
-class From implements SqlSegment
-class Joins implements SqlSegment
-class Where implements SqlSegment
-class OrderBy implements SqlSegment
-class GroupBy implements SqlSegment
-class HavingBy implements SqlSegment
-class Paging implements SqlSegment
+package EntityQueryablePkg {
+    class EntityQueryable
+    interface SqlSegment
+    class ToSqlContext
+    class Select implements SqlSegment
+    class From implements SqlSegment
+    class Joins implements SqlSegment
+    class Where implements SqlSegment
+    class OrderBy implements SqlSegment
+    class GroupBy implements SqlSegment
+    class HavingBy implements SqlSegment
+    class Paging implements SqlSegment
+}
 
-Select *-- Context
-From *-- Context
-Joins *-- Context
-Where *-- Context
-OrderBy *-- Context
-GroupBy *-- Context
-HavingBy *-- Context
-Paging *-- Context
 
-Context ---* EntityQueryable
+Select *-- ToSqlContext
+From *-- ToSqlContext
+Joins *-- ToSqlContext
+Where *-- ToSqlContext
+OrderBy *-- ToSqlContext
+GroupBy *-- ToSqlContext
+HavingBy *-- ToSqlContext
+Paging *-- ToSqlContext
+
+ToSqlContext ---* EntityQueryable
 Select --o EntityQueryable
 From --o EntityQueryable
 Joins --o EntityQueryable

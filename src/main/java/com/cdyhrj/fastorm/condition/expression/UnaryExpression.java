@@ -2,10 +2,10 @@ package com.cdyhrj.fastorm.condition.expression;
 
 import com.cdyhrj.fastorm.condition.enums.Operator;
 import com.cdyhrj.fastorm.entity.Entity;
-import com.cdyhrj.fastorm.lambda.LambdaColumn;
-import com.cdyhrj.fastorm.lambda.PropFn;
-import com.cdyhrj.fastorm.meta.FieldInfo;
-import com.cdyhrj.fastorm.queryable.context.Context;
+import com.cdyhrj.fastorm.api.lambda.LambdaColumn;
+import com.cdyhrj.fastorm.api.lambda.PropFn;
+import com.cdyhrj.fastorm.api.meta.FieldInfo;
+import com.cdyhrj.fastorm.entity.queryable.context.ToSqlContext;
 import org.springframework.lang.NonNull;
 
 import java.util.Objects;
@@ -13,7 +13,7 @@ import java.util.Objects;
 public class UnaryExpression extends AbstractUnaryExpression {
     protected Operator operator;
 
-    public static <E extends Entity> UnaryExpression of(@NonNull Context<?> context, String entityAlias, PropFn<E, ?> field, Operator operator, Object value) {
+    public static <E extends Entity> UnaryExpression of(@NonNull ToSqlContext<?> context, String entityAlias, PropFn<E, ?> field, Operator operator, Object value) {
         FieldInfo fieldInfo = LambdaColumn.resolve(field);
 
         String alias;

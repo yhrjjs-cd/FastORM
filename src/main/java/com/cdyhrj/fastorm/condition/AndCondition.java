@@ -1,51 +1,45 @@
 package com.cdyhrj.fastorm.condition;
 
-import com.cdyhrj.fastorm.condition.expression.Expression;
+import com.cdyhrj.fastorm.api.lambda.PropFn;
+import com.cdyhrj.fastorm.condition.expression.AbstractAndExpressionGroup;
+import com.cdyhrj.fastorm.condition.expression.OrExpressionGroup;
 import com.cdyhrj.fastorm.entity.Entity;
-import com.cdyhrj.fastorm.lambda.PropFn;
-import com.cdyhrj.fastorm.meta.SqlSegment;
-import com.cdyhrj.fastorm.parameter.ParamMap;
-import com.cdyhrj.fastorm.queryable.Queryable;
-import com.cdyhrj.fastorm.queryable.context.Context;
+import com.cdyhrj.fastorm.entity.queryable.EntityQueryable;
+import com.cdyhrj.fastorm.entity.queryable.context.ToSqlContext;
 import org.springframework.lang.NonNull;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+public class AndCondition<T extends Entity> extends AbstractAndExpressionGroup<T> {
+    private final EntityQueryable<T> queryable;
 
-public class AndCondition<T extends Entity> implements Condition<T> {
-    private final Context<T> context;
-    private final Queryable<T> queryable;
+    public AndCondition(@NonNull ToSqlContext<T> context, EntityQueryable<T> queryable) {
+        super(context);
 
-    protected List<Expression> expessionList = new ArrayList<>();
-
-    public AndCondition(@NonNull Context<T> context, Queryable<T> queryable) {
-        this.context = context;
         this.queryable = queryable;
     }
 
-    public Queryable<T> ret() {
-        return queryable;
+    public OrExpressionGroup<T> andOrGroup() {
+        OrExpressionGroup<T> group =  new OrExpressionGroup<>(context, this);
+        addExpression(group);
+
+        return group;
     }
 
+    @Override
     public <E extends Entity> AndCondition<T> andEq(PropFn<E, ?> propFn, Object value) {
-        return andEq(null, propFn, value);
-    }
-
-    public <E extends Entity> AndCondition<T> andEq(String alias, PropFn<E, ?> propFn, Object value) {
-        this.expessionList.add(Exps.eq(context, alias, propFn, value));
+        super.andEq(propFn, value);
 
         return this;
     }
 
     @Override
-    public void writeToParamMap(ParamMap paramMap) {
-        this.expessionList.forEach(expression -> expression.writeToParamMap(paramMap));
+    public <E extends Entity> AndCondition<T> andEq(String alias, PropFn<E, ?> propFn, Object value) {
+        super.andEq(alias, propFn, value);
+
+        return this;
     }
 
-    @Override
-    public String toSql() {
-        return this.expessionList.stream().map(SqlSegment::toSql)
-                .collect(Collectors.joining(" AND "));
+
+    public EntityQueryable<T> ret() {
+        return queryable;
     }
 }

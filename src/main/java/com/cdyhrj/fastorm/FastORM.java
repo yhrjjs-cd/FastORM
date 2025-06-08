@@ -1,7 +1,7 @@
 package com.cdyhrj.fastorm;
 
 import com.cdyhrj.fastorm.entity.Entity;
-import com.cdyhrj.fastorm.queryable.Queryable;
+import com.cdyhrj.fastorm.entity.queryable.EntityQueryable;
 import org.springframework.stereotype.Component;
 
 
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class FastORM {
-    public <E extends Entity> Queryable<E> queryable(Class<E> entityClazz) {
-        return new Queryable<>(entityClazz);
+    public <E extends Entity> EntityQueryable<E> queryable(Class<E> entityClazz) {
+        return new EntityQueryable<>(entityClazz);
     }
 }

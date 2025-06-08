@@ -46,8 +46,20 @@ public class SimpleQueryable {
         FastORM fastORM = new FastORM();
 
         List<Student> students = fastORM.queryable(Student.class)
-                .join(Student.class, "S2").andEq("S2", Student::getName, Student::getName).andLEq("S2", Student::getId, Student::getName).ret()
-                .where().andEq(Student::getName, 100).andEq(Student::getId, "100").ret()
+                .join(BaseEntity.class)
+                .andEq(Student::getId, BaseEntity::getName)
+                .andEq(BaseEntity::getName, 1)
+                .andCri("T1.name = T2.name")
+                .andEq(BaseEntity::getName, 1)
+                .ret()
+                .where()
+                .andEq(Student::getName, 100)
+                .andEq(BaseEntity::getName, "100")
+                .andOrGroup()
+                .orEq(BaseEntity::getName, "100")
+                .orEq(Student::getId, "200")
+                .ret()
+                .ret()
                 .toList();
 
         System.out.println(students);

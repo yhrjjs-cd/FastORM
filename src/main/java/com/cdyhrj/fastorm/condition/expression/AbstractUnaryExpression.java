@@ -1,7 +1,7 @@
 package com.cdyhrj.fastorm.condition.expression;
 
 import com.cdyhrj.fastorm.condition.expression.helper.ParamNameGenerator;
-import com.cdyhrj.fastorm.parameter.ParamMap;
+import com.cdyhrj.fastorm.api.parameter.ParamMap;
 import org.springframework.lang.NonNull;
 
 public abstract class AbstractUnaryExpression implements Expression {
