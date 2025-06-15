@@ -11,13 +11,17 @@ repositories {
 }
 
 dependencies {
+    implementation(libs.javassist)
     implementation(libs.lombok)
     implementation(libs.commons.lang3)
     implementation(libs.spring.boot.starter.web)
     implementation(libs.bundles.fastjson2)
-    implementation(libs.easy.query.sql.api.proxy)
-    implementation(libs.easy.query.sql.api4j)
-    implementation(libs.easy.query.sql.mysql)
+    implementation(libs.guava)
+    compileOnly(libs.spring.jdbc)
+    compileOnly(libs.spring.boot.autoconfigure)
+//    implementation(libs.easy.query.sql.api.proxy)
+//    implementation(libs.easy.query.sql.api4j)
+//    implementation(libs.easy.query.sql.mysql)
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     annotationProcessor(libs.lombok)
