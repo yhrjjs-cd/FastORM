@@ -3,6 +3,7 @@ package com.cdyhrj.fastorm;
 
 import com.cdyhrj.fastorm.entity.BaseEntity;
 import com.cdyhrj.fastorm.entity.Student;
+import com.cdyhrj.fastorm.entity.queryable.orderby.OrderBy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -60,8 +61,7 @@ public class SimpleQueryable {
                 .orEq(Student::getId, "200")
                 .ret()
                 .ret()
+                .orderBy().add(BaseEntity::getName, OrderBy.Order.ASC).ret()
                 .toList();
-
-        System.out.println(students);
     }
 }

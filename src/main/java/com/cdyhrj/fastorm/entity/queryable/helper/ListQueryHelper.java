@@ -71,8 +71,11 @@ public class ListQueryHelper<E extends Entity> {
         }
 
         if (Objects.nonNull(queryable.getWhere())) {
-            sj.add("WHERE")
-                    .add(queryable.getWhere().toSql());
+            sj.add(queryable.getWhere().toSql());
+        }
+
+        if (Objects.nonNull(queryable.getOrderBy())) {
+            sj.add(queryable.getOrderBy().toSql());
         }
 
         return sj.toString();

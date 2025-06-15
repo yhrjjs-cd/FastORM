@@ -42,7 +42,7 @@ public abstract class AbstractAndExpressionGroup<T extends Entity> implements Sq
 
     @Override
     public String toSql() {
-        return "(" + this.expressionList.stream().map(SqlSegment::toSql)
+        return "WHERE (" + this.expressionList.stream().map(SqlSegment::toSql)
                 .collect(Collectors.joining(" AND ")) + ")";
     }
 }

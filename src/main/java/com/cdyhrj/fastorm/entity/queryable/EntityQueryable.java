@@ -8,12 +8,13 @@ import com.cdyhrj.fastorm.entity.queryable.helper.ListQueryHelper;
 import com.cdyhrj.fastorm.entity.queryable.join.Join;
 import com.cdyhrj.fastorm.entity.queryable.join.JoinType;
 import com.cdyhrj.fastorm.entity.queryable.join.Joins;
+import com.cdyhrj.fastorm.entity.queryable.orderby.OrderBy;
 import lombok.Getter;
 
 import java.util.List;
 
 /**
- * Queryable
+ * 实体查询
  *
  * @author <a href="mailto:huangqi@cdyhrj.com">黄奇</a>
  */
@@ -47,6 +48,13 @@ public class EntityQueryable<T extends Entity> {
     @Getter
     private Where<T> where;
 
+
+    /**
+     * Order By
+     */
+    @Getter
+    private OrderBy<T> orderBy;
+    
     public EntityQueryable(Class<T> entityClass) {
         this.context = new ToSqlContext<>(this, entityClass);
         this.joins = new Joins<>(this.context);
@@ -97,6 +105,12 @@ public class EntityQueryable<T extends Entity> {
         this.where = new Where<>(context, this);
 
         return this.where;
+    }
+
+    public OrderBy<T> orderBy() {
+        this.orderBy = new OrderBy<>(context, this);
+
+        return this.orderBy;
     }
 
     /**
