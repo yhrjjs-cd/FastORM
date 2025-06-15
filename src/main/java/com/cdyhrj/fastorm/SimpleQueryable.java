@@ -7,6 +7,7 @@ import com.cdyhrj.fastorm.entity.queryable.orderby.OrderBy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -63,5 +64,26 @@ public class SimpleQueryable {
                 .ret()
                 .orderBy().add(BaseEntity::getName, OrderBy.Order.ASC).ret()
                 .toList();
+    }
+
+    public void testInsertEntity() {
+        Student student = new Student();
+
+        fastORM.insertable(student)
+                .exec();
+    }
+
+    public void testInsertListEntity() {
+        List<Student> userList = new ArrayList<>();
+        fastORM.insertable(userList)
+                .batchSize(2000)
+                .exec();
+    }
+
+    public void testInsertEntityClass() {
+        fastORM.insertable(Student.class)
+                .set(Student::getId, 1)
+                .set(Student::getName, "that")
+                .exec();
     }
 }
