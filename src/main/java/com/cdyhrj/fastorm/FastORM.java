@@ -38,7 +38,7 @@ public class FastORM {
      * @return 插入器
      */
     public <E extends Entity> EntityInsertable<E> insertable(E entity) {
-        return new EntityInsertable<>(namedParameterJdbcOperations, transactionTemplate);
+        return new EntityInsertable<>(namedParameterJdbcOperations, transactionTemplate, entity);
     }
 
     /**
@@ -49,7 +49,7 @@ public class FastORM {
      * @return 插入器
      */
     public <E extends Entity> EntitiesInsertable<E> insertable(List<E> entities) {
-        return new EntitiesInsertable<>(namedParameterJdbcOperations, transactionTemplate, fastOrmConfig);
+        return new EntitiesInsertable<>(namedParameterJdbcOperations, transactionTemplate, fastOrmConfig, entities);
     }
 
     /**

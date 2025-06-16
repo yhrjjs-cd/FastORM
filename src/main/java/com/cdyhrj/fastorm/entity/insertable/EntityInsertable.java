@@ -5,7 +5,6 @@
 
 package com.cdyhrj.fastorm.entity.insertable;
 
-import com.cdyhrj.fastorm.api.chain.Chain;
 import com.cdyhrj.fastorm.api.lambda.LambdaColumn;
 import com.cdyhrj.fastorm.api.lambda.PropFn;
 import com.cdyhrj.fastorm.entity.Entity;
@@ -25,8 +24,7 @@ import java.util.Objects;
 public class EntityInsertable<E extends Entity> {
     private final NamedParameterJdbcOperations namedParameterJdbcOperations;
     private final TransactionTemplate transactionTemplate;
-
-    protected Chain<E> paramChain;
+    private final E entity;
 
     /**
      * 关系
@@ -96,24 +94,6 @@ public class EntityInsertable<E extends Entity> {
         }
 
         this.relations.add(LambdaColumn.resolve(relation).getName());
-
-        return this;
-    }
-
-
-    /**
-     * 设置参数
-     *
-     * @param keyFun 字段函数
-     * @param value  值
-     * @return 当前对象
-     */
-    public EntityInsertable<E> set(@NonNull PropFn<E, ?> keyFun, Object value) {
-        if (Objects.isNull(paramChain)) {
-            paramChain = Chain.make(keyFun, value);
-        } else {
-            paramChain.add(keyFun, value);
-        }
 
         return this;
     }
