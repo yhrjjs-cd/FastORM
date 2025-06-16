@@ -2,7 +2,7 @@ package com.cdyhrj.fastorm.entity.enhance.generator.peer;
 
 import com.cdyhrj.fastorm.annotation.Column;
 import com.cdyhrj.fastorm.annotation.IdOneToOne;
-import com.cdyhrj.fastorm.entity.OneToOneMeta;
+import com.cdyhrj.fastorm.entity.meta.OneToOneMeta;
 import lombok.Data;
 import org.springframework.javapoet.MethodSpec;
 import org.springframework.util.ReflectionUtils;

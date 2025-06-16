@@ -1,4 +1,4 @@
-package com.cdyhrj.fastorm.entity;
+package com.cdyhrj.fastorm.entity.meta;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

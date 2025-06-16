@@ -1,16 +1,16 @@
-package com.cdyhrj.fastorm.entity;
+package com.cdyhrj.fastorm.entity.meta;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 /**
- * 一对多元数据
+ * OneToOne元数据
  *
  * @author huangqi
  */
 @Data
 @Accessors(fluent = true)
-public class OneToManyMeta {
+public class OneToOneMeta {
     /**
      * 属性名
      */

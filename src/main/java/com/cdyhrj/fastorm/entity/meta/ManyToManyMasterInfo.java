@@ -1,6 +1,6 @@
-package com.cdyhrj.fastorm.entity;
+package com.cdyhrj.fastorm.entity.meta;
 
-import com.cdyhrj.cloud.sqlclient.Entity;
+import com.cdyhrj.fastorm.entity.Entity;
 import lombok.Data;
 import lombok.experimental.Accessors;
 

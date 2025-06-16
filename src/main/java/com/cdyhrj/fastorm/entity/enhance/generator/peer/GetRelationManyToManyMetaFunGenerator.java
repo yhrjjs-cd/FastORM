@@ -3,7 +3,7 @@ package com.cdyhrj.fastorm.entity.enhance.generator.peer;
 import com.cdyhrj.fastorm.annotation.Column;
 import com.cdyhrj.fastorm.annotation.IdManyToManyLeft;
 import com.cdyhrj.fastorm.annotation.IdManyToManyRight;
-import com.cdyhrj.fastorm.entity.ManyToManyMeta;
+import com.cdyhrj.fastorm.entity.meta.ManyToManyMeta;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.springframework.javapoet.MethodSpec;
 

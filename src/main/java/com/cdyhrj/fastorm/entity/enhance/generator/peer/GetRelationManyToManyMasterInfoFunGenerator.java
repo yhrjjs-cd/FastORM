@@ -1,7 +1,7 @@
 package com.cdyhrj.fastorm.entity.enhance.generator.peer;
 
 import com.cdyhrj.fastorm.annotation.ManyToMany;
-import com.cdyhrj.fastorm.entity.ManyToManyMasterInfo;
+import com.cdyhrj.fastorm.entity.meta.ManyToManyMasterInfo;
 import org.springframework.javapoet.MethodSpec;
 import org.springframework.util.ReflectionUtils;
 
