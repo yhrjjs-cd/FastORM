@@ -14,8 +14,8 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Import({EntityRegistrar.class, SqlClientDefiner.class})
-public @interface EnableSqlClient {
+@Import({EntityRegistrar.class, FastORMDefiner.class})
+public @interface EnableFastORM {
     /**
      * 扫描类所在包
      *

@@ -1,16 +1,16 @@
 package com.cdyhrj.fastorm;
 
-import com.cdyhrj.fastorm.config.FastOrmConfig;
 import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.entity.insertable.EntitiesInsertable;
 import com.cdyhrj.fastorm.entity.insertable.EntityClassInsertable;
 import com.cdyhrj.fastorm.entity.insertable.EntityInsertable;
 import com.cdyhrj.fastorm.entity.queryable.EntityQueryable;
-import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.TransactionTemplate;
 
+import javax.sql.DataSource;
 import java.util.List;
 
 
@@ -20,11 +20,15 @@ import java.util.List;
  * @author <a href="mailto:huangqi@cdyhrj.com">黄奇</a>
  */
 @Component
-@RequiredArgsConstructor
 public class FastORM {
-    private final NamedParameterJdbcOperations namedParameterJdbcOperations;
     private final TransactionTemplate transactionTemplate;
-    private final FastOrmConfig fastOrmConfig;
+    private final NamedParameterJdbcOperations namedParamOps;
+
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+    public FastORM(DataSource dataSource, TransactionTemplate transactionTemplate) {
+        this.transactionTemplate = transactionTemplate;
+        this.namedParamOps = new NamedParameterJdbcTemplate(dataSource);
+    }
 
     public <E extends Entity> EntityQueryable<E> queryable(Class<E> entityClazz) {
         return new EntityQueryable<>(entityClazz);
@@ -38,7 +42,7 @@ public class FastORM {
      * @return 插入器
      */
     public <E extends Entity> EntityInsertable<E> insertable(E entity) {
-        return new EntityInsertable<>(namedParameterJdbcOperations, transactionTemplate, entity);
+        return new EntityInsertable<>(namedParamOps, transactionTemplate, entity);
     }
 
     /**

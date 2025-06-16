@@ -10,8 +10,8 @@ import javax.sql.DataSource;
 
 @Slf4j
 @Configuration
-class SqlClientDefiner {
-    public SqlClientDefiner() {
+class FastORMDefiner {
+    public FastORMDefiner() {
         if (log.isDebugEnabled()) {
             log.debug("Register Bean SqlClient Complete.");
         }

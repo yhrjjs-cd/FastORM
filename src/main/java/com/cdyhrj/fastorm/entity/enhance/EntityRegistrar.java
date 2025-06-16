@@ -47,7 +47,7 @@ public class EntityRegistrar implements ImportSelector, ResourceLoaderAware {
     @Override
     @NonNull
     public String[] selectImports(AnnotationMetadata importingClassMetadata) {
-        AnnotationAttributes attributes = AnnotationAttributes.fromMap(importingClassMetadata.getAnnotationAttributes(EnableSqlClient.class.getName()));
+        AnnotationAttributes attributes = AnnotationAttributes.fromMap(importingClassMetadata.getAnnotationAttributes(EnableFastORM.class.getName()));
 
         if (Objects.nonNull(attributes)) {
             Class<?>[] scanPackageClasses = attributes.getClassArray("scanPackageClasses");
