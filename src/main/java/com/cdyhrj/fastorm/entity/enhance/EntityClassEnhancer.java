@@ -1,5 +1,12 @@
 package com.cdyhrj.fastorm.entity.enhance;
 
+import com.cdyhrj.fastorm.adapter.ValueAdapterFactory;
+import com.cdyhrj.fastorm.annotation.ColDefine;
+import com.cdyhrj.fastorm.annotation.ManyToMany;
+import com.cdyhrj.fastorm.annotation.enums.OperationType;
+import com.cdyhrj.fastorm.entity.EnhancedEntityClassMap;
+import com.cdyhrj.fastorm.entity.Entity;
+import com.cdyhrj.fastorm.entity.EntityProxy;
 import com.cdyhrj.fastorm.entity.enhance.generator.peer.FunGenerator;
 import com.cdyhrj.fastorm.entity.enhance.generator.peer.GetAllFieldInfoFunGenerator;
 import com.cdyhrj.fastorm.entity.enhance.generator.peer.GetAllRelationsFunGenerator;
@@ -26,6 +33,7 @@ import com.cdyhrj.fastorm.entity.enhance.generator.peer.UpdateEntityIdFunGenerat
 import com.cdyhrj.fastorm.entity.enhance.generator.peer.UpdateEntityOneToManyIdFunGenerator;
 import com.cdyhrj.fastorm.entity.enhance.generator.peer.UpdateEntityOneToOneIdFunGenerator;
 import com.cdyhrj.fastorm.entity.enhance.generator.peer.UpdateEntityWithDefaultValueFunGenerator;
+import com.cdyhrj.fastorm.exception.EntityClassEnhanceException;
 import com.google.common.collect.Lists;
 import javassist.ClassPool;
 import javassist.CtClass;
@@ -34,6 +42,7 @@ import javassist.CtMethod;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ReflectionUtils;
 
+import javax.management.relation.RelationType;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -82,7 +91,7 @@ public class EntityClassEnhancer {
             ClassPool classPool = getClassPool();
 
             CtClass ctEntityInterface = classPool.get(Entity.class.getName());
-            CtClass ctEntityPeerInterface = classPool.get(PeerEntity.class.getName());
+            CtClass ctEntityPeerInterface = classPool.get(EntityProxy.class.getName());
 
             List<String> toEnhancedClass = orderClasses(classes, classPool);
 
@@ -106,7 +115,7 @@ public class EntityClassEnhancer {
     private static ClassPool getClassPool() {
         ClassPool classPool = ClassPool.getDefault();
         classPool.importPackage(Entity.class.getName());
-        classPool.importPackage(PeerEntity.class.getName());
+        classPool.importPackage(EntityProxy.class.getName());
         classPool.importPackage(FieldNameSpec.class.getName());
         classPool.importPackage(FieldNameType.class.getName());
         classPool.importPackage(IdUtils.class.getName());
@@ -213,7 +222,6 @@ public class EntityClassEnhancer {
 
             return clazz;
         } catch (Exception ex) {
-            ex.printStackTrace();
             throw new EntityClassEnhanceException(classStringOfT);
         }
     }
