@@ -1,7 +1,7 @@
 package com.cdyhrj.fastorm.entity.enhance.generator.peer;
 
-import com.cdyhrj.cloud.sqlclient.Entity;
-import com.cdyhrj.cloud.sqlclient.annotation.Id;
+import com.cdyhrj.fastorm.annotation.Id;
+import com.cdyhrj.fastorm.entity.Entity;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.springframework.javapoet.MethodSpec;
@@ -22,21 +22,21 @@ public class GetIdFieldValueFunGenerator implements FunGenerator {
         if (idFields.length == 0) {
             // 构造一个空函数
             return MethodSpec.methodBuilder("getIdFieldValue")
-                             .addModifiers(Modifier.PUBLIC)
-                             .returns(Long.class)
-                             .addParameter(Entity.class, "entity")
-                             .addStatement("return Long.valueOf(0L)")
-                             .build()
-                             .toString();
+                    .addModifiers(Modifier.PUBLIC)
+                    .returns(Long.class)
+                    .addParameter(Entity.class, "entity")
+                    .addStatement("return Long.valueOf(0L)")
+                    .build()
+                    .toString();
         }
 
         Field idField = idFields[0];
         String name = idField.getName();
 
         MethodSpec.Builder methodSpecBuilder = MethodSpec.methodBuilder("getIdFieldValue")
-                                                         .addModifiers(Modifier.PUBLIC)
-                                                         .returns(Long.class)
-                                                         .addParameter(Entity.class, "entity");
+                .addModifiers(Modifier.PUBLIC)
+                .returns(Long.class)
+                .addParameter(Entity.class, "entity");
 
         if (idField.getType() == long.class) {
             methodSpecBuilder.addStatement("return Long.valueOf(((%s)entity).get%s())".formatted(classOfT.getName(),

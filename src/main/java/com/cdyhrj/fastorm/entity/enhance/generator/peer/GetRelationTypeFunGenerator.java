@@ -1,13 +1,13 @@
 package com.cdyhrj.fastorm.entity.enhance.generator.peer;
 
-import com.cdyhrj.cloud.sqlclient.annotation.ManyToMany;
-import com.cdyhrj.cloud.sqlclient.annotation.OneToMany;
-import com.cdyhrj.cloud.sqlclient.annotation.OneToOne;
-import com.cdyhrj.cloud.sqlclient.enums.RelationType;
+import com.cdyhrj.fastorm.annotation.ManyToMany;
+import com.cdyhrj.fastorm.annotation.OneToMany;
+import com.cdyhrj.fastorm.annotation.OneToOne;
 import org.springframework.javapoet.MethodSpec;
 import org.springframework.util.ReflectionUtils;
 
 import javax.lang.model.element.Modifier;
+import javax.management.relation.RelationType;
 
 /**
  * getRelationType 生成器

@@ -1,7 +1,7 @@
 package com.cdyhrj.fastorm.entity.enhance.generator.peer;
 
-import com.cdyhrj.cloud.sqlclient.annotation.Name;
-import com.cdyhrj.cloud.sqlclient.util.EntityUtils;
+import com.cdyhrj.fastorm.annotation.Name;
+import com.cdyhrj.fastorm.util.EntityUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.springframework.javapoet.MethodSpec;
 
@@ -21,21 +21,21 @@ public class GetNameFieldNameFunGenerator implements FunGenerator {
         if (nameFields.length == 0) {
             // 构造一个空函数
             return MethodSpec.methodBuilder("getNameFieldName")
-                             .addModifiers(Modifier.PUBLIC)
-                             .returns(String.class)
-                             .addStatement("return $S", "")
-                             .build()
-                             .toString();
+                    .addModifiers(Modifier.PUBLIC)
+                    .returns(String.class)
+                    .addStatement("return $S", "")
+                    .build()
+                    .toString();
         }
 
         Field nameField = nameFields[0];
         String name = EntityUtils.getFieldName(nameField);
 
         MethodSpec methodSpec = MethodSpec.methodBuilder("getNameFieldName")
-                                          .addModifiers(Modifier.PUBLIC)
-                                          .returns(String.class)
-                                          .addStatement("return $S", name)
-                                          .build();
+                .addModifiers(Modifier.PUBLIC)
+                .returns(String.class)
+                .addStatement("return $S", name)
+                .build();
 
         return methodSpec.toString();
     }

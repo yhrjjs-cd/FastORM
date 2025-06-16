@@ -1,9 +1,9 @@
 package com.cdyhrj.fastorm.entity.enhance.generator.peer;
 
-import com.cdyhrj.cloud.sqlclient.annotation.Column;
-import com.cdyhrj.cloud.sqlclient.annotation.IdManyToManyLeft;
-import com.cdyhrj.cloud.sqlclient.annotation.IdManyToManyRight;
-import com.cdyhrj.cloud.sqlclient.entity.ManyToManyMeta;
+import com.cdyhrj.fastorm.annotation.Column;
+import com.cdyhrj.fastorm.annotation.IdManyToManyLeft;
+import com.cdyhrj.fastorm.annotation.IdManyToManyRight;
+import com.cdyhrj.fastorm.entity.ManyToManyMeta;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.springframework.javapoet.MethodSpec;
 
@@ -20,8 +20,8 @@ public class GetRelationManyToManyMetaFunGenerator implements FunGenerator {
     @Override
     public String generate(Class<?> classOfT) {
         MethodSpec.Builder methodSpecBuilder = MethodSpec.methodBuilder("getRelationManyToManyMeta")
-                                                         .addModifiers(Modifier.PUBLIC)
-                                                         .returns(ManyToManyMeta.class);
+                .addModifiers(Modifier.PUBLIC)
+                .returns(ManyToManyMeta.class);
 
         Field[] left = FieldUtils.getFieldsWithAnnotation(classOfT, IdManyToManyLeft.class);
         Field[] right = FieldUtils.getFieldsWithAnnotation(classOfT, IdManyToManyRight.class);

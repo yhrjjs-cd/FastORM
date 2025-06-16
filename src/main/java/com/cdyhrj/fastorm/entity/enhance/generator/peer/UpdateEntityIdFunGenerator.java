@@ -1,7 +1,7 @@
 package com.cdyhrj.fastorm.entity.enhance.generator.peer;
 
-import com.cdyhrj.cloud.sqlclient.Entity;
-import com.cdyhrj.cloud.sqlclient.annotation.Id;
+import com.cdyhrj.fastorm.annotation.Id;
+import com.cdyhrj.fastorm.entity.Entity;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.springframework.javapoet.MethodSpec;
@@ -19,10 +19,10 @@ public class UpdateEntityIdFunGenerator implements FunGenerator {
     @Override
     public String generate(Class<?> classOfT) {
         MethodSpec.Builder methodSpecBuilder = MethodSpec.methodBuilder("updateEntityId")
-                                                         .addModifiers(Modifier.PUBLIC)
-                                                         .addParameter(Entity.class, "entity")
-                                                         .addParameter(long.class, "idValue")
-                                                         .returns(void.class);
+                .addModifiers(Modifier.PUBLIC)
+                .addParameter(Entity.class, "entity")
+                .addParameter(long.class, "idValue")
+                .returns(void.class);
 
         Field[] nameFields = FieldUtils.getFieldsWithAnnotation(classOfT, Id.class);
 

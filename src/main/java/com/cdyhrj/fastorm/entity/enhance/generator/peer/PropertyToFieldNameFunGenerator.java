@@ -1,8 +1,8 @@
 package com.cdyhrj.fastorm.entity.enhance.generator.peer;
 
-import com.cdyhrj.cloud.sqlclient.api.FieldNameSpec;
-import com.cdyhrj.cloud.sqlclient.api.PropertyToFieldNameMap;
-import com.cdyhrj.cloud.sqlclient.util.EntityUtils;
+import com.cdyhrj.fastorm.api.entity.FieldNameSpec;
+import com.cdyhrj.fastorm.entity.PropertyToFieldNameMap;
+import com.cdyhrj.fastorm.util.EntityUtils;
 import org.springframework.javapoet.MethodSpec;
 
 import javax.lang.model.element.Modifier;
@@ -18,11 +18,11 @@ public class PropertyToFieldNameFunGenerator implements FunGenerator {
     @Override
     public String generate(Class<?> classOfT) {
         MethodSpec.Builder methodSpecBuilder = MethodSpec.methodBuilder("propertyToFieldName")
-                                                         .addModifiers(Modifier.PUBLIC)
-                                                         .returns(PropertyToFieldNameMap.class)
-                                                         .addStatement("$T result = new $T()",
-                                                                 PropertyToFieldNameMap.class,
-                                                                 PropertyToFieldNameMap.class);
+                .addModifiers(Modifier.PUBLIC)
+                .returns(PropertyToFieldNameMap.class)
+                .addStatement("$T result = new $T()",
+                        PropertyToFieldNameMap.class,
+                        PropertyToFieldNameMap.class);
 
         List<FieldNameSpec> fields = EntityUtils.getObjectFieldNames(classOfT);
         for (FieldNameSpec field : fields) {

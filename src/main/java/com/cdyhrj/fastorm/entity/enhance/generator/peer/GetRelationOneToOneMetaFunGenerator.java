@@ -1,8 +1,8 @@
 package com.cdyhrj.fastorm.entity.enhance.generator.peer;
 
-import com.cdyhrj.cloud.sqlclient.annotation.Column;
-import com.cdyhrj.cloud.sqlclient.annotation.IdOneToOne;
-import com.cdyhrj.cloud.sqlclient.entity.OneToOneMeta;
+import com.cdyhrj.fastorm.annotation.Column;
+import com.cdyhrj.fastorm.annotation.IdOneToOne;
+import com.cdyhrj.fastorm.entity.OneToOneMeta;
 import lombok.Data;
 import org.springframework.javapoet.MethodSpec;
 import org.springframework.util.ReflectionUtils;
@@ -22,8 +22,8 @@ public class GetRelationOneToOneMetaFunGenerator implements FunGenerator {
     public String generate(Class<?> classOfT) {
         AddStatus addStatus = new AddStatus();
         MethodSpec.Builder methodSpecBuilder = MethodSpec.methodBuilder("getRelationOneToOneMeta")
-                                                         .addModifiers(Modifier.PUBLIC)
-                                                         .returns(OneToOneMeta.class);
+                .addModifiers(Modifier.PUBLIC)
+                .returns(OneToOneMeta.class);
         ReflectionUtils.doWithFields(classOfT, field -> {
             if (addStatus.hasAdded) {
                 throw new RuntimeException("@IdOneToOne 注解重复.");

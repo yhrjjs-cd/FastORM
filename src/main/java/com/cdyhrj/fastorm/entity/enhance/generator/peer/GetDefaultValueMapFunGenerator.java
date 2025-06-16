@@ -1,8 +1,9 @@
 package com.cdyhrj.fastorm.entity.enhance.generator.peer;
 
-import com.cdyhrj.cloud.sqlclient.annotation.Default;
-import com.cdyhrj.cloud.sqlclient.annotation.enums.DefaultValueType;
-import com.cdyhrj.cloud.sqlclient.annotation.enums.OperationType;
+
+import com.cdyhrj.fastorm.annotation.Default;
+import com.cdyhrj.fastorm.annotation.enums.DefaultValueType;
+import com.cdyhrj.fastorm.annotation.enums.OperationType;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.springframework.javapoet.MethodSpec;
@@ -22,11 +23,11 @@ public class GetDefaultValueMapFunGenerator implements FunGenerator {
     @Override
     public String generate(Class<?> classOfT) {
         MethodSpec.Builder methodSpecBuilder = MethodSpec.methodBuilder("getDefaultValueMap")
-                                                         .addModifiers(Modifier.PUBLIC)
-                                                         .addParameter(OperationType.class, "operationType")
-                                                         .returns(Map.class)
-                                                         .addStatement("$T result = new $T()", Map.class,
-                                                                 HashMap.class);
+                .addModifiers(Modifier.PUBLIC)
+                .addParameter(OperationType.class, "operationType")
+                .returns(Map.class)
+                .addStatement("$T result = new $T()", Map.class,
+                        HashMap.class);
 
         // 设置Default
         Field[] defaultFields = FieldUtils.getFieldsWithAnnotation(classOfT, Default.class);

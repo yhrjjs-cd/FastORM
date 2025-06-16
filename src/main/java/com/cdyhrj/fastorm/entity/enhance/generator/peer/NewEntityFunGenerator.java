@@ -1,6 +1,6 @@
 package com.cdyhrj.fastorm.entity.enhance.generator.peer;
 
-import com.cdyhrj.cloud.sqlclient.Entity;
+import com.cdyhrj.fastorm.entity.Entity;
 import org.springframework.javapoet.MethodSpec;
 
 import javax.lang.model.element.Modifier;

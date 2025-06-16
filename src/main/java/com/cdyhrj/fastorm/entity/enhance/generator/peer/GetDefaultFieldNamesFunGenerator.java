@@ -1,8 +1,8 @@
 package com.cdyhrj.fastorm.entity.enhance.generator.peer;
 
-import com.cdyhrj.cloud.sqlclient.annotation.Column;
-import com.cdyhrj.cloud.sqlclient.annotation.Default;
-import com.cdyhrj.cloud.sqlclient.annotation.enums.OperationType;
+import com.cdyhrj.fastorm.annotation.Column;
+import com.cdyhrj.fastorm.annotation.Default;
+import com.cdyhrj.fastorm.annotation.enums.OperationType;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.springframework.javapoet.MethodSpec;
 
@@ -21,11 +21,11 @@ public class GetDefaultFieldNamesFunGenerator implements FunGenerator {
     @Override
     public String generate(Class<?> classOfT) {
         MethodSpec.Builder methodSpecBuilder = MethodSpec.methodBuilder("getDefaultFieldNames")
-                                                         .addModifiers(Modifier.PUBLIC)
-                                                         .addParameter(OperationType.class, "operationType")
-                                                         .returns(List.class)
-                                                         .addStatement("$T result = new $T()", List.class,
-                                                                 ArrayList.class);
+                .addModifiers(Modifier.PUBLIC)
+                .addParameter(OperationType.class, "operationType")
+                .returns(List.class)
+                .addStatement("$T result = new $T()", List.class,
+                        ArrayList.class);
         Field[] defaultFields = FieldUtils.getFieldsWithAnnotation(classOfT, Default.class);
         for (Field field : defaultFields) {
             Column column = field.getAnnotation(Column.class);

@@ -1,6 +1,6 @@
 package com.cdyhrj.fastorm.entity.enhance.generator.peer;
 
-import com.cdyhrj.cloud.sqlclient.annotation.Table;
+import com.cdyhrj.fastorm.annotation.Table;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.javapoet.MethodSpec;
 

@@ -1,10 +1,10 @@
 package com.cdyhrj.fastorm.entity.enhance.generator.peer;
 
-import com.cdyhrj.cloud.sqlclient.Entity;
-import com.cdyhrj.cloud.sqlclient.adapter.ValueAdapter;
-import com.cdyhrj.cloud.sqlclient.annotation.ColDefine;
-import com.cdyhrj.cloud.sqlclient.annotation.Column;
-import com.cdyhrj.cloud.sqlclient.util.EntityUtils;
+import com.cdyhrj.fastorm.adapter.ValueAdapter;
+import com.cdyhrj.fastorm.annotation.ColDefine;
+import com.cdyhrj.fastorm.annotation.Column;
+import com.cdyhrj.fastorm.entity.Entity;
+import com.cdyhrj.fastorm.util.EntityUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.javapoet.CodeBlock;
 import org.springframework.javapoet.MethodSpec;

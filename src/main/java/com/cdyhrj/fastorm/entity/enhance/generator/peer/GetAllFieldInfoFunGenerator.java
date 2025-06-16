@@ -1,6 +1,7 @@
 package com.cdyhrj.fastorm.entity.enhance.generator.peer;
 
 import com.cdyhrj.fastorm.api.entity.FieldNameSpec;
+import com.cdyhrj.fastorm.util.EntityUtils;
 import org.springframework.javapoet.MethodSpec;
 
 import javax.lang.model.element.Modifier;

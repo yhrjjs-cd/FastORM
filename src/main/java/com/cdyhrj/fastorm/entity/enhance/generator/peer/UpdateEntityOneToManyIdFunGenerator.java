@@ -1,7 +1,7 @@
 package com.cdyhrj.fastorm.entity.enhance.generator.peer;
 
-import com.cdyhrj.cloud.sqlclient.Entity;
-import com.cdyhrj.cloud.sqlclient.annotation.IdOneToMany;
+import com.cdyhrj.fastorm.annotation.IdOneToMany;
+import com.cdyhrj.fastorm.entity.Entity;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.javapoet.MethodSpec;
 import org.springframework.util.ReflectionUtils;
@@ -18,10 +18,10 @@ public class UpdateEntityOneToManyIdFunGenerator implements FunGenerator {
     @Override
     public String generate(Class<?> classOfT) {
         MethodSpec.Builder methodSpecBuilder = MethodSpec.methodBuilder("updateEntityOneToManyName")
-                                                         .addModifiers(Modifier.PUBLIC)
-                                                         .addParameter(Entity.class, "entity")
-                                                         .addParameter(long.class, "value")
-                                                         .returns(void.class);
+                .addModifiers(Modifier.PUBLIC)
+                .addParameter(Entity.class, "entity")
+                .addParameter(long.class, "value")
+                .returns(void.class);
 
         ReflectionUtils.doWithFields(classOfT, field -> {
             if (field.getType() == long.class) {
