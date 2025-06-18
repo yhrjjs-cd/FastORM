@@ -20,7 +20,10 @@ public class Test implements CommandLineRunner {
                 .getId();
 
         System.out.println(id);
-
+        id = fastORM.insertable(student)
+                .exec()
+                .getId();
+        System.out.println(id);
         System.exit(0);
     }
 }

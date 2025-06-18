@@ -30,7 +30,8 @@ public interface Entity {
             if (Objects.isNull(entityProxy)) {
                 Class<?> clazz = Class.forName(EntityClassEnhancer.PROXY_CLASS_NAME_TEMPLATE.formatted(entityClass.getName()));
 
-                return (EntityProxy) clazz.getDeclaredConstructor().newInstance();
+                entityProxy = (EntityProxy) clazz.getDeclaredConstructor().newInstance();
+                CACHED_ENTITY.put(entityClass, entityProxy);
             }
 
             return entityProxy;
