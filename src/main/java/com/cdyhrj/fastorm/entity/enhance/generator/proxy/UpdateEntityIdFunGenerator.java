@@ -38,6 +38,9 @@ public class UpdateEntityIdFunGenerator implements FunGenerator {
             } else {
                 throw new RuntimeException("field type is not supported");
             }
+        } else {
+            String exceptionStr = "throw new RuntimeException(\"%s must has a field annotated with @Id\")".formatted(classOfT.getName());
+            methodSpecBuilder.addStatement(exceptionStr);
         }
 
         return methodSpecBuilder.build().toString();

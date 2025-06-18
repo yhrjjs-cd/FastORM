@@ -19,6 +19,7 @@ dependencies {
     implementation(libs.guava)
     implementation(libs.spring.jdbc)
     implementation(libs.alibaba.druid.starter)
+    implementation(libs.com.mysql.mysql.connector.j)
     compileOnly(libs.spring.boot.autoconfigure)
 //    implementation(libs.easy.query.sql.api.proxy)
 //    implementation(libs.easy.query.sql.api4j)

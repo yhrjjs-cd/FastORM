@@ -13,9 +13,13 @@ public class Test implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         Student student = new Student();
+        student.setName("<UNK>");
 
-        fastORM.insertable(student)
-                .exec();
+        Long id = fastORM.insertable(student)
+                .exec()
+                .getId();
+
+        System.out.println(id);
 
         System.exit(0);
     }

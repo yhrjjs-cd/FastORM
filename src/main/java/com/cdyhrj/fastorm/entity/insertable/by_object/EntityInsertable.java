@@ -9,11 +9,14 @@ import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.entity.EntityProxy;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -22,18 +25,22 @@ public class EntityInsertable<E extends Entity> {
     private final TransactionTemplate transactionTemplate;
     private final E entity;
 
-    public void exec() {
+    public E exec() {
         EntityProxy entityProxy = Entity.getEntityProxy(entity.getClass());
         Map<String, Object> paramMap = entityProxy.getValueMap(entity);
 
-        System.out.println("dddddddddddd");
-    }
+        System.out.println(paramMap);
+        String sqlText = SqlHelper.generateInsertSqlText(entityProxy);
 
-    public Long execReturnId() {
-        return 0L;
-    }
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        this.namedParameterJdbcOperations.update(sqlText, new MapSqlParameterSource(paramMap), keyHolder);
 
-    public String execReturnName() {
-        return "";
+        Number key = keyHolder.getKey();
+        System.out.println(key.longValue());
+        if (Objects.nonNull(key)) {
+            entityProxy.updateEntityId(entity, key.longValue());
+        }
+
+        return entity;
     }
 }
