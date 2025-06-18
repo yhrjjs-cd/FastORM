@@ -63,6 +63,10 @@ import java.util.regex.Pattern;
 @Slf4j
 public class EntityClassEnhancer {
     /**
+     * 代理类名模版
+     */
+    public static final String PROXY_CLASS_NAME_TEMPLATE = "%sProxy$";
+    /**
      * 获取泛型类
      */
     private static final Pattern PATTERN_GENERIC_OF_LIST = Pattern.compile("L[a-zA-Z0-9/]+<L([a-zA-Z0-9/]+);>;");
@@ -241,7 +245,7 @@ public class EntityClassEnhancer {
      */
     private void generatePeerEntity(Class<?> classOfT, ClassPool classPool, CtClass ctEntityPeerInterface) {
         try {
-            CtClass ctClass = classPool.makeClass("%sPeer".formatted(classOfT.getName()));
+            CtClass ctClass = classPool.makeClass(PROXY_CLASS_NAME_TEMPLATE.formatted(classOfT.getName()));
             ctClass.addInterface(ctEntityPeerInterface);
 
             for (FunGenerator generator : generators) {

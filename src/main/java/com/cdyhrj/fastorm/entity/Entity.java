@@ -1,5 +1,6 @@
 package com.cdyhrj.fastorm.entity;
 
+import com.cdyhrj.fastorm.entity.enhance.EntityClassEnhancer;
 import com.google.common.collect.Maps;
 
 import java.util.Map;
@@ -24,16 +25,17 @@ public interface Entity {
      */
     static EntityProxy getEntityProxy(Class<?> entityClass) {
         try {
-            EntityProxy peerEntity = CACHED_ENTITY.get(entityClass);
+            EntityProxy entityProxy = CACHED_ENTITY.get(entityClass);
 
-            if (Objects.isNull(peerEntity)) {
-                Class<?> clazz = Class.forName("%sProxy".formatted(entityClass.getName()));
+            if (Objects.isNull(entityProxy)) {
+                Class<?> clazz = Class.forName(EntityClassEnhancer.PROXY_CLASS_NAME_TEMPLATE.formatted(entityClass.getName()));
 
                 return (EntityProxy) clazz.getDeclaredConstructor().newInstance();
             }
 
-            return peerEntity;
+            return entityProxy;
         } catch (Exception ex) {
+            ex.printStackTrace();
             throw new RuntimeException("获取对等类出错.");
         }
     }
