@@ -1,12 +1,14 @@
 package com.cdyhrj.fastorm;
 
+import com.cdyhrj.fastorm.config.FastOrmConfig;
 import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.entity.insertable.EntitiesInsertable;
 import com.cdyhrj.fastorm.entity.insertable.EntityClassInsertable;
-import com.cdyhrj.fastorm.entity.insertable.EntityInsertable;
+import com.cdyhrj.fastorm.entity.insertable.by_object.EntityInsertable;
 import com.cdyhrj.fastorm.entity.queryable.EntityQueryable;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.TransactionTemplate;
 
@@ -23,11 +25,14 @@ import java.util.List;
 public class FastORM {
     private final TransactionTemplate transactionTemplate;
     private final NamedParameterJdbcOperations namedParamOps;
+    private final FastOrmConfig fastOrmConfig;
 
-    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
-    public FastORM(DataSource dataSource, TransactionTemplate transactionTemplate) {
+    public FastORM(@NonNull DataSource dataSource,
+                   @NonNull TransactionTemplate transactionTemplate,
+                   @NonNull FastOrmConfig fastOrmConfig) {
         this.transactionTemplate = transactionTemplate;
         this.namedParamOps = new NamedParameterJdbcTemplate(dataSource);
+        this.fastOrmConfig = fastOrmConfig;
     }
 
     public <E extends Entity> EntityQueryable<E> queryable(Class<E> entityClazz) {
@@ -53,7 +58,7 @@ public class FastORM {
      * @return 插入器
      */
     public <E extends Entity> EntitiesInsertable<E> insertable(List<E> entities) {
-        return new EntitiesInsertable<>(namedParameterJdbcOperations, transactionTemplate, fastOrmConfig, entities);
+        return new EntitiesInsertable<>(namedParamOps, transactionTemplate, fastOrmConfig, entities);
     }
 
     /**
@@ -64,6 +69,6 @@ public class FastORM {
      * @return 插入器
      */
     public <E extends Entity> EntityClassInsertable<E> insertable(Class<E> entityClass) {
-        return new EntityClassInsertable<>(namedParameterJdbcOperations, transactionTemplate, fastOrmConfig);
+        return new EntityClassInsertable<>(namedParamOps, transactionTemplate, fastOrmConfig);
     }
 }

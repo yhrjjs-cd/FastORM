@@ -12,6 +12,6 @@ import org.springframework.context.annotation.Configuration;
 @Data
 @Configuration
 public class FastOrmConfig {
-    @Value(value = "yhrj.fastORM.batchSize")
+    @Value("${yhrj.fastORM.batchSize}")
     private Integer batchSize;
 }

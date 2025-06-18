@@ -25,7 +25,7 @@ public class EntitiesInsertable<E extends Entity> {
     /**
      * 批量处理每次数量
      */
-    private int batchSize = fastOrmConfig.getBatchSize();
+    private int batchSize = 200;//fastOrmConfig.getBatchSize();
 
     /**
      * 设置批量处理大小

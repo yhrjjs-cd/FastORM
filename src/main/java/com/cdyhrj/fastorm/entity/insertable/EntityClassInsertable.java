@@ -46,7 +46,7 @@ public class EntityClassInsertable<E extends Entity> {
     /**
      * 批量处理每次数量
      */
-    private int batchSize = fastOrmConfig.getBatchSize();
+    private int batchSize = 200; //fastOrmConfig.getBatchSize();
 
     /**
      * 插入列，不包含的列不插入

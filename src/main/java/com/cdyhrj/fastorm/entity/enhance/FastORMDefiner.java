@@ -1,6 +1,7 @@
 package com.cdyhrj.fastorm.entity.enhance;
 
 import com.cdyhrj.fastorm.FastORM;
+import com.cdyhrj.fastorm.config.FastOrmConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,13 +13,13 @@ import javax.sql.DataSource;
 @Configuration
 class FastORMDefiner {
     public FastORMDefiner() {
-        if (log.isDebugEnabled()) {
-            log.debug("Register Bean SqlClient Complete.");
+        if (log.isInfoEnabled()) {
+            log.info("Register Bean FastORM Complete.");
         }
     }
 
     @Bean
-    public FastORM getSqlClient(DataSource dataSource, TransactionTemplate transactionTemplate) {
-        return new FastORM(dataSource, transactionTemplate);
+    public FastORM getFastORM(DataSource dataSource, TransactionTemplate transactionTemplate, FastOrmConfig fastOrmConfig) {
+        return new FastORM(dataSource, transactionTemplate, fastOrmConfig);
     }
 }

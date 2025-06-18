@@ -33,8 +33,8 @@ public class EntityRegistrar implements ImportSelector, ResourceLoaderAware {
     private static final String DEFAULT_RESOURCE_PATTERN = "/**/*.class";
 
     public EntityRegistrar() {
-        if (log.isDebugEnabled()) {
-            log.debug("SqlClient Enhance entities.");
+        if (log.isInfoEnabled()) {
+            log.info("FastORM Enhance entities.");
         }
     }
 

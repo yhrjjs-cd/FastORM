@@ -4,36 +4,41 @@ import com.cdyhrj.fastorm.adapter.ValueAdapterFactory;
 import com.cdyhrj.fastorm.annotation.ColDefine;
 import com.cdyhrj.fastorm.annotation.ManyToMany;
 import com.cdyhrj.fastorm.annotation.enums.OperationType;
+import com.cdyhrj.fastorm.api.entity.FieldNameSpec;
+import com.cdyhrj.fastorm.api.entity.FieldNameType;
 import com.cdyhrj.fastorm.entity.EnhancedEntityClassMap;
 import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.entity.EntityProxy;
-import com.cdyhrj.fastorm.entity.enhance.generator.peer.FunGenerator;
-import com.cdyhrj.fastorm.entity.enhance.generator.peer.GetAllFieldInfoFunGenerator;
-import com.cdyhrj.fastorm.entity.enhance.generator.peer.GetAllRelationsFunGenerator;
-import com.cdyhrj.fastorm.entity.enhance.generator.peer.GetDefaultFieldNamesFunGenerator;
-import com.cdyhrj.fastorm.entity.enhance.generator.peer.GetDefaultValueMapFunGenerator;
-import com.cdyhrj.fastorm.entity.enhance.generator.peer.GetIdFieldNameFunGenerator;
-import com.cdyhrj.fastorm.entity.enhance.generator.peer.GetIdFieldValueFunGenerator;
-import com.cdyhrj.fastorm.entity.enhance.generator.peer.GetNameFieldNameFunGenerator;
-import com.cdyhrj.fastorm.entity.enhance.generator.peer.GetRelationClassFunGenerator;
-import com.cdyhrj.fastorm.entity.enhance.generator.peer.GetRelationManyToManyMasterInfoFunGenerator;
-import com.cdyhrj.fastorm.entity.enhance.generator.peer.GetRelationManyToManyMetaFunGenerator;
-import com.cdyhrj.fastorm.entity.enhance.generator.peer.GetRelationManyToManyValueFunGenerator;
-import com.cdyhrj.fastorm.entity.enhance.generator.peer.GetRelationOneToManyMetaFunGenerator;
-import com.cdyhrj.fastorm.entity.enhance.generator.peer.GetRelationOneToManyValueFunGenerator;
-import com.cdyhrj.fastorm.entity.enhance.generator.peer.GetRelationOneToOneMetaFunGenerator;
-import com.cdyhrj.fastorm.entity.enhance.generator.peer.GetRelationOneToOneValueFunGenerator;
-import com.cdyhrj.fastorm.entity.enhance.generator.peer.GetRelationTypeFunGenerator;
-import com.cdyhrj.fastorm.entity.enhance.generator.peer.GetTableNameFunGenerator;
-import com.cdyhrj.fastorm.entity.enhance.generator.peer.GetValueMapFunGenerator;
-import com.cdyhrj.fastorm.entity.enhance.generator.peer.NewEntityFunGenerator;
-import com.cdyhrj.fastorm.entity.enhance.generator.peer.PropertyToFieldNameFunGenerator;
-import com.cdyhrj.fastorm.entity.enhance.generator.peer.UpdateEntityFunGenerator;
-import com.cdyhrj.fastorm.entity.enhance.generator.peer.UpdateEntityIdFunGenerator;
-import com.cdyhrj.fastorm.entity.enhance.generator.peer.UpdateEntityOneToManyIdFunGenerator;
-import com.cdyhrj.fastorm.entity.enhance.generator.peer.UpdateEntityOneToOneIdFunGenerator;
-import com.cdyhrj.fastorm.entity.enhance.generator.peer.UpdateEntityWithDefaultValueFunGenerator;
+import com.cdyhrj.fastorm.entity.PropertyToFieldNameMap;
+import com.cdyhrj.fastorm.entity.enhance.generator.proxy.FunGenerator;
+import com.cdyhrj.fastorm.entity.enhance.generator.proxy.GetAllFieldInfoFunGenerator;
+import com.cdyhrj.fastorm.entity.enhance.generator.proxy.GetAllRelationsFunGenerator;
+import com.cdyhrj.fastorm.entity.enhance.generator.proxy.GetDefaultFieldNamesFunGenerator;
+import com.cdyhrj.fastorm.entity.enhance.generator.proxy.GetDefaultValueMapFunGenerator;
+import com.cdyhrj.fastorm.entity.enhance.generator.proxy.GetIdFieldNameFunGenerator;
+import com.cdyhrj.fastorm.entity.enhance.generator.proxy.GetIdFieldValueFunGenerator;
+import com.cdyhrj.fastorm.entity.enhance.generator.proxy.GetNameFieldNameFunGenerator;
+import com.cdyhrj.fastorm.entity.enhance.generator.proxy.GetRelationClassFunGenerator;
+import com.cdyhrj.fastorm.entity.enhance.generator.proxy.GetRelationManyToManyMasterInfoFunGenerator;
+import com.cdyhrj.fastorm.entity.enhance.generator.proxy.GetRelationManyToManyMetaFunGenerator;
+import com.cdyhrj.fastorm.entity.enhance.generator.proxy.GetRelationManyToManyValueFunGenerator;
+import com.cdyhrj.fastorm.entity.enhance.generator.proxy.GetRelationOneToManyMetaFunGenerator;
+import com.cdyhrj.fastorm.entity.enhance.generator.proxy.GetRelationOneToManyValueFunGenerator;
+import com.cdyhrj.fastorm.entity.enhance.generator.proxy.GetRelationOneToOneMetaFunGenerator;
+import com.cdyhrj.fastorm.entity.enhance.generator.proxy.GetRelationOneToOneValueFunGenerator;
+import com.cdyhrj.fastorm.entity.enhance.generator.proxy.GetRelationTypeFunGenerator;
+import com.cdyhrj.fastorm.entity.enhance.generator.proxy.GetTableNameFunGenerator;
+import com.cdyhrj.fastorm.entity.enhance.generator.proxy.GetValueMapFunGenerator;
+import com.cdyhrj.fastorm.entity.enhance.generator.proxy.NewEntityFunGenerator;
+import com.cdyhrj.fastorm.entity.enhance.generator.proxy.PropertyToFieldNameFunGenerator;
+import com.cdyhrj.fastorm.entity.enhance.generator.proxy.UpdateEntityFunGenerator;
+import com.cdyhrj.fastorm.entity.enhance.generator.proxy.UpdateEntityIdFunGenerator;
+import com.cdyhrj.fastorm.entity.enhance.generator.proxy.UpdateEntityOneToManyIdFunGenerator;
+import com.cdyhrj.fastorm.entity.enhance.generator.proxy.UpdateEntityOneToOneIdFunGenerator;
+import com.cdyhrj.fastorm.entity.enhance.generator.proxy.UpdateEntityWithDefaultValueFunGenerator;
+import com.cdyhrj.fastorm.entity.meta.ManyToManyMeta;
 import com.cdyhrj.fastorm.exception.EntityClassEnhanceException;
+import com.cdyhrj.fastorm.util.IdUtils;
 import com.google.common.collect.Lists;
 import javassist.ClassPool;
 import javassist.CtClass;
@@ -96,8 +101,8 @@ public class EntityClassEnhancer {
             List<String> toEnhancedClass = orderClasses(classes, classPool);
 
             for (String classStringOfT : toEnhancedClass) {
-                if (log.isDebugEnabled()) {
-                    log.debug("Enhance entity class: {}", classStringOfT);
+                if (log.isInfoEnabled()) {
+                    log.info("Enhance entity class: {}", classStringOfT);
                 }
 
                 Class<? extends Entity> entityClass = enhanceBaseEntity(classStringOfT, classPool, ctEntityInterface);
@@ -222,6 +227,7 @@ public class EntityClassEnhancer {
 
             return clazz;
         } catch (Exception ex) {
+            ex.printStackTrace();
             throw new EntityClassEnhanceException(classStringOfT);
         }
     }

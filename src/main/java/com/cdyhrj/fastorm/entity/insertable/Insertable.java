@@ -50,7 +50,7 @@ public class Insertable<E extends Entity> {
     /**
      * 批量处理每次数量
      */
-    private int batchSize = fastOrmConfig.getBatchSize();
+//    private int batchSize = fastOrmConfig.getBatchSize();
 
     /**
      * 插入列，不包含的列不插入
@@ -113,7 +113,7 @@ public class Insertable<E extends Entity> {
      * @return 当前对象
      */
     public Insertable<E> batchSize(int batchSize) {
-        this.batchSize = batchSize;
+//        this.batchSize = batchSize;
 
         return this;
     }
