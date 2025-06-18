@@ -29,14 +29,12 @@ public class EntityInsertable<E extends Entity> {
         EntityProxy entityProxy = Entity.getEntityProxy(entity.getClass());
         Map<String, Object> paramMap = entityProxy.getValueMap(entity);
 
-        System.out.println(paramMap);
         String sqlText = SqlHelper.generateInsertSqlText(entityProxy);
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         this.namedParameterJdbcOperations.update(sqlText, new MapSqlParameterSource(paramMap), keyHolder);
 
         Number key = keyHolder.getKey();
-        System.out.println(key.longValue());
         if (Objects.nonNull(key)) {
             entityProxy.updateEntityId(entity, key.longValue());
         }
