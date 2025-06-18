@@ -35,8 +35,26 @@ public interface Entity {
 
             return entityProxy;
         } catch (Exception ex) {
-            ex.printStackTrace();
             throw new RuntimeException("获取对等类出错.");
         }
+    }
+
+    default void beforeInsert() {
+    }
+
+    default void afterInsert() {
+    }
+
+    default void beforeUpdate() {
+    }
+
+    default void afterUpdate() {
+
+    }
+
+    default void beforeDelete() {
+    }
+
+    default void afterDelete() {
     }
 }

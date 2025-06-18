@@ -115,7 +115,6 @@ public class EntityClassEnhancer {
                 EnhancedEntityClassMap.registerEntity(entityClass);
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
             log.error("Enhance error: {}", ex.getMessage());
         }
 

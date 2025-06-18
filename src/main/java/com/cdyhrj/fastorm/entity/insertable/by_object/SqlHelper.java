@@ -59,13 +59,14 @@ public class SqlHelper {
 
         String fieldName = fieldNameSpec.fieldName();
 
+        if (fieldNameSpec.type() == FieldNameType.Id) {
+            return false;
+        }
+
         if (isSystemUpdateFieldNames(fieldName)) {
             return false;
         }
 
-        if (fieldNameSpec.type() == FieldNameType.Id) {
-            return false;
-        }
 
 //        if (isFieldWithDefaultValue(peerEntity, fieldName)) {
 //            return true;

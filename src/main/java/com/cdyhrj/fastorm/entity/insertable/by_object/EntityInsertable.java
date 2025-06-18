@@ -5,6 +5,7 @@
 
 package com.cdyhrj.fastorm.entity.insertable.by_object;
 
+import com.cdyhrj.fastorm.annotation.enums.OperationType;
 import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.entity.EntityProxy;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,8 @@ public class EntityInsertable<E extends Entity> {
 
     public E exec() {
         EntityProxy entityProxy = Entity.getEntityProxy(entity.getClass());
+        entityProxy.updateEntityWithDefaultValue(entity, OperationType.INSERT);
+
         Map<String, Object> paramMap = entityProxy.getValueMap(entity);
 
         String sqlText = SqlHelper.generateInsertSqlText(entityProxy);
