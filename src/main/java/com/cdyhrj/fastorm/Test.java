@@ -5,6 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class Test implements CommandLineRunner {
@@ -15,15 +18,15 @@ public class Test implements CommandLineRunner {
         Student student = new Student();
         student.setName("<UNK>");
 
-        Long id = fastORM.insertable(student)
-                .exec()
-                .getId();
+//        fastORM.insertable(student)
+//                .exec();
 
-        System.out.println(id);
-        id = fastORM.insertable(student)
-                .exec()
-                .getId();
-        System.out.println(id);
+        List<Student> students = new ArrayList<>();
+        students.add(student);
+        students.add(student);
+        fastORM.insertable(students)
+                .exec();
+
         System.exit(0);
     }
 }

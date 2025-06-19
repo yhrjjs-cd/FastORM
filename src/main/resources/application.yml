@@ -1,6 +1,9 @@
 yhrj:
     fastORM:
         batchSize: 200
+logging:
+    level:
+        org.springframework.jdbc.core.JdbcTemplate: DEBUG
 spring:
     datasource:
         type: com.alibaba.druid.pool.DruidDataSource
