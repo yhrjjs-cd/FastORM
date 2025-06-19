@@ -30,9 +30,11 @@ public class EntityInsertable<E extends Entity> {
         EntityProxy entityProxy = Entity.getEntityProxy(entity.getClass());
         entityProxy.updateEntityWithDefaultValue(entity, OperationType.INSERT);
 
+        entity.beforeInsert();
+
         Map<String, Object> paramMap = entityProxy.getValueMap(entity);
 
-        String sqlText = SqlHelper.generateInsertSqlText(entityProxy);
+        String sqlText = SqlHelper.generateInsertSqlText(entityProxy, entity);
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         this.namedParameterJdbcOperations.update(sqlText, new MapSqlParameterSource(paramMap), keyHolder);
@@ -41,6 +43,8 @@ public class EntityInsertable<E extends Entity> {
         if (Objects.nonNull(key)) {
             entityProxy.updateEntityId(entity, key.longValue());
         }
+
+        entity.afterInsert();
 
         return entity;
     }

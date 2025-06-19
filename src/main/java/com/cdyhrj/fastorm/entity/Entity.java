@@ -58,4 +58,14 @@ public interface Entity {
 
     default void afterDelete() {
     }
+
+    /**
+     * 字段只能更新
+     *
+     * @param fieldName 字段名
+     * @return 如果只能更新，返回true
+     */
+    default boolean fieldIsOnlyForUpdate(String fieldName) {
+        return false;
+    }
 }

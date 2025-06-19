@@ -5,6 +5,8 @@ import com.cdyhrj.fastorm.adapter.impl.DateValueAdapter;
 import com.cdyhrj.fastorm.adapter.impl.DoubleValueAdapter;
 import com.cdyhrj.fastorm.adapter.impl.FloatValueAdapter;
 import com.cdyhrj.fastorm.adapter.impl.IntValueAdapter;
+import com.cdyhrj.fastorm.adapter.impl.LocalDateTimeValueAdapter;
+import com.cdyhrj.fastorm.adapter.impl.LocalDateValueAdapter;
 import com.cdyhrj.fastorm.adapter.impl.LongValueAdapter;
 import com.cdyhrj.fastorm.adapter.impl.StringValueAdapter;
 import com.cdyhrj.fastorm.adapter.impl.TimestampValueAdapter;
@@ -12,6 +14,8 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +42,8 @@ public class ValueAdapterFactory {
         ADAPTOR_MAP.put(Float.TYPE, ADAPTOR_MAP.get(Float.class));
         ADAPTOR_MAP.put(Date.class, new DateValueAdapter());
         ADAPTOR_MAP.put(Timestamp.class, new TimestampValueAdapter());
+        ADAPTOR_MAP.put(LocalDate.class, new LocalDateValueAdapter());
+        ADAPTOR_MAP.put(LocalDateTime.class, new LocalDateTimeValueAdapter());
         ADAPTOR_MAP.put(Boolean.class, new BooleanValueAdapter());
         ADAPTOR_MAP.put(Boolean.TYPE, ADAPTOR_MAP.get(Boolean.class));
         ADAPTOR_MAP.put(Enum.class, new EnumValueAdapter());

@@ -2,14 +2,14 @@ package com.cdyhrj.fastorm.entity.insertable.by_object;
 
 import com.cdyhrj.fastorm.api.entity.FieldNameSpec;
 import com.cdyhrj.fastorm.api.entity.FieldNameType;
+import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.entity.EntityProxy;
 
-import java.util.Set;
 import java.util.StringJoiner;
 
 public class SqlHelper {
-    public static String generateInsertSqlText(EntityProxy entityProxy) {
-        FieldNameSpec[] insertFields = getEntityInsertFields(entityProxy);
+    public static String generateInsertSqlText(EntityProxy entityProxy, Entity entity) {
+        FieldNameSpec[] insertFields = getEntityInsertFields(entityProxy, entity);
 
         StringJoiner joiner = new StringJoiner(" ");
         joiner.add("INSERT INTO")
@@ -23,10 +23,10 @@ public class SqlHelper {
         return joiner.toString();
     }
 
-    private static FieldNameSpec[] getEntityInsertFields(EntityProxy entityProxy) {
+    private static FieldNameSpec[] getEntityInsertFields(EntityProxy entityProxy, Entity entity) {
         return entityProxy.getAllFieldInfo()
                 .stream()
-                .filter(fieldNameSpec -> isFieldToInsertEntity(fieldNameSpec, entityProxy))
+                .filter(fieldNameSpec -> isFieldToInsertEntity(fieldNameSpec, entityProxy, entity))
                 .toArray(FieldNameSpec[]::new);
     }
 
@@ -52,7 +52,8 @@ public class SqlHelper {
 
     private static boolean isFieldToInsertEntity(
             FieldNameSpec fieldNameSpec,
-            EntityProxy entityProxy) {
+            EntityProxy entityProxy,
+            Entity entity) {
         if (fieldNameSpec.readonly()) {
             return false;
         }
@@ -63,7 +64,7 @@ public class SqlHelper {
             return false;
         }
 
-        if (isSystemUpdateFieldNames(fieldName)) {
+        if (isSystemUpdateFieldNames(entity, fieldName)) {
             return false;
         }
 
@@ -83,17 +84,12 @@ public class SqlHelper {
     }
 
     /**
-     * 系统更新字段
-     */
-    public static final Set<String> SYSTEM_UPDATE_FIELDS = Set.of("updated_by", "updated_by_name", "updated_at");
-
-    /**
      * 是否系统更新字段
      *
      * @param fieldName 字段名
      * @return 是否系统更新字段则返回<code>true</code>
      */
-    private static boolean isSystemUpdateFieldNames(String fieldName) {
-        return SYSTEM_UPDATE_FIELDS.contains(fieldName);
+    private static boolean isSystemUpdateFieldNames(Entity entity, String fieldName) {
+        return entity.fieldIsOnlyForUpdate(fieldName);
     }
 }

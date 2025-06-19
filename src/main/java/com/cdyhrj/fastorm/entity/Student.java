@@ -4,10 +4,12 @@ import com.cdyhrj.fastorm.annotation.Column;
 import com.cdyhrj.fastorm.annotation.Id;
 import com.cdyhrj.fastorm.annotation.Table;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 
 @Data
 @Table(name = "test_student")
-public class Student implements Entity {
+public class Student extends BaseEntity {
     @Column
     @Id
     private Long id;
