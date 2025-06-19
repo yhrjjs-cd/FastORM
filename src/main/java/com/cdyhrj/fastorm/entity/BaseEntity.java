@@ -18,11 +18,23 @@ public class BaseEntity implements Entity {
     private LocalDateTime createdAt;
 
     @Column
+    private Long createdBy;
+
+    @Column
+    private String createdByName;
+
+    @Column
     private LocalDate updatedAt;
 
     @Override
     public void beforeInsert() {
         createdAt = LocalDateTime.now();
+        createdBy = 1L;
+        createdByName = "111";
+    }
+
+    @Override
+    public void beforeUpdate() {
         updatedAt = LocalDate.now();
     }
 
