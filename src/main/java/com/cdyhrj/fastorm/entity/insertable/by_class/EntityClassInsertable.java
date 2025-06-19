@@ -1,24 +1,20 @@
-/*
- * 成都依何软件有限公司
- * (From 2024)
- */
-
 package com.cdyhrj.fastorm.entity.insertable.by_class;
 
+import com.cdyhrj.fastorm.annotation.enums.OperationType;
 import com.cdyhrj.fastorm.api.chain.Chain;
-import com.cdyhrj.fastorm.api.lambda.LambdaColumn;
 import com.cdyhrj.fastorm.api.lambda.PropFn;
-import com.cdyhrj.fastorm.config.FastOrmConfig;
 import com.cdyhrj.fastorm.entity.Entity;
-import lombok.Getter;
+import com.cdyhrj.fastorm.entity.EntityProxy;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.lang.NonNull;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
 
@@ -27,77 +23,9 @@ import java.util.Objects;
 public class EntityClassInsertable<E extends Entity> {
     private final NamedParameterJdbcOperations namedParameterJdbcOperations;
     private final TransactionTemplate transactionTemplate;
-    private final FastOrmConfig fastOrmConfig;
+    private final Class<E> entityClass;
 
     protected Chain<E> paramChain;
-
-    /**
-     * 插入列
-     */
-    @Getter
-    private List<String> withColumns;
-
-    /**
-     * 忽略列
-     */
-    @Getter
-    private List<String> ignoreColumns;
-
-    /**
-     * 批量处理每次数量
-     */
-    private int batchSize = 200; //fastOrmConfig.getBatchSize();
-
-    /**
-     * 插入列，不包含的列不插入
-     *
-     * @param columns 多列
-     * @return 当前对象
-     */
-    @SafeVarargs
-    public final EntityClassInsertable<E> withColumns(@NonNull PropFn<E, ?>... columns) {
-        if (Objects.isNull(this.withColumns)) {
-            this.withColumns = new ArrayList<>();
-        }
-
-        for (final PropFn<E, ?> column : columns) {
-            this.withColumns.add(LambdaColumn.resolve(column).getName());
-        }
-
-        return this;
-    }
-
-    /**
-     * 忽略列, 不插入
-     *
-     * @param columns 多列
-     * @return 当前对象
-     */
-    @SafeVarargs
-    public final EntityClassInsertable<E> ignoreColumns(@NonNull PropFn<E, ?>... columns) {
-        if (Objects.isNull(this.ignoreColumns)) {
-            this.ignoreColumns = new ArrayList<>();
-        }
-
-        for (final PropFn<E, ?> column : columns) {
-            this.ignoreColumns.add(LambdaColumn.resolve(column).getName());
-        }
-
-        return this;
-    }
-
-    /**
-     * 设置批量处理大小
-     *
-     * @param batchSize 批量大小
-     * @return 当前对象
-     */
-    public EntityClassInsertable<E> batchSize(int batchSize) {
-        this.batchSize = batchSize;
-
-        return this;
-    }
-
 
     /**
      * 设置参数
@@ -133,25 +61,25 @@ public class EntityClassInsertable<E extends Entity> {
         return this;
     }
 
+    public Long exec() {
+        EntityProxy entityProxy = Entity.getEntityProxy(entityClass);
+        Map<String, Object> paramMap = entityProxy.getDefaultValueMap(OperationType.INSERT);
+        paramMap.putAll(this.paramChainToMap());
 
-    public void exec() {
+        String sqlText = SqlHelper.generateInsertSqlText(entityProxy, paramMap);
 
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        this.namedParameterJdbcOperations.update(sqlText, new MapSqlParameterSource(paramMap), keyHolder);
+        Number key = Objects.requireNonNull(keyHolder.getKey(), "Error in getting key");
+
+        return key.longValue();
     }
 
-    public Long execReturnId() {
-        return 0L;
-    }
+    private Map<String, Object> paramChainToMap() {
+        if (Objects.isNull(this.paramChain)) {
+            return Collections.emptyMap();
+        }
 
-    public String execReturnName() {
-        return "";
-    }
-
-
-    public void execMap(Map<String, Object> valueMap) {
-
-    }
-
-    public void execList(List<Map<String, Object>> valueList) {
-
+        return this.paramChain.toParamMap();
     }
 }

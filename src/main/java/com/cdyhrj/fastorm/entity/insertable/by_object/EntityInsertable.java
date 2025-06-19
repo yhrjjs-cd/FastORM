@@ -26,6 +26,11 @@ public class EntityInsertable<E extends Entity> {
     private final TransactionTemplate transactionTemplate;
     private final E entity;
 
+    /**
+     * 执行插入操作
+     *
+     * @return 插入的对象
+     */
     public E exec() {
         EntityProxy entityProxy = Entity.getEntityProxy(entity.getClass());
         entityProxy.updateEntityWithDefaultValue(entity, OperationType.INSERT);
