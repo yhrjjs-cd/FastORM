@@ -3,7 +3,7 @@ package com.cdyhrj.fastorm;
 import com.cdyhrj.fastorm.config.FastOrmConfig;
 import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.entity.insertable.by_list.EntitiesInsertable;
-import com.cdyhrj.fastorm.entity.insertable.EntityClassInsertable;
+import com.cdyhrj.fastorm.entity.insertable.by_class.EntityClassInsertable;
 import com.cdyhrj.fastorm.entity.insertable.by_object.EntityInsertable;
 import com.cdyhrj.fastorm.entity.queryable.EntityQueryable;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;

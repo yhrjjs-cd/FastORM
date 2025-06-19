@@ -3,7 +3,7 @@
  * (From 2024)
  */
 
-package com.cdyhrj.fastorm.entity.insertable;
+package com.cdyhrj.fastorm.entity.insertable.by_class;
 
 import com.cdyhrj.fastorm.api.chain.Chain;
 import com.cdyhrj.fastorm.api.lambda.LambdaColumn;
