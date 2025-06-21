@@ -60,6 +60,16 @@ public interface Entity {
     }
 
     /**
+     * 字段只能插入
+     *
+     * @param fieldName 字段名
+     * @return 如果只能插入，返回true
+     */
+    default boolean fieldIsOnlyForInsert(String fieldName) {
+        return false;
+    }
+
+    /**
      * 字段只能更新
      *
      * @param fieldName 字段名

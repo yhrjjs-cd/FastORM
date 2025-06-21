@@ -10,6 +10,11 @@ import java.util.Set;
 @Data
 public class BaseEntity implements Entity {
     /**
+     * 系统插入字段
+     */
+    private static final Set<String> SYSTEM_INSERT_FIELDS = Set.of("created_by", "created_by_name", "created_at");
+
+    /**
      * 系统更新字段
      */
     private static final Set<String> SYSTEM_UPDATE_FIELDS = Set.of("updated_by", "updated_by_name", "updated_at");
@@ -26,6 +31,12 @@ public class BaseEntity implements Entity {
     @Column
     private LocalDate updatedAt;
 
+    @Column
+    private Long updatedBy;
+
+    @Column
+    private String updatedByName;
+
     @Override
     public void beforeInsert() {
         createdAt = LocalDateTime.now();
@@ -36,6 +47,11 @@ public class BaseEntity implements Entity {
     @Override
     public void beforeUpdate() {
         updatedAt = LocalDate.now();
+    }
+
+    @Override
+    public boolean fieldIsOnlyForInsert(String fieldName) {
+        return SYSTEM_INSERT_FIELDS.contains(fieldName);
     }
 
     @Override

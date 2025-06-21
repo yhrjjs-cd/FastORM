@@ -12,8 +12,9 @@ public class Test implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        fastORM.insertable(Student.class)
-                .set(Student::getCode, "that")
+        Student student = new Student();
+
+        fastORM.updatable(student)
                 .exec();
 
         System.exit(0);

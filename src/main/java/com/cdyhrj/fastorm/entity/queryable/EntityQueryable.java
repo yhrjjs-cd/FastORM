@@ -1,7 +1,7 @@
 package com.cdyhrj.fastorm.entity.queryable;
 
 import com.alibaba.fastjson2.JSONArray;
-import com.cdyhrj.fastorm.condition.Where;
+import com.cdyhrj.fastorm.condition.ConditionHost;
 import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.entity.queryable.context.ToSqlContext;
 import com.cdyhrj.fastorm.entity.queryable.helper.ListQueryHelper;
@@ -9,6 +9,7 @@ import com.cdyhrj.fastorm.entity.queryable.join.Join;
 import com.cdyhrj.fastorm.entity.queryable.join.JoinType;
 import com.cdyhrj.fastorm.entity.queryable.join.Joins;
 import com.cdyhrj.fastorm.entity.queryable.orderby.OrderBy;
+import com.cdyhrj.fastorm.entity.queryable.where.Where;
 import lombok.Getter;
 
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.List;
  *
  * @author <a href="mailto:huangqi@cdyhrj.com">黄奇</a>
  */
-public class EntityQueryable<T extends Entity> {
+public class EntityQueryable<T extends Entity> implements ConditionHost<T> {
     /**
      * 查询上下文
      */
@@ -54,7 +55,7 @@ public class EntityQueryable<T extends Entity> {
      */
     @Getter
     private OrderBy<T> orderBy;
-    
+
     public EntityQueryable(Class<T> entityClass) {
         this.context = new ToSqlContext<>(this, entityClass);
         this.joins = new Joins<>(this.context);
