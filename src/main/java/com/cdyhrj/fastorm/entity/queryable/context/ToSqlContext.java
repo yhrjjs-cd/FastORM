@@ -1,7 +1,7 @@
 package com.cdyhrj.fastorm.entity.queryable.context;
 
+import com.cdyhrj.fastorm.condition.ConditionHost;
 import com.cdyhrj.fastorm.entity.Entity;
-import com.cdyhrj.fastorm.entity.queryable.EntityQueryable;
 import com.cdyhrj.fastorm.entity.queryable.from.ClassFrom;
 import com.cdyhrj.fastorm.entity.queryable.from.From;
 import com.cdyhrj.fastorm.exception.TableAliasNameException;
@@ -21,7 +21,7 @@ public class ToSqlContext<E extends Entity> {
      * 所属查询
      */
     @Getter
-    private EntityQueryable<E> belongTo;
+    private ConditionHost<E> belongTo;
 
     @Getter
     private From baseFrom;
@@ -31,7 +31,7 @@ public class ToSqlContext<E extends Entity> {
 
     private final Map<String, TableAvailable> entityMap = new HashMap<>();
 
-    public ToSqlContext(EntityQueryable<E> belongTo, Class<E> baseEntityClass) {
+    public ToSqlContext(ConditionHost<E> belongTo, Class<E> baseEntityClass) {
         this.belongTo = belongTo;
         this.baseEntityClass = baseEntityClass;
         this.baseFrom = ClassFrom.of(baseEntityClass);

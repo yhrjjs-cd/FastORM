@@ -13,6 +13,7 @@ import com.cdyhrj.fastorm.entity.queryable.where.Where;
 import lombok.Getter;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 实体查询
@@ -103,7 +104,9 @@ public class EntityQueryable<T extends Entity> implements ConditionHost<T> {
     }
 
     public Where<T> where() {
-        this.where = new Where<>(context, this);
+        if (Objects.isNull(this.where)) {
+            this.where = new Where<>(context, this);
+        }
 
         return this.where;
     }
