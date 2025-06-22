@@ -1,6 +1,5 @@
 package com.cdyhrj.fastorm;
 
-import com.cdyhrj.fastorm.entity.Student;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
@@ -16,7 +15,7 @@ public class Test implements CommandLineRunner {
 
         fastORM.updatable(student)
                 .where()
-                .andEq(Student::getId, 1111)
+                .andEq(Student::getId, 100)
                 .ret()
                 .exec();
 

@@ -1,6 +1,6 @@
 package com.cdyhrj.fastorm.entity.queryable.orderby;
 
-import com.cdyhrj.fastorm.api.lambda.LambdaColumn;
+import com.cdyhrj.fastorm.api.lambda.LambdaQuery;
 import com.cdyhrj.fastorm.api.lambda.PropFn;
 import com.cdyhrj.fastorm.api.meta.FieldInfo;
 import com.cdyhrj.fastorm.entity.Entity;
@@ -29,14 +29,14 @@ public class OrderBy<E extends Entity, H extends EntityQueryable<E>> extends Abs
     }
 
     public <T extends Entity> OrderBy<E, H> add(PropFn<T, ?> propFn) {
-        FieldInfo fi = LambdaColumn.resolve(propFn);
+        FieldInfo fi = LambdaQuery.resolve(propFn);
         TableAvailable ta = getContext().getTableEntity(fi.getEntityClass().getName());
 
         return add("%s.%s".formatted(ta.getAlias(), fi.getName()));
     }
 
     public <T extends Entity> OrderBy<E, H> add(PropFn<T, ?> propFn, Order order) {
-        FieldInfo fi = LambdaColumn.resolve(propFn);
+        FieldInfo fi = LambdaQuery.resolve(propFn);
         TableAvailable ta = getContext().getTableEntity(fi.getEntityClass().getName());
 
         return add("%s.%s %s".formatted(ta.getAlias(), fi.getName(), order));

@@ -1,6 +1,6 @@
 package com.cdyhrj.fastorm.condition.expression;
 
-import com.cdyhrj.fastorm.api.lambda.LambdaColumn;
+import com.cdyhrj.fastorm.api.lambda.LambdaQuery;
 import com.cdyhrj.fastorm.api.lambda.PropFn;
 import com.cdyhrj.fastorm.api.meta.FieldInfo;
 import com.cdyhrj.fastorm.condition.enums.Operator;
@@ -14,7 +14,7 @@ public class UnaryExpression extends AbstractUnaryExpression {
     protected Operator operator;
 
     public static <E extends Entity> UnaryExpression of(@NonNull ToSqlContext<?, ?> context, String entityAlias, PropFn<E, ?> field, Operator operator, Object value) {
-        FieldInfo fieldInfo = LambdaColumn.resolve(field);
+        FieldInfo fieldInfo = LambdaQuery.resolve(field);
 
         String alias;
         if (Objects.isNull(entityAlias)) {

@@ -1,6 +1,7 @@
 package com.cdyhrj.fastorm.entity.updatable.by_object;
 
 import com.cdyhrj.fastorm.annotation.enums.OperationType;
+import com.cdyhrj.fastorm.api.parameter.ParamMap;
 import com.cdyhrj.fastorm.condition.ConditionHost;
 import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.entity.EntityProxy;
@@ -56,15 +57,17 @@ public class EntityUpdatable<E extends Entity> implements ConditionHost<E> {
 
         Map<String, Object> paramMap = entityProxy.getValueMap(entity);
 
-//        if (Objects.nonNull(this.condition)) {
-//            ParamMap conditionParamMap = ParamMap.of();
-//            this.condition.writeToParamMap(conditionParamMap);
-//
-//            paramMap.putAll(conditionParamMap.getParams());
-//        }
+        if (Objects.nonNull(this.where)) {
+            ParamMap conditionParamMap = ParamMap.of();
+            this.where.writeToParamMap(conditionParamMap);
 
+            paramMap.putAll(conditionParamMap.getParams());
+        }
+
+        System.out.println(paramMap);
         String sqlText = SqlHelper.generateUpdateSqlTextWithEntity(entityProxy, entity);
 
+        System.out.println(this.where.toSql());
 //        this.namedParameterJdbcOperations.update(sqlText, new MapSqlParameterSource(paramMap));
 
         System.out.println(sqlText);

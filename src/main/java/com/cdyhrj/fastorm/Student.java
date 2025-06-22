@@ -1,10 +1,10 @@
-package com.cdyhrj.fastorm.entity;
+package com.cdyhrj.fastorm;
 
 import com.cdyhrj.fastorm.annotation.Column;
 import com.cdyhrj.fastorm.annotation.Id;
 import com.cdyhrj.fastorm.annotation.Table;
+import com.cdyhrj.fastorm.entity.BaseEntity;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 
 @Data

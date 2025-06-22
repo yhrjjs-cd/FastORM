@@ -1,7 +1,6 @@
 package com.cdyhrj.fastorm;
 
 
-import com.cdyhrj.fastorm.entity.Student;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

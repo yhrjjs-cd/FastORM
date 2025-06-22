@@ -2,7 +2,7 @@ package com.cdyhrj.fastorm.api.chain;
 
 import com.cdyhrj.fastorm.adapter.ValueAdapter;
 import com.cdyhrj.fastorm.adapter.ValueAdapterFactory;
-import com.cdyhrj.fastorm.api.lambda.LambdaColumn;
+import com.cdyhrj.fastorm.api.lambda.LambdaQuery;
 import com.cdyhrj.fastorm.api.lambda.PropFn;
 import com.cdyhrj.fastorm.entity.Entity;
 import lombok.Getter;
@@ -25,7 +25,7 @@ public class Chain<E extends Entity> {
     private int size;
 
     public Chain(@NonNull PropFn<? extends E, ?> keyFn, Object value) {
-        this.head = ChainEntry.of(LambdaColumn.resolve(keyFn).getName(), value);
+        this.head = ChainEntry.of(LambdaQuery.resolve(keyFn).getName(), value);
         this.current = head;
         this.tail = head;
         this.size = 1;
@@ -57,7 +57,7 @@ public class Chain<E extends Entity> {
     }
 
     public Chain<E> add(@NonNull PropFn<? extends E, ?> keyFn, Object value) {
-        String name = LambdaColumn.resolve(keyFn).getName();
+        String name = LambdaQuery.resolve(keyFn).getName();
 
         tail.next = ChainEntry.of(name, value);
         tail = tail.next;

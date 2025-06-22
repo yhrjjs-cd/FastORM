@@ -2,11 +2,11 @@ package com.cdyhrj.fastorm.api.lambda;
 
 
 import com.cdyhrj.fastorm.annotation.Column;
-import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.api.lambda.exception.ColumnAnnotationRequiredException;
 import com.cdyhrj.fastorm.api.lambda.exception.ImpossibleException;
 import com.cdyhrj.fastorm.api.lambda.exception.NotLambdaSyntheticClassException;
 import com.cdyhrj.fastorm.api.meta.FieldInfo;
+import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.util.NameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
@@ -28,8 +28,8 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author huangqi
  */
-public class LambdaColumn {
-    private LambdaColumn() {
+public class LambdaQuery {
+    private LambdaQuery() {
 
     }
 
@@ -56,7 +56,7 @@ public class LambdaColumn {
      */
     @SafeVarargs
     public static FieldInfo[] resolves(PropFn<? extends Entity, ?>... lambda) {
-        return Arrays.stream(lambda).map(LambdaColumn::resolve).toArray(FieldInfo[]::new);
+        return Arrays.stream(lambda).map(LambdaQuery::resolve).toArray(FieldInfo[]::new);
     }
 
     /**
@@ -76,13 +76,17 @@ public class LambdaColumn {
             SerializedLambda serializedLambda = (SerializedLambda) writeReplace.invoke(lambda);
 
             String propertyName = methodNameToPropertyName(serializedLambda.getImplMethodName());
-            String entityClassName = serializedLambda.getImplClass().replace("/", ".");
+            // 如果使用serializedLambda.getImplClass(),如果有继承关系，获取的是方法所在的实际实现类
+            String entityClassRaw = serializedLambda.getInstantiatedMethodType();
+            String entityClassName = entityClassRaw.substring(2, entityClassRaw.indexOf(")") - 1).replace("/", ".");
 
+            @SuppressWarnings("unchecked")
             Class<E> entityClass = (Class<E>) Class.forName(entityClassName);
 
             return COLUMN_CACHE_MAP.computeIfAbsent(className, s -> propertyNameToFieldName(propertyName, entityClass));
         } catch (InvocationTargetException | IllegalAccessException | NoSuchMethodException |
                  ClassNotFoundException e) {
+            e.printStackTrace();
             throw new ImpossibleException();
         }
     }

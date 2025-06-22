@@ -20,14 +20,14 @@ public abstract class AndCondition<T extends Entity, H extends ConditionHost<T>>
     }
 
     @Override
-    public <E extends Entity> AndCondition<T, H> andEq(PropFn<E, ?> propFn, Object value) {
+    public AndCondition<T, H> andEq(PropFn<T, ?> propFn, Object value) {
         super.andEq(propFn, value);
 
         return this;
     }
 
     @Override
-    public <E extends Entity> AndCondition<T, H> andEq(String alias, PropFn<E, ?> propFn, Object value) {
+    public AndCondition<T, H> andEq(String alias, PropFn<T, ?> propFn, Object value) {
         super.andEq(alias, propFn, value);
 
         return this;

@@ -26,11 +26,11 @@ public abstract class AbstractAndExpressionGroup<T extends Entity, H extends Con
         this.context = context;
     }
 
-    public <E extends Entity> AbstractAndExpressionGroup<T, H> andEq(PropFn<E, ?> propFn, Object value) {
+    public AbstractAndExpressionGroup<T, H> andEq(PropFn<T, ?> propFn, Object value) {
         return andEq(null, propFn, value);
     }
 
-    public <E extends Entity> AbstractAndExpressionGroup<T, H> andEq(String alias, PropFn<E, ?> propFn, Object value) {
+    public AbstractAndExpressionGroup<T, H> andEq(String alias, PropFn<T, ?> propFn, Object value) {
         this.expressionList.add(Exps.eq(context, alias, propFn, value));
 
         return this;

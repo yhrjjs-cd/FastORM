@@ -1,7 +1,7 @@
 package com.cdyhrj.fastorm.entity.queryable.join;
 
 import com.cdyhrj.fastorm.api.func.JoinFunc;
-import com.cdyhrj.fastorm.api.lambda.LambdaColumn;
+import com.cdyhrj.fastorm.api.lambda.LambdaQuery;
 import com.cdyhrj.fastorm.api.lambda.PropFn;
 import com.cdyhrj.fastorm.api.meta.FieldInfo;
 import com.cdyhrj.fastorm.api.meta.SqlSegment;
@@ -84,10 +84,10 @@ public class Join<T extends Entity, H extends ConditionHost<T>, L extends Entity
      * @return Join对象
      */
     public Join<T, H, L, R> andEq(PropFn<L, ?> sourceFieldFun, PropFn<R, ?> targetFieldFun) {
-        FieldInfo sourceFiled = LambdaColumn.resolve(sourceFieldFun);
+        FieldInfo sourceFiled = LambdaQuery.resolve(sourceFieldFun);
         TableAvailable sourceEntity = context.getTableEntity(sourceFiled.getEntityClass().getName());
 
-        FieldInfo targetFiled = LambdaColumn.resolve(targetFieldFun);
+        FieldInfo targetFiled = LambdaQuery.resolve(targetFieldFun);
         TableAvailable targetEntity = context.getTableEntity(targetFiled.getEntityClass().getName());
 
         return andEq(sourceEntity.getAlias(), sourceFiled.getName(), targetEntity.getAlias(), targetFiled.getName());
@@ -101,7 +101,7 @@ public class Join<T extends Entity, H extends ConditionHost<T>, L extends Entity
      * @return Join对象
      */
     public Join<T, H, L, R> andEq(PropFn<R, ?> targetFieldFun, Object value) {
-        FieldInfo targetFiled = LambdaColumn.resolve(targetFieldFun);
+        FieldInfo targetFiled = LambdaQuery.resolve(targetFieldFun);
         TableAvailable targetEntity = context.getTableEntity(targetFiled.getEntityClass().getName());
 
         return andEq(targetEntity.getAlias(), targetFiled.getName(), value);
