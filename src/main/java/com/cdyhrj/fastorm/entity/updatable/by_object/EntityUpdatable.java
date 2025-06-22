@@ -21,7 +21,7 @@ public class EntityUpdatable<E extends Entity> implements ConditionHost<E> {
     private final TransactionTemplate transactionTemplate;
     private final E entity;
     /**
-     * 查询上下文
+     * 上下文
      */
     @Getter
     private final ToSqlContext<E, EntityUpdatable<E>> context;

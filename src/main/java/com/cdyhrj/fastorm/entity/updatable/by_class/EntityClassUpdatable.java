@@ -1,4 +1,117 @@
 package com.cdyhrj.fastorm.entity.updatable.by_class;
 
-public class EntityClassUpdatable {
+import com.cdyhrj.fastorm.annotation.enums.OperationType;
+import com.cdyhrj.fastorm.api.chain.Chain;
+import com.cdyhrj.fastorm.api.lambda.PropFn;
+import com.cdyhrj.fastorm.api.parameter.ParamMap;
+import com.cdyhrj.fastorm.condition.ConditionHost;
+import com.cdyhrj.fastorm.entity.Entity;
+import com.cdyhrj.fastorm.entity.EntityProxy;
+import com.cdyhrj.fastorm.entity.queryable.context.ToSqlContext;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
+import org.springframework.lang.NonNull;
+import org.springframework.transaction.support.TransactionTemplate;
+import org.springframework.util.Assert;
+
+import java.util.Collections;
+import java.util.Map;
+import java.util.Objects;
+
+@Slf4j
+@RequiredArgsConstructor
+public class EntityClassUpdatable<E extends Entity> implements ConditionHost<E> {
+    private final NamedParameterJdbcOperations namedParameterJdbcOperations;
+    private final TransactionTemplate transactionTemplate;
+    private final Class<E> entityClass;
+    /**
+     * 上下文
+     */
+    @Getter
+    private final ToSqlContext<E, EntityClassUpdatable<E>> context;
+
+    public EntityClassUpdatable(NamedParameterJdbcOperations namedParameterJdbcOperations, TransactionTemplate transactionTemplate, Class<E> entityClass) {
+        this.namedParameterJdbcOperations = namedParameterJdbcOperations;
+        this.transactionTemplate = transactionTemplate;
+        this.entityClass = entityClass;
+        this.context = new ToSqlContext<>(this, entityClass);
+    }
+
+    protected Chain<E> paramChain;
+    private Where<E> where;
+
+    public Where<E> where() {
+        if (Objects.isNull(this.where)) {
+            this.where = new Where<>(context, this);
+        }
+
+        return this.where;
+    }
+
+    /**
+     * 设置参数
+     *
+     * @param keyFun 字段函数
+     * @param value  值
+     * @return 当前对象
+     */
+    public <R extends Number> EntityClassUpdatable<E> set(@NonNull PropFn<E, R> keyFun, R value) {
+        if (Objects.isNull(paramChain)) {
+            paramChain = Chain.make(keyFun, value);
+        } else {
+            paramChain.add(keyFun, value);
+        }
+
+        return this;
+    }
+
+    /**
+     * 设置参数
+     *
+     * @param keyFun 字段函数
+     * @param value  值
+     * @return 当前对象
+     */
+    public <R extends String> EntityClassUpdatable<E> set(@NonNull PropFn<E, R> keyFun, R value) {
+        if (Objects.isNull(paramChain)) {
+            paramChain = Chain.make(keyFun, value);
+        } else {
+            paramChain.add(keyFun, value);
+        }
+
+        return this;
+    }
+
+    public void exec() {
+        Map<String, Object> params = this.paramChainToMap();
+        Assert.isTrue(!params.isEmpty(), "Please set update field!");
+
+        EntityProxy entityProxy = Entity.getEntityProxy(entityClass);
+
+        Map<String, Object> paramMap = entityProxy.getDefaultValueMap(OperationType.UPDATE);
+        paramMap.putAll(params);
+
+        if (Objects.nonNull(this.where)) {
+            ParamMap conditionParamMap = ParamMap.of();
+            this.where.writeToParamMap(conditionParamMap);
+
+            paramMap.putAll(conditionParamMap.getParams());
+        }
+
+        String sqlText = SqlHelper.generateUpdateSqlText(entityProxy, paramMap, this);
+        log.info(paramMap.toString());
+        log.info("UPDATE SQL: {}", sqlText);
+
+        this.namedParameterJdbcOperations.update(sqlText, paramMap);
+    }
+
+    private Map<String, Object> paramChainToMap() {
+        if (Objects.isNull(this.paramChain)) {
+            return Collections.emptyMap();
+        }
+
+        return this.paramChain.toParamMap();
+    }
 }

@@ -11,9 +11,8 @@ public class Test implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        Student student = new Student();
-
-        fastORM.updatable(student)
+        fastORM.updatable(Student.class)
+                .set(Student::getCode, "abcde")
                 .where()
                 .andEq(Student::getId, 100)
                 .ret()

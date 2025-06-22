@@ -6,6 +6,7 @@ import com.cdyhrj.fastorm.entity.insertable.by_class.EntityClassInsertable;
 import com.cdyhrj.fastorm.entity.insertable.by_list.EntitiesInsertable;
 import com.cdyhrj.fastorm.entity.insertable.by_object.EntityInsertable;
 import com.cdyhrj.fastorm.entity.queryable.EntityQueryable;
+import com.cdyhrj.fastorm.entity.updatable.by_class.EntityClassUpdatable;
 import com.cdyhrj.fastorm.entity.updatable.by_object.EntityUpdatable;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -75,5 +76,9 @@ public class FastORM {
 
     public <E extends Entity> EntityUpdatable<E> updatable(E entity) {
         return new EntityUpdatable<>(namedParamOps, transactionTemplate, entity);
+    }
+
+    public <E extends Entity> EntityClassUpdatable<E> updatable(Class<E> entityClass) {
+        return new EntityClassUpdatable<>(namedParamOps, transactionTemplate, entityClass);
     }
 }
