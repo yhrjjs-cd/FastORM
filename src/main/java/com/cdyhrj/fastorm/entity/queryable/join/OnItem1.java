@@ -18,7 +18,7 @@ public class OnItem1 implements OnItem {
     private Object value;
 
     @Override
-    public String toQuerySql() {
+    public String toSql() {
 
         if (value instanceof String) {
             return "%s.%s = %s".formatted(alias, field, this.value);

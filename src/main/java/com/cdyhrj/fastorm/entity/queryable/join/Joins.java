@@ -38,9 +38,9 @@ public class Joins<E extends Entity, H extends ConditionHost<E>> extends Abstrac
     }
 
     @Override
-    public String toQuerySql() {
+    public String toSql() {
         return joins.stream()
-                .map(Join::toQuerySql)
+                .map(Join::toSql)
                 .collect(Collectors.joining(" "));
     }
 }

@@ -32,7 +32,7 @@ public class UnaryExpression extends AbstractUnaryExpression {
     }
 
     @Override
-    public String toQuerySql() {
+    public String toSql() {
         return "%s.%s %s :%s".formatted(alias, field, operator.getValue(), paramName);
     }
 }

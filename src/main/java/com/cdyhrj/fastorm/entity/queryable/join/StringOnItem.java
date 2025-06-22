@@ -11,7 +11,7 @@ public class StringOnItem implements OnItem {
     private String itemString;
 
     @Override
-    public String toQuerySql() {
+    public String toSql() {
         return itemString;
     }
 }

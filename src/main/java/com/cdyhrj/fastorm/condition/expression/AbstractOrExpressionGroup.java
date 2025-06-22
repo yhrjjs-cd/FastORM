@@ -38,8 +38,8 @@ public abstract class AbstractOrExpressionGroup<T extends Entity, H extends Cond
     }
 
     @Override
-    public String toQuerySql() {
-        return "(" + this.expressionList.stream().map(SqlSegment::toQuerySql)
+    public String toSql() {
+        return "(" + this.expressionList.stream().map(SqlSegment::toSql)
                 .collect(Collectors.joining(" OR ")) + ")";
     }
 }

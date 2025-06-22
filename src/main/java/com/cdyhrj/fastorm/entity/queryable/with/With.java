@@ -16,7 +16,7 @@ public class With implements SqlSegment {
     }
 
     @Override
-    public String toQuerySql() {
+    public String toSql() {
         return "With";
     }
 }

@@ -30,7 +30,7 @@ public class SqlHelper {
 //            joiner.add(this.condition.toParametricExpression(peerEntity.propertyToFieldName()));
 //        }
         if (Objects.nonNull(updatable.where())) {
-            joiner.add(updatable.where().toQuerySql());
+            joiner.add(updatable.where().toSql());
         }
 
         return joiner.toString();

@@ -54,7 +54,7 @@ public class OrderBy<E extends Entity, H extends EntityQueryable<E>> extends Abs
 
 
     @Override
-    public String toQuerySql() {
+    public String toSql() {
         return "ORDER BY " + StringUtils.join(segments, ",");
     }
 

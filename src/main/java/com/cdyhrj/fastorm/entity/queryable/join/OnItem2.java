@@ -22,7 +22,7 @@ public class OnItem2 implements OnItem {
     private String rightField;
 
     @Override
-    public String toQuerySql() {
+    public String toSql() {
         return "%s.%s = %s.%s".formatted(leftAlias, leftField, rightAlias, rightField);
     }
 }

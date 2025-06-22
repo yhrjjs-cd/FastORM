@@ -4,7 +4,7 @@ public interface SqlSegment {
     /**
      * 用于查询的Sql，包含表别名
      *
-     * @return
+     * @return 用于查询的SQL
      */
-    String toQuerySql();
+    String toSql();
 }

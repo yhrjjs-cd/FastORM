@@ -42,8 +42,8 @@ public abstract class AbstractAndExpressionGroup<T extends Entity, H extends Con
     }
 
     @Override
-    public String toQuerySql() {
-        return "(" + this.expressionList.stream().map(SqlSegment::toQuerySql)
+    public String toSql() {
+        return "(" + this.expressionList.stream().map(SqlSegment::toSql)
                 .collect(Collectors.joining(" AND ")) + ")";
     }
 }
