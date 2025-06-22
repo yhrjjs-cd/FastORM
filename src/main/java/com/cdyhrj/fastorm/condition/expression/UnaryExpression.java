@@ -35,4 +35,9 @@ public class UnaryExpression extends AbstractUnaryExpression {
     public String toSql() {
         return "%s.%s %s :%s".formatted(alias, field, operator.getValue(), paramName);
     }
+
+    @Override
+    public String toNoAliasSql() {
+        return "%s %s :%s".formatted(field, operator.getValue(), paramName);
+    }
 }

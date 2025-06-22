@@ -1,6 +1,7 @@
 package com.cdyhrj.fastorm.condition.expression;
 
 import com.cdyhrj.fastorm.api.lambda.PropFn;
+import com.cdyhrj.fastorm.api.meta.NoAliasSqlSegment;
 import com.cdyhrj.fastorm.api.meta.SqlSegment;
 import com.cdyhrj.fastorm.api.parameter.ParamMap;
 import com.cdyhrj.fastorm.condition.ConditionHost;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public abstract class AbstractOrExpressionGroup<T extends Entity, H extends ConditionHost<T>> implements SqlSegment, Expression {
+public abstract class AbstractOrExpressionGroup<T extends Entity, H extends ConditionHost<T>> implements SqlSegment, NoAliasSqlSegment, Expression {
     private final ToSqlContext<T, H> context;
 
     protected List<Expression> expressionList = new ArrayList<>();
@@ -40,6 +41,12 @@ public abstract class AbstractOrExpressionGroup<T extends Entity, H extends Cond
     @Override
     public String toSql() {
         return "(" + this.expressionList.stream().map(SqlSegment::toSql)
+                .collect(Collectors.joining(" OR ")) + ")";
+    }
+
+    @Override
+    public String toNoAliasSql() {
+        return "(" + this.expressionList.stream().map(NoAliasSqlSegment::toNoAliasSql)
                 .collect(Collectors.joining(" OR ")) + ")";
     }
 }
