@@ -64,18 +64,18 @@ public class ListQueryHelper<E extends Entity> {
         StringJoiner sj = new StringJoiner(" ");
 
         TableAvailable tableEntity = queryable.getContext().getBaseTableEntity();
-        sj.add("SELECT").add(selectFields).add("FROM").add(tableEntity.toSql());
+        sj.add("SELECT").add(selectFields).add("FROM").add(tableEntity.toQuerySql());
 
         if (Objects.nonNull(queryable.getJoins())) {
-            sj.add(queryable.getJoins().toSql());
+            sj.add(queryable.getJoins().toQuerySql());
         }
 
         if (Objects.nonNull(queryable.getWhere())) {
-            sj.add(queryable.getWhere().toSql());
+            sj.add(queryable.getWhere().toQuerySql());
         }
 
         if (Objects.nonNull(queryable.getOrderBy())) {
-            sj.add(queryable.getOrderBy().toSql());
+            sj.add(queryable.getOrderBy().toQuerySql());
         }
 
         return sj.toString();

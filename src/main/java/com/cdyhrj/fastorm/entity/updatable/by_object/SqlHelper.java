@@ -5,10 +5,11 @@ import com.cdyhrj.fastorm.api.entity.FieldNameType;
 import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.entity.EntityProxy;
 
+import java.util.Objects;
 import java.util.StringJoiner;
 
 public class SqlHelper {
-    public static String generateUpdateSqlTextWithEntity(EntityProxy entityProxy, Entity entity) {
+    public static String generateUpdateSqlTextWithEntity(EntityProxy entityProxy, Entity entity, EntityUpdatable<?> updatable) {
         FieldNameSpec[] fieldNameSpecs = getUpdateFields(entityProxy, entity);
 
         StringJoiner joiner = new StringJoiner(" ");
@@ -28,6 +29,9 @@ public class SqlHelper {
 //            Objects.requireNonNull(this.condition, "请设置更新条件");
 //            joiner.add(this.condition.toParametricExpression(peerEntity.propertyToFieldName()));
 //        }
+        if (Objects.nonNull(updatable.where())) {
+            joiner.add(updatable.where().toQuerySql());
+        }
 
         return joiner.toString();
     }

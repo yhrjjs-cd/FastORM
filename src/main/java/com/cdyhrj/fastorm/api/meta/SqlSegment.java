@@ -1,5 +1,10 @@
 package com.cdyhrj.fastorm.api.meta;
 
 public interface SqlSegment {
-    String toSql();
+    /**
+     * 用于查询的Sql，包含表别名
+     *
+     * @return
+     */
+    String toQuerySql();
 }

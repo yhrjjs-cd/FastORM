@@ -108,14 +108,14 @@ public class Join<T extends Entity, H extends ConditionHost<T>, L extends Entity
     }
 
     @Override
-    public String toSql() {
+    public String toQuerySql() {
         TableAvailable target = context.getTableEntity(targetEntityKey);
 
-        return "%s %s ON %s".formatted(joinType.getSqlString(), target.toSql(), getItemsSql());
+        return "%s %s ON %s".formatted(joinType.getSqlString(), target.toQuerySql(), getItemsSql());
     }
 
     private String getItemsSql() {
-        return this.items.stream().map(SqlSegment::toSql)
+        return this.items.stream().map(SqlSegment::toQuerySql)
                 .collect(Collectors.joining(" AND "));
     }
 

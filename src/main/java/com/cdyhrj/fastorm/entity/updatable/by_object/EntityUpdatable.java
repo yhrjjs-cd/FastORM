@@ -65,9 +65,7 @@ public class EntityUpdatable<E extends Entity> implements ConditionHost<E> {
         }
 
         System.out.println(paramMap);
-        String sqlText = SqlHelper.generateUpdateSqlTextWithEntity(entityProxy, entity);
-
-        System.out.println(this.where.toSql());
+        String sqlText = SqlHelper.generateUpdateSqlTextWithEntity(entityProxy, entity, this);
 //        this.namedParameterJdbcOperations.update(sqlText, new MapSqlParameterSource(paramMap));
 
         System.out.println(sqlText);
