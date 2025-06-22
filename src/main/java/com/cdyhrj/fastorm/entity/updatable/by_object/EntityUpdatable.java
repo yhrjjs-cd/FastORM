@@ -8,6 +8,7 @@ import com.cdyhrj.fastorm.entity.EntityProxy;
 import com.cdyhrj.fastorm.entity.queryable.context.ToSqlContext;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.transaction.support.TransactionTemplate;
 
@@ -64,11 +65,9 @@ public class EntityUpdatable<E extends Entity> implements ConditionHost<E> {
             paramMap.putAll(conditionParamMap.getParams());
         }
 
-        System.out.println(paramMap);
         String sqlText = SqlHelper.generateUpdateSqlTextWithEntity(entityProxy, entity, this);
-//        this.namedParameterJdbcOperations.update(sqlText, new MapSqlParameterSource(paramMap));
+        this.namedParameterJdbcOperations.update(sqlText, new MapSqlParameterSource(paramMap));
 
-        System.out.println(sqlText);
         return entity;
     }
 }
