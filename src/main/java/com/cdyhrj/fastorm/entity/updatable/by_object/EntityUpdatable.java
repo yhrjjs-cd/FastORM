@@ -22,7 +22,7 @@ public class EntityUpdatable<E extends Entity> implements ConditionHost<E> {
      * 查询上下文
      */
     @Getter
-    private final ToSqlContext<E> context;
+    private final ToSqlContext<E, EntityUpdatable<E>> context;
 
     public EntityUpdatable(NamedParameterJdbcOperations namedParameterJdbcOperations, TransactionTemplate transactionTemplate, E entity) {
         this.namedParameterJdbcOperations = namedParameterJdbcOperations;

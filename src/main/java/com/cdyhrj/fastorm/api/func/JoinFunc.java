@@ -6,5 +6,5 @@ import com.cdyhrj.fastorm.entity.queryable.context.ToSqlContext;
 
 @FunctionalInterface
 public interface JoinFunc<S extends Entity, T extends Entity> {
-    String on(ToSqlContext<?> context, PropFn<S, ?> sourcePropFn, PropFn<T, ?> targetPropFn);
+    String on(ToSqlContext<?,?> context, PropFn<S, ?> sourcePropFn, PropFn<T, ?> targetPropFn);
 }

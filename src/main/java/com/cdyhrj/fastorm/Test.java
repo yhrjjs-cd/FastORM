@@ -15,6 +15,9 @@ public class Test implements CommandLineRunner {
         Student student = new Student();
 
         fastORM.updatable(student)
+                .where()
+                .andEq(Student::getId, 1111)
+                .ret()
                 .exec();
 
         System.exit(0);

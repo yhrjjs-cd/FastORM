@@ -18,37 +18,37 @@ import java.util.List;
  *
  * @author <a href="mailto:huangqi@cdyhrj.com">黄奇</a>
  */
-public class OrderBy<E extends Entity> extends AbstractSqlSegmentContextAware<E> {
+public class OrderBy<E extends Entity, H extends EntityQueryable<E>> extends AbstractSqlSegmentContextAware<E, H> {
     private final List<String> segments = new ArrayList<>();
     private final EntityQueryable<E> queryable;
 
-    public OrderBy(ToSqlContext<E> context, EntityQueryable<E> queryable) {
+    public OrderBy(ToSqlContext<E, H> context, EntityQueryable<E> queryable) {
         super(context);
 
         this.queryable = queryable;
     }
 
-    public <T extends Entity> OrderBy<E> add(PropFn<T, ?> propFn) {
+    public <T extends Entity> OrderBy<E, H> add(PropFn<T, ?> propFn) {
         FieldInfo fi = LambdaColumn.resolve(propFn);
         TableAvailable ta = getContext().getTableEntity(fi.getEntityClass().getName());
 
         return add("%s.%s".formatted(ta.getAlias(), fi.getName()));
     }
 
-    public <T extends Entity> OrderBy<E> add(PropFn<T, ?> propFn, Order order) {
+    public <T extends Entity> OrderBy<E, H> add(PropFn<T, ?> propFn, Order order) {
         FieldInfo fi = LambdaColumn.resolve(propFn);
         TableAvailable ta = getContext().getTableEntity(fi.getEntityClass().getName());
 
         return add("%s.%s %s".formatted(ta.getAlias(), fi.getName(), order));
     }
 
-    public OrderBy<E> add(String segment) {
+    public OrderBy<E, H> add(String segment) {
         this.segments.add(segment);
 
         return this;
     }
 
-    public OrderBy<E> add(String field, Order order) {
+    public OrderBy<E, H> add(String field, Order order) {
         return add("%s %s".formatted(field, order));
     }
 

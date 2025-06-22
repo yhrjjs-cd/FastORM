@@ -1,10 +1,11 @@
 package com.cdyhrj.fastorm.entity.queryable.context;
 
+import com.cdyhrj.fastorm.condition.ConditionHost;
 import com.cdyhrj.fastorm.entity.Entity;
 
-public interface ContextAware<E extends Entity> {
+public interface ContextAware<E extends Entity, H extends ConditionHost<E>> {
     /**
      * @return 上下文
      */
-    ToSqlContext<E> getContext();
+    ToSqlContext<E, H> getContext();
 }

@@ -19,13 +19,13 @@ public class Exps {
 
     }
 
-    public static <E extends Entity> UnaryExpression eq(@NonNull ToSqlContext<?> context,
+    public static <E extends Entity> UnaryExpression eq(@NonNull ToSqlContext<?, ?> context,
                                                         String alias, PropFn<E, ?> keyFn,
                                                         Object value) {
         return UnaryExpression.of(context, alias, keyFn, Operator.EQ, value);
     }
 
-    public static <E extends Entity> UnaryExpression eq(@NonNull ToSqlContext<?> context,
+    public static <E extends Entity> UnaryExpression eq(@NonNull ToSqlContext<?, ?> context,
                                                         String sourceAlias, PropFn<E, ?> sourceKeyFn,
                                                         String targetAlias, PropFn<E, ?> targetKeyFn) {
 //        return UnaryExpression.of(context, alias, keyFn, Operator.EQ, value);

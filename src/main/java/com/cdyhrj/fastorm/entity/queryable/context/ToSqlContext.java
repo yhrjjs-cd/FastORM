@@ -16,12 +16,12 @@ import java.util.Objects;
  * 上下文
  */
 @Slf4j
-public class ToSqlContext<E extends Entity> {
+public class ToSqlContext<E extends Entity, H extends ConditionHost<E>> {
     /**
      * 所属查询
      */
     @Getter
-    private ConditionHost<E> belongTo;
+    private H belongTo;
 
     @Getter
     private From baseFrom;
@@ -31,7 +31,7 @@ public class ToSqlContext<E extends Entity> {
 
     private final Map<String, TableAvailable> entityMap = new HashMap<>();
 
-    public ToSqlContext(ConditionHost<E> belongTo, Class<E> baseEntityClass) {
+    public ToSqlContext(H belongTo, Class<E> baseEntityClass) {
         this.belongTo = belongTo;
         this.baseEntityClass = baseEntityClass;
         this.baseFrom = ClassFrom.of(baseEntityClass);

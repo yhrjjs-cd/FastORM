@@ -5,8 +5,8 @@ import com.cdyhrj.fastorm.api.lambda.LambdaColumn;
 import com.cdyhrj.fastorm.api.lambda.PropFn;
 import com.cdyhrj.fastorm.api.meta.FieldInfo;
 import com.cdyhrj.fastorm.api.meta.SqlSegment;
+import com.cdyhrj.fastorm.condition.ConditionHost;
 import com.cdyhrj.fastorm.entity.Entity;
-import com.cdyhrj.fastorm.entity.queryable.EntityQueryable;
 import com.cdyhrj.fastorm.entity.queryable.context.TableAvailable;
 import com.cdyhrj.fastorm.entity.queryable.context.ToSqlContext;
 import lombok.extern.slf4j.Slf4j;
@@ -16,13 +16,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
-public class Join<T extends Entity, L extends Entity, R extends Entity> implements SqlSegment {
-    public static <T extends Entity, L extends Entity, R extends Entity> Join<T, L, R> of(
-            ToSqlContext<T> context,
+public class Join<T extends Entity, H extends ConditionHost<T>, L extends Entity, R extends Entity> implements SqlSegment {
+    public static <T extends Entity, H extends ConditionHost<T>, L extends Entity, R extends Entity> Join<T, H, L, R> of(
+            ToSqlContext<T, H> context,
             JoinType joinType,
             Class<L> sourceEntityClass,
             Class<R> targetEntityClass) {
-        Join<T, L, R> newInstance = new Join<>();
+        Join<T, H, L, R> newInstance = new Join<>();
 
         newInstance.context = context;
         newInstance.joinType = joinType;
@@ -33,11 +33,11 @@ public class Join<T extends Entity, L extends Entity, R extends Entity> implemen
         return newInstance;
     }
 
-    public static <T extends Entity, L extends Entity, R extends Entity> Join<T, L, R> of(
-            ToSqlContext<T> context,
+    public static <T extends Entity, H extends ConditionHost<T>, L extends Entity, R extends Entity> Join<T, H, L, R> of(
+            ToSqlContext<T, H> context,
             JoinType joinType,
             Class<R> targetEntityClass) {
-        Join<T, L, R> newInstance = new Join<>();
+        Join<T, H, L, R> newInstance = new Join<>();
 
         newInstance.context = context;
         newInstance.joinType = joinType;
@@ -49,13 +49,13 @@ public class Join<T extends Entity, L extends Entity, R extends Entity> implemen
     }
 
 
-    private ToSqlContext<T> context;
+    private ToSqlContext<T, H> context;
     private JoinType joinType;
     private String targetEntityKey;
 
     private final List<OnItem> items = new ArrayList<>();
 
-    public EntityQueryable<T> ret() {
+    public H ret() {
         return context.getBelongTo();
     }
 
@@ -65,14 +65,14 @@ public class Join<T extends Entity, L extends Entity, R extends Entity> implemen
      * @param criteria 条件
      * @return Join对象
      */
-    public Join<T, L, R> andCri(String criteria) {
+    public Join<T, H, L, R> andCri(String criteria) {
         StringOnItem item = StringOnItem.of(criteria);
         items.add(item);
 
         return this;
     }
 
-    public Join<T, L, R> andCri(PropFn<L, ?> sourcePropFn, PropFn<R, ?> targetPropFn, JoinFunc<L, R> fn) {
+    public Join<T, H, L, R> andCri(PropFn<L, ?> sourcePropFn, PropFn<R, ?> targetPropFn, JoinFunc<L, R> fn) {
         return andCri(fn.on(context, sourcePropFn, targetPropFn));
     }
 
@@ -83,7 +83,7 @@ public class Join<T extends Entity, L extends Entity, R extends Entity> implemen
      * @param targetFieldFun 目标字段函数
      * @return Join对象
      */
-    public Join<T, L, R> andEq(PropFn<L, ?> sourceFieldFun, PropFn<R, ?> targetFieldFun) {
+    public Join<T, H, L, R> andEq(PropFn<L, ?> sourceFieldFun, PropFn<R, ?> targetFieldFun) {
         FieldInfo sourceFiled = LambdaColumn.resolve(sourceFieldFun);
         TableAvailable sourceEntity = context.getTableEntity(sourceFiled.getEntityClass().getName());
 
@@ -100,7 +100,7 @@ public class Join<T extends Entity, L extends Entity, R extends Entity> implemen
      * @param value          字段值
      * @return Join对象
      */
-    public Join<T, L, R> andEq(PropFn<R, ?> targetFieldFun, Object value) {
+    public Join<T, H, L, R> andEq(PropFn<R, ?> targetFieldFun, Object value) {
         FieldInfo targetFiled = LambdaColumn.resolve(targetFieldFun);
         TableAvailable targetEntity = context.getTableEntity(targetFiled.getEntityClass().getName());
 
@@ -128,7 +128,7 @@ public class Join<T extends Entity, L extends Entity, R extends Entity> implemen
      * @param targetFieldName  目标字段
      * @return Join对象
      */
-    private Join<T, L, R> andEq(String sourceTableAlias, String sourceFieldName, String targetTableAlias, String targetFieldName) {
+    private Join<T, H, L, R> andEq(String sourceTableAlias, String sourceFieldName, String targetTableAlias, String targetFieldName) {
         OnItem2 item = OnItem2.of(sourceTableAlias, sourceFieldName, targetTableAlias, targetFieldName);
         items.add(item);
 
@@ -143,7 +143,7 @@ public class Join<T extends Entity, L extends Entity, R extends Entity> implemen
      * @param value      字段值
      * @return Join对象
      */
-    private Join<T, L, R> andEq(String tableAlias, String fieldName, Object value) {
+    private Join<T, H, L, R> andEq(String tableAlias, String fieldName, Object value) {
         OnItem1 item = OnItem1.of(tableAlias, fieldName, value);
         items.add(item);
 

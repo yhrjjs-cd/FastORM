@@ -7,22 +7,22 @@ import com.cdyhrj.fastorm.entity.queryable.EntityQueryable;
 import com.cdyhrj.fastorm.entity.queryable.context.ToSqlContext;
 import org.springframework.lang.NonNull;
 
-public class OrCondition<T extends Entity> extends AbstractOrExpressionGroup<T> {
+public class OrCondition<T extends Entity, H extends ConditionHost<T>> extends AbstractOrExpressionGroup<T, H> {
     private final EntityQueryable<T> queryable;
 
-    public OrCondition(@NonNull ToSqlContext<T> context, EntityQueryable<T> queryable) {
+    public OrCondition(@NonNull ToSqlContext<T, H> context, EntityQueryable<T> queryable) {
         super(context);
 
         this.queryable = queryable;
     }
 
-    public <E extends Entity> OrCondition<T> orEq(PropFn<E, ?> propFn, Object value) {
+    public <E extends Entity> OrCondition<T, H> orEq(PropFn<E, ?> propFn, Object value) {
         super.orEq(propFn, value);
 
         return this;
     }
 
-    public <E extends Entity> OrCondition<T> orEq(String alias, PropFn<E, ?> propFn, Object value) {
+    public <E extends Entity> OrCondition<T, H> orEq(String alias, PropFn<E, ?> propFn, Object value) {
         super.orEq(alias, propFn, value);
 
         return this;
