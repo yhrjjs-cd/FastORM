@@ -6,6 +6,7 @@ import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.entity.EntityProxy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
+import org.springframework.lang.NonNull;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -62,14 +63,10 @@ public class EntitiesInsertable<E extends Entity> {
         EntityProxy entityProxy = Entity.getEntityProxy(entity.getClass());
         String sqlText = SqlHelper.generateInsertSqlText(entityProxy, entity);
 
-        for (E e : entities) {
-            e.beforeInsert();
-        }
-
         transactionTemplate.execute(new TransactionCallbackWithoutResult() {
 
             @Override
-            protected void doInTransactionWithoutResult(TransactionStatus status) {
+            protected void doInTransactionWithoutResult(@NonNull TransactionStatus status) {
                 List<Map<String, Object>> paramMapList = new ArrayList<>();
                 for (int i = 0; i < entities.size(); i++) {
                     E e = entities.get(i);
@@ -88,9 +85,5 @@ public class EntitiesInsertable<E extends Entity> {
                 }
             }
         });
-
-        for (E e : entities) {
-            e.afterInsert();
-        }
     }
 }

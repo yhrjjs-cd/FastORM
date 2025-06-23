@@ -2,6 +2,7 @@ package com.cdyhrj.fastorm.entity;
 
 import com.cdyhrj.fastorm.annotation.Column;
 import com.cdyhrj.fastorm.annotation.Id;
+import com.cdyhrj.fastorm.annotation.Name;
 import com.cdyhrj.fastorm.annotation.Table;
 import lombok.Data;
 
@@ -14,6 +15,7 @@ public class Student extends BaseEntity {
     private Long id;
 
     @Column
+    @Name
     private String code;
 
     @Column

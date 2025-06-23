@@ -67,6 +67,14 @@ public interface EntityProxy {
     Long getIdFieldValue(Entity entity);
 
     /**
+     * 获取标记了@Name字段的值,如果不存在@Name注解，返回异常
+     *
+     * @param entity 对应的实体
+     * @return Name字段值
+     */
+    String getNameValue(Entity entity);
+
+    /**
      * 属性名转为字段名
      *
      * @return 属性到字段名转换Map

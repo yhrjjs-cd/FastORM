@@ -13,13 +13,35 @@ public class InsertableTestCase {
     private FastORM fastORM;
 
     @Test
-    void tesEntityInsert() {
+    void tesEntityInsertExec() {
         Student student = new Student();
-        Assertions.assertNull(student.getId());
 
-        fastORM.insertable(student)
+        int count = fastORM.insertable(student)
                 .exec();
 
-        Assertions.assertNotNull(student.getId());
+        Assertions.assertEquals(1, count);
+    }
+
+    @Test
+    void tesEntityInsertExecReturnId() {
+        Student student = new Student();
+
+        Assertions.assertNull(student.getId());
+        Long id = fastORM.insertable(student)
+                .execReturnId();
+
+        Assertions.assertTrue(id > 0, "Id should be greater than 0");
+    }
+
+    @Test
+    void tesEntityInsertExecReturnName() {
+        Student student = new Student();
+        student.setCode("NAME");
+
+        Assertions.assertNull(student.getId());
+        String name = fastORM.insertable(student)
+                .execReturnName();
+
+        Assertions.assertEquals("NAME", name, "Code should be equal to 'NAME'");
     }
 }

@@ -40,25 +40,6 @@ public interface Entity {
         }
     }
 
-    default void beforeInsert() {
-    }
-
-    default void afterInsert() {
-    }
-
-    default void beforeUpdate() {
-    }
-
-    default void afterUpdate() {
-
-    }
-
-    default void beforeDelete() {
-    }
-
-    default void afterDelete() {
-    }
-
     /**
      * 字段只能插入
      *

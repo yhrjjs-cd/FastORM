@@ -25,32 +25,44 @@ public class EntityInsertable<E extends Entity> {
     private final NamedParameterJdbcOperations namedParameterJdbcOperations;
     private final TransactionTemplate transactionTemplate;
     private final E entity;
+    private final EntityProxy entityProxy;
+
+    public EntityInsertable(NamedParameterJdbcOperations namedParameterJdbcOperations, TransactionTemplate transactionTemplate, E entity) {
+        this.namedParameterJdbcOperations = namedParameterJdbcOperations;
+        this.transactionTemplate = transactionTemplate;
+        this.entity = entity;
+        this.entityProxy = Entity.getEntityProxy(entity.getClass());
+    }
 
     /**
      * 执行插入操作
-     *
-     * @return 插入的对象
      */
-    public E exec() {
-        EntityProxy entityProxy = Entity.getEntityProxy(entity.getClass());
+    public int exec() {
         entityProxy.updateEntityWithDefaultValue(entity, OperationType.INSERT);
 
-        entity.beforeInsert();
-
         Map<String, Object> paramMap = entityProxy.getValueMap(entity);
-
         String sqlText = SqlHelper.generateInsertSqlText(entityProxy, entity);
-
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        this.namedParameterJdbcOperations.update(sqlText, new MapSqlParameterSource(paramMap), keyHolder);
+
+        int rows = this.namedParameterJdbcOperations.update(sqlText, new MapSqlParameterSource(paramMap), keyHolder);
 
         Number key = keyHolder.getKey();
         if (Objects.nonNull(key)) {
             entityProxy.updateEntityId(entity, key.longValue());
         }
 
-        entity.afterInsert();
+        return rows;
+    }
 
-        return entity;
+    public Long execReturnId() {
+        exec();
+
+        return this.entityProxy.getIdFieldValue(entity);
+    }
+
+    public String execReturnName() {
+        exec();
+
+        return this.entityProxy.getNameValue(entity);
     }
 }

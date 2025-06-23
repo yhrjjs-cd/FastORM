@@ -54,8 +54,6 @@ public class EntityUpdatable<E extends Entity> implements ConditionHost<E> {
         EntityProxy entityProxy = Entity.getEntityProxy(entity.getClass());
         entityProxy.updateEntityWithDefaultValue(entity, OperationType.UPDATE);
 
-        entity.beforeUpdate();
-
         Map<String, Object> paramMap = entityProxy.getValueMap(entity);
 
         if (Objects.nonNull(this.where)) {

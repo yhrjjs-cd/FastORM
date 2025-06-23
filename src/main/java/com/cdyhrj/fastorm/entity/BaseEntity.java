@@ -37,19 +37,7 @@ public class BaseEntity implements Entity {
     @Column
     private String updatedByName;
 
-    @Override
-    public void beforeInsert() {
-        createdAt = LocalDateTime.now();
-        createdBy = 1L;
-        createdByName = "111";
-    }
-
-    @Override
-    public void beforeUpdate() {
-        updatedAt = LocalDate.now();
-    }
-
-    @Override
+        @Override
     public boolean fieldIsOnlyForInsert(String fieldName) {
         return SYSTEM_INSERT_FIELDS.contains(fieldName);
     }

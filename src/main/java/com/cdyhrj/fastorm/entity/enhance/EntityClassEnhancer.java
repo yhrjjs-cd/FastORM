@@ -18,6 +18,7 @@ import com.cdyhrj.fastorm.entity.enhance.generator.proxy.GetDefaultValueMapFunGe
 import com.cdyhrj.fastorm.entity.enhance.generator.proxy.GetIdFieldNameFunGenerator;
 import com.cdyhrj.fastorm.entity.enhance.generator.proxy.GetIdFieldValueFunGenerator;
 import com.cdyhrj.fastorm.entity.enhance.generator.proxy.GetNameFieldNameFunGenerator;
+import com.cdyhrj.fastorm.entity.enhance.generator.proxy.GetNameValueFunGenerator;
 import com.cdyhrj.fastorm.entity.enhance.generator.proxy.GetRelationClassFunGenerator;
 import com.cdyhrj.fastorm.entity.enhance.generator.proxy.GetRelationManyToManyMasterInfoFunGenerator;
 import com.cdyhrj.fastorm.entity.enhance.generator.proxy.GetRelationManyToManyMetaFunGenerator;
@@ -77,17 +78,32 @@ public class EntityClassEnhancer {
     private static final Pattern PATTERN_RELATION_CLASS_OF_MANY_TO_MANY = Pattern.compile(
             "@[a-zA-Z0-9.]+\\(relationClass=([a-zA-Z0-9.]+)\\.class\\)");
 
-    List<FunGenerator> generators = Lists.newArrayList(new NewEntityFunGenerator(), new GetTableNameFunGenerator(),
-            new GetIdFieldNameFunGenerator(), new GetNameFieldNameFunGenerator(), new GetIdFieldValueFunGenerator(),
-            new GetRelationClassFunGenerator(), new PropertyToFieldNameFunGenerator(),
-            new GetAllFieldInfoFunGenerator(), new GetAllRelationsFunGenerator(),
-            new GetDefaultFieldNamesFunGenerator(), new UpdateEntityFunGenerator(), new UpdateEntityIdFunGenerator(),
-            new UpdateEntityWithDefaultValueFunGenerator(), new GetRelationTypeFunGenerator(),
-            new GetRelationOneToOneValueFunGenerator(), new UpdateEntityOneToOneIdFunGenerator(),
-            new GetRelationOneToManyValueFunGenerator(), new UpdateEntityOneToManyIdFunGenerator(),
-            new GetRelationManyToManyValueFunGenerator(), new GetRelationManyToManyMetaFunGenerator(),
-            new GetRelationManyToManyMasterInfoFunGenerator(), new GetRelationOneToManyMetaFunGenerator(),
-            new GetRelationOneToOneMetaFunGenerator(), new GetValueMapFunGenerator(),
+    List<FunGenerator> generators = Lists.newArrayList(
+            new NewEntityFunGenerator(),
+            new GetTableNameFunGenerator(),
+            new GetIdFieldNameFunGenerator(),
+            new GetNameFieldNameFunGenerator(),
+            new GetIdFieldValueFunGenerator(),
+            new GetNameValueFunGenerator(),
+            new GetRelationClassFunGenerator(),
+            new PropertyToFieldNameFunGenerator(),
+            new GetAllFieldInfoFunGenerator(),
+            new GetAllRelationsFunGenerator(),
+            new GetDefaultFieldNamesFunGenerator(),
+            new UpdateEntityFunGenerator(),
+            new UpdateEntityIdFunGenerator(),
+            new UpdateEntityWithDefaultValueFunGenerator(),
+            new GetRelationTypeFunGenerator(),
+            new GetRelationOneToOneValueFunGenerator(),
+            new UpdateEntityOneToOneIdFunGenerator(),
+            new GetRelationOneToManyValueFunGenerator(),
+            new UpdateEntityOneToManyIdFunGenerator(),
+            new GetRelationManyToManyValueFunGenerator(),
+            new GetRelationManyToManyMetaFunGenerator(),
+            new GetRelationManyToManyMasterInfoFunGenerator(),
+            new GetRelationOneToManyMetaFunGenerator(),
+            new GetRelationOneToOneMetaFunGenerator(),
+            new GetValueMapFunGenerator(),
             new GetDefaultValueMapFunGenerator());
 
     /**
