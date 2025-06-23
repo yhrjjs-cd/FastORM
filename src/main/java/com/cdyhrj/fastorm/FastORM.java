@@ -11,7 +11,6 @@ import com.cdyhrj.fastorm.entity.updatable.by_object.EntityUpdatable;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.lang.NonNull;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.sql.DataSource;
@@ -23,7 +22,6 @@ import java.util.List;
  *
  * @author <a href="mailto:huangqi@cdyhrj.com">黄奇</a>
  */
-@Component
 public class FastORM {
     private final TransactionTemplate transactionTemplate;
     private final NamedParameterJdbcOperations namedParamOps;
