@@ -26,7 +26,6 @@ public class InsertableTestCase {
     void tesEntityInsertExecReturnId() {
         Student student = new Student();
 
-        Assertions.assertNull(student.getId());
         Long id = fastORM.insertable(student)
                 .execReturnId();
 
@@ -38,7 +37,6 @@ public class InsertableTestCase {
         Student student = new Student();
         student.setCode("NAME");
 
-        Assertions.assertNull(student.getId());
         String name = fastORM.insertable(student)
                 .execReturnName();
 

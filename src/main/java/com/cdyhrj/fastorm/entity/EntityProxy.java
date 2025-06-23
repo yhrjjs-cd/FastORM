@@ -56,7 +56,7 @@ public interface EntityProxy {
      * @param entity  实体对象
      * @param idValue Id值
      */
-    void updateEntityId(Entity entity, long idValue);
+    void updateEntityId(Entity entity, Long idValue);
 
     /**
      * 获取标记了@Id字段的值
@@ -64,7 +64,7 @@ public interface EntityProxy {
      * @param entity 对应的实体
      * @return Id字段值
      */
-    Long getIdFieldValue(Entity entity);
+    Long getIdValue(Entity entity);
 
     /**
      * 获取标记了@Name字段的值,如果不存在@Name注解，返回异常

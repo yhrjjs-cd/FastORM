@@ -57,7 +57,7 @@ public class EntityInsertable<E extends Entity> {
     public Long execReturnId() {
         exec();
 
-        return this.entityProxy.getIdFieldValue(entity);
+        return this.entityProxy.getIdValue(entity);
     }
 
     public String execReturnName() {

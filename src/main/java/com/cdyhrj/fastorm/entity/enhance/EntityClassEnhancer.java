@@ -16,7 +16,7 @@ import com.cdyhrj.fastorm.entity.enhance.generator.proxy.GetAllRelationsFunGener
 import com.cdyhrj.fastorm.entity.enhance.generator.proxy.GetDefaultFieldNamesFunGenerator;
 import com.cdyhrj.fastorm.entity.enhance.generator.proxy.GetDefaultValueMapFunGenerator;
 import com.cdyhrj.fastorm.entity.enhance.generator.proxy.GetIdFieldNameFunGenerator;
-import com.cdyhrj.fastorm.entity.enhance.generator.proxy.GetIdFieldValueFunGenerator;
+import com.cdyhrj.fastorm.entity.enhance.generator.proxy.GetIdValueFunGenerator;
 import com.cdyhrj.fastorm.entity.enhance.generator.proxy.GetNameFieldNameFunGenerator;
 import com.cdyhrj.fastorm.entity.enhance.generator.proxy.GetNameValueFunGenerator;
 import com.cdyhrj.fastorm.entity.enhance.generator.proxy.GetRelationClassFunGenerator;
@@ -83,7 +83,7 @@ public class EntityClassEnhancer {
             new GetTableNameFunGenerator(),
             new GetIdFieldNameFunGenerator(),
             new GetNameFieldNameFunGenerator(),
-            new GetIdFieldValueFunGenerator(),
+            new GetIdValueFunGenerator(),
             new GetNameValueFunGenerator(),
             new GetRelationClassFunGenerator(),
             new PropertyToFieldNameFunGenerator(),

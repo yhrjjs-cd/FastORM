@@ -20,7 +20,6 @@ import java.lang.reflect.Field;
 public class GetNameValueFunGenerator implements FunGenerator {
     @Override
     public String generate(Class<?> classOfT) {
-        System.out.println(classOfT);
         Field[] idFields = FieldUtils.getFieldsWithAnnotation(classOfT, Name.class);
         if (idFields.length == 0) {
             // 构造一个空函数
