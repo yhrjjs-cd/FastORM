@@ -254,6 +254,7 @@ public class EntityClassEnhancer {
             ctClass.toClass();
             ctClass.detach();
         } catch (Exception ex) {
+            ex.printStackTrace();
             log.error("generatePeerEntity error: {}", ex.getMessage());
         }
     }

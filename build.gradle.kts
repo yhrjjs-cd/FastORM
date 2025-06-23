@@ -24,10 +24,11 @@ dependencies {
 //    implementation(libs.easy.query.sql.api.proxy)
 //    implementation(libs.easy.query.sql.api4j)
 //    implementation(libs.easy.query.sql.mysql)
+    annotationProcessor(libs.lombok)
     testImplementation(libs.spring.boot.starter.test)
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
-    annotationProcessor(libs.lombok)
+    testAnnotationProcessor(libs.lombok)
 }
 
 tasks.test {
