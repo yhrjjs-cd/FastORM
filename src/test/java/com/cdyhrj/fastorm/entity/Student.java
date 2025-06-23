@@ -10,12 +10,12 @@ import lombok.Data;
 @Data
 @Table(name = "test_student")
 public class Student extends BaseEntity {
-    @Column
     @Id
-    private Long id;
-
     @Column
+    private Integer id;
+
     @Name
+    @Column
     private String code;
 
     @Column

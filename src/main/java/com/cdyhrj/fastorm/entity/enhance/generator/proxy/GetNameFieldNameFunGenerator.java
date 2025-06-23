@@ -1,6 +1,8 @@
 package com.cdyhrj.fastorm.entity.enhance.generator.proxy;
 
 import com.cdyhrj.fastorm.annotation.Name;
+import com.cdyhrj.fastorm.exception.NameAnnotationRequiredException;
+import com.cdyhrj.fastorm.exception.StringFieldTypeRequiredException;
 import com.cdyhrj.fastorm.util.EntityUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.springframework.javapoet.MethodSpec;
@@ -23,13 +25,17 @@ public class GetNameFieldNameFunGenerator implements FunGenerator {
             return MethodSpec.methodBuilder("getNameFieldName")
                     .addModifiers(Modifier.PUBLIC)
                     .returns(String.class)
-                    .addStatement("return $S", "")
+                    .addStatement("throw new $T($T.class)", NameAnnotationRequiredException.class, classOfT)
                     .build()
                     .toString();
         }
 
         Field nameField = nameFields[0];
         String name = EntityUtils.getFieldName(nameField);
+
+        if (nameField.getType() != String.class) {
+            throw new StringFieldTypeRequiredException(name, classOfT);
+        }
 
         MethodSpec methodSpec = MethodSpec.methodBuilder("getNameFieldName")
                 .addModifiers(Modifier.PUBLIC)

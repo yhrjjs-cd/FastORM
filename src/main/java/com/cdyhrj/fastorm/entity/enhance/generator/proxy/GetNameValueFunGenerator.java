@@ -2,6 +2,8 @@ package com.cdyhrj.fastorm.entity.enhance.generator.proxy;
 
 import com.cdyhrj.fastorm.annotation.Name;
 import com.cdyhrj.fastorm.entity.Entity;
+import com.cdyhrj.fastorm.exception.NameAnnotationRequiredException;
+import com.cdyhrj.fastorm.exception.StringFieldTypeRequiredException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.springframework.javapoet.MethodSpec;
@@ -18,6 +20,7 @@ import java.lang.reflect.Field;
 public class GetNameValueFunGenerator implements FunGenerator {
     @Override
     public String generate(Class<?> classOfT) {
+        System.out.println(classOfT);
         Field[] idFields = FieldUtils.getFieldsWithAnnotation(classOfT, Name.class);
         if (idFields.length == 0) {
             // 构造一个空函数
@@ -25,13 +28,16 @@ public class GetNameValueFunGenerator implements FunGenerator {
                     .addModifiers(Modifier.PUBLIC)
                     .returns(String.class)
                     .addParameter(Entity.class, "entity")
-                    .addStatement("return \"\"")
+                    .addStatement("throw new $T($T.class)", NameAnnotationRequiredException.class, classOfT)
                     .build()
                     .toString();
         }
 
         Field nameField = idFields[0];
         String name = nameField.getName();
+        if (nameField.getType() != String.class) {
+            throw new StringFieldTypeRequiredException(name, classOfT);
+        }
 
         MethodSpec.Builder methodSpecBuilder = MethodSpec.methodBuilder("getNameValue")
                 .addModifiers(Modifier.PUBLIC)
