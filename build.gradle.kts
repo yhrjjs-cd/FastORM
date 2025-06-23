@@ -24,6 +24,7 @@ dependencies {
 //    implementation(libs.easy.query.sql.api.proxy)
 //    implementation(libs.easy.query.sql.api4j)
 //    implementation(libs.easy.query.sql.mysql)
+    testImplementation(libs.spring.boot.starter.test)
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     annotationProcessor(libs.lombok)
@@ -31,4 +32,14 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
+
+    jvmArgs(
+        "--add-opens", "java.base/java.lang=ALL-UNNAMED",
+        "--add-opens", "java.base/java.util=ALL-UNNAMED",
+        "--add-exports", "java.base/sun.security.ssl=ALL-UNNAMED"
+    )
 }
