@@ -34,6 +34,7 @@ public class EntityInsertable<E extends Entity> {
         this.entityProxy = Entity.getEntityProxy(entity.getClass());
     }
 
+
     /**
      * 执行插入操作
      */
