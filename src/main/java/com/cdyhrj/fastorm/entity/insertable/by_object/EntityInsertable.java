@@ -60,10 +60,4 @@ public class EntityInsertable<E extends Entity> {
 
         return this.entityProxy.getIdValue(entity);
     }
-
-    public String execReturnName() {
-        exec();
-
-        return this.entityProxy.getNameValue(entity);
-    }
 }

@@ -31,15 +31,4 @@ public class EntitiesInsertableTest {
 
         Assertions.assertTrue(id > 0, "Id should be greater than 0");
     }
-
-    @Test
-    void tesEntityInsertExecReturnName() {
-        Student student = new Student();
-        student.setCode("NAME");
-
-        String name = fastORM.insertable(student)
-                .execReturnName();
-
-        Assertions.assertEquals("NAME", name, "Code should be equal to 'NAME'");
-    }
 }

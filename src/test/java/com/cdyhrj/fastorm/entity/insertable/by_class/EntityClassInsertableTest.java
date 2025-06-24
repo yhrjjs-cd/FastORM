@@ -13,33 +13,20 @@ class EntityClassInsertableTest {
     private FastORM fastORM;
 
     @Test
-    void tesEntityInsertExec() {
-        Student student = new Student();
-
-        int count = fastORM.insertable(student)
+    void tesEntityClassInsertExec() {
+        int count = fastORM.insertable(Student.class)
+                .set(Student::getName, "test")
                 .exec();
 
         Assertions.assertEquals(1, count);
     }
 
     @Test
-    void tesEntityInsertExecReturnId() {
-        Student student = new Student();
-
-        Long id = fastORM.insertable(student)
+    void tesEntityClassInsertExecReturnId() {
+        Long id = fastORM.insertable(Student.class)
+                .set(Student::getName, "test")
                 .execReturnId();
 
         Assertions.assertTrue(id > 0, "Id should be greater than 0");
-    }
-
-    @Test
-    void tesEntityInsertExecReturnName() {
-        Student student = new Student();
-        student.setCode("NAME");
-
-        String name = fastORM.insertable(student)
-                .execReturnName();
-
-        Assertions.assertEquals("NAME", name, "Code should be equal to 'NAME'");
     }
 }

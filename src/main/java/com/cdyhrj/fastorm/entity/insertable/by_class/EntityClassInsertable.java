@@ -61,19 +61,31 @@ public class EntityClassInsertable<E extends Entity> {
         return this;
     }
 
-    public Long exec() {
+    public int exec() {
         EntityProxy entityProxy = Entity.getEntityProxy(entityClass);
+
         Map<String, Object> paramMap = entityProxy.getDefaultValueMap(OperationType.INSERT);
         paramMap.putAll(this.paramChainToMap());
-
         String sqlText = SqlHelper.generateInsertSqlText(entityProxy, paramMap);
 
+        return this.namedParameterJdbcOperations.update(sqlText, new MapSqlParameterSource(paramMap));
+    }
+
+    public Long execReturnId() {
+        EntityProxy entityProxy = Entity.getEntityProxy(entityClass);
+
+        Map<String, Object> paramMap = entityProxy.getDefaultValueMap(OperationType.INSERT);
+        paramMap.putAll(this.paramChainToMap());
+        String sqlText = SqlHelper.generateInsertSqlText(entityProxy, paramMap);
         KeyHolder keyHolder = new GeneratedKeyHolder();
+
         this.namedParameterJdbcOperations.update(sqlText, new MapSqlParameterSource(paramMap), keyHolder);
+
         Number key = Objects.requireNonNull(keyHolder.getKey(), "Error in getting key");
 
         return key.longValue();
     }
+
 
     private Map<String, Object> paramChainToMap() {
         if (Objects.isNull(this.paramChain)) {
