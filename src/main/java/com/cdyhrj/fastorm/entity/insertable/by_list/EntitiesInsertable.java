@@ -10,10 +10,12 @@ import org.springframework.lang.NonNull;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
+import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 对象列表插入，支持批量
@@ -35,6 +37,8 @@ public class EntitiesInsertable<E extends Entity> {
                               TransactionTemplate transactionTemplate,
                               FastOrmConfig fastOrmConfig,
                               List<E> entities) {
+        Assert.notEmpty(entities, "entities must not be empty");
+
         this.namedParameterJdbcOperations = namedParameterJdbcOperations;
         this.transactionTemplate = transactionTemplate;
         this.entities = entities;
@@ -55,35 +59,58 @@ public class EntitiesInsertable<E extends Entity> {
     }
 
     public void exec() {
-        if (entities.isEmpty()) {
-            return;
-        }
-
         Entity entity = entities.get(0);
         EntityProxy entityProxy = Entity.getEntityProxy(entity.getClass());
         String sqlText = SqlHelper.generateInsertSqlText(entityProxy, entity);
+
+        List<List<E>> subLists = partitionList(entities, batchSize);
+
+        System.out.println(subLists);
+        transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+
+            @Override
+            protected void doInTransactionWithoutResult(@NonNull TransactionStatus status) {
+                subLists.forEach(batch -> {
+                    List<Map<String, Object>> paramMapList = new ArrayList<>();
+
+                    batch.forEach(e -> {
+                        entityProxy.updateEntityWithDefaultValue(e, OperationType.INSERT);
+                        paramMapList.add(entityProxy.getValueMap(e));
+                    });
+
+                    namedParameterJdbcOperations.batchUpdate(sqlText, paramMapList.<Map<String, Object>>toArray(Map[]::new));
+                });
+            }
+        });
+    }
+
+    public void execByEach() {
+        List<List<E>> subLists = partitionList(entities, batchSize);
 
         transactionTemplate.execute(new TransactionCallbackWithoutResult() {
 
             @Override
             protected void doInTransactionWithoutResult(@NonNull TransactionStatus status) {
-                List<Map<String, Object>> paramMapList = new ArrayList<>();
-                for (int i = 0; i < entities.size(); i++) {
-                    E e = entities.get(i);
-                    entityProxy.updateEntityWithDefaultValue(e, OperationType.INSERT);
-                    paramMapList.add(entityProxy.getValueMap(e));
+                subLists.forEach(batch -> {
+                    batch.forEach(e -> {
+                        EntityProxy entityProxy = Entity.getEntityProxy(e.getClass());
+                        String sqlText = SqlHelper.generateInsertSqlText(entityProxy, e);
 
-                    if (i % batchSize == 0) {
-                        namedParameterJdbcOperations.batchUpdate(sqlText, paramMapList.<Map<String, Object>>toArray(Map[]::new));
+                        entityProxy.updateEntityWithDefaultValue(e, OperationType.INSERT);
 
-                        paramMapList.clear();
-                    }
-                }
-
-                if (!paramMapList.isEmpty()) {
-                    namedParameterJdbcOperations.batchUpdate(sqlText, paramMapList.<Map<String, Object>>toArray(Map[]::new));
-                }
+                        namedParameterJdbcOperations.update(sqlText, entityProxy.getValueMap(e));
+                    });
+                });
             }
         });
+    }
+
+    private List<List<E>> partitionList(List<E> list, int size) {
+        return list.stream()
+                .collect(Collectors.groupingBy(i -> (list.indexOf(i) / size)))
+                .values()
+                .stream()
+                .map(ArrayList::new)
+                .collect(Collectors.toUnmodifiableList());
     }
 }

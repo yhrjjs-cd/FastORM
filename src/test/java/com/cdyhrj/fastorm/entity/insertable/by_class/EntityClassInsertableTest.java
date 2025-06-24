@@ -1,7 +1,7 @@
 package com.cdyhrj.fastorm.entity.insertable.by_class;
 
 import com.cdyhrj.fastorm.FastORM;
-import com.cdyhrj.fastorm.entity.Student;
+import com.cdyhrj.fastorm.entity.entity.Student;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ class EntityClassInsertableTest {
     @Test
     void tesEntityClassInsertExec() {
         int count = fastORM.insertable(Student.class)
-                .set(Student::getName, "test")
+                .set(Student::getCode, "test")
                 .exec();
 
         Assertions.assertEquals(1, count);
@@ -24,7 +24,7 @@ class EntityClassInsertableTest {
     @Test
     void tesEntityClassInsertExecReturnId() {
         Long id = fastORM.insertable(Student.class)
-                .set(Student::getName, "test")
+                .set(Student::getCode, "test")
                 .execReturnId();
 
         Assertions.assertTrue(id > 0, "Id should be greater than 0");

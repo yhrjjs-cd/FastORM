@@ -1,11 +1,16 @@
 package com.cdyhrj.fastorm.entity.insertable.by_list;
 
 import com.cdyhrj.fastorm.FastORM;
-import com.cdyhrj.fastorm.entity.Student;
+import com.cdyhrj.fastorm.entity.BaseEntity;
+import com.cdyhrj.fastorm.entity.entity.Student;
+import com.cdyhrj.fastorm.entity.entity.Student2;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 public class EntitiesInsertableTest {
@@ -13,22 +18,29 @@ public class EntitiesInsertableTest {
     private FastORM fastORM;
 
     @Test
-    void tesEntityInsertExec() {
-        Student student = new Student();
+    void tesEntitiesInsertExec() {
+        List<Student> students = new ArrayList<>();
+        students.add(new Student());
+        students.add(new Student());
+        students.add(new Student());
 
-        int count = fastORM.insertable(student)
-                .exec();
-
-        Assertions.assertEquals(1, count);
+        Assertions.assertDoesNotThrow(() -> {
+            fastORM.insertable(students)
+                    .batchSize(2)
+                    .exec();
+        });
     }
 
     @Test
-    void tesEntityInsertExecReturnId() {
-        Student student = new Student();
+    void tesEntitiesInsertExecByEach() {
+        List<BaseEntity> entities = new ArrayList<>();
+        entities.add(new Student());
+        entities.add(new Student2());
+        entities.add(new Student());
 
-        Long id = fastORM.insertable(student)
-                .execReturnId();
-
-        Assertions.assertTrue(id > 0, "Id should be greater than 0");
+        Assertions.assertDoesNotThrow(() -> {
+            fastORM.insertable(entities)
+                    .exec();
+        });
     }
 }
