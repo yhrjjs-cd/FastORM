@@ -9,5 +9,5 @@ spring:
         type: com.alibaba.druid.pool.DruidDataSource
         driverClassName: com.mysql.cj.jdbc.Driver
         url: jdbc:mysql://rm-2zeq6rq5y6du06tz4so.mysql.rds.aliyuncs.com:3306/yhrj_dev?useUnicode=true&charset=utf8mb4
-        username: yhrj_dev123
+        username: yhrj_dev
         password: yhRjjs@123456
