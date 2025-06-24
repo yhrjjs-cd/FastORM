@@ -27,12 +27,24 @@ import java.util.Set;
  */
 @Slf4j
 public class EntityRegistrar implements ImportSelector, ResourceLoaderAware {
+    //测试环境下，会多次注册，导致出错
+    public static boolean isRegistered = false;
+    private boolean doRegister = true;
     private ResourcePatternResolver resourcePatternResolver;
     private CachingMetadataReaderFactory cachingMetadataReaderFactory;
     private final EntityClassEnhancer entityClassEnhancer = new EntityClassEnhancer();
     private static final String DEFAULT_RESOURCE_PATTERN = "/**/*.class";
 
     public EntityRegistrar() {
+        if (isRegistered) {
+            log.info("FastORM Enhance entities. ============================================");
+            this.doRegister = false;
+
+            return;
+        }
+
+        isRegistered = true;
+
         if (log.isInfoEnabled()) {
             log.info("FastORM Enhance entities.");
         }
@@ -40,13 +52,20 @@ public class EntityRegistrar implements ImportSelector, ResourceLoaderAware {
 
     @Override
     public void setResourceLoader(@NonNull ResourceLoader resourceLoader) {
+        if (!this.doRegister) {
+            return;
+        }
         this.resourcePatternResolver = ResourcePatternUtils.getResourcePatternResolver(resourceLoader);
         this.cachingMetadataReaderFactory = new CachingMetadataReaderFactory(resourceLoader);
     }
 
     @Override
     @NonNull
-    public String[] selectImports(AnnotationMetadata importingClassMetadata) {
+    public String[] selectImports(@NonNull AnnotationMetadata importingClassMetadata) {
+        if (!this.doRegister) {
+            return new String[0];
+        }
+
         AnnotationAttributes attributes = AnnotationAttributes.fromMap(importingClassMetadata.getAnnotationAttributes(EnableFastORM.class.getName()));
 
         if (Objects.nonNull(attributes)) {

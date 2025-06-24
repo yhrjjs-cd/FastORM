@@ -131,7 +131,6 @@ public class EntityClassEnhancer {
                 EnhancedEntityClassMap.registerEntity(entityClass);
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
             log.error("Enhance error: {}", ex.getMessage());
         }
 
@@ -248,6 +247,7 @@ public class EntityClassEnhancer {
             return clazz;
         } catch (Exception ex) {
             ex.printStackTrace();
+            log.error("Enhance error: {}", ex.getMessage());
             throw new EntityClassEnhanceException(classStringOfT);
         }
     }

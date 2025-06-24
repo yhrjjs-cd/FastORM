@@ -1,4 +1,4 @@
-package com.cdyhrj.fastorm.tests;
+package com.cdyhrj.fastorm.entity.insertable.by_list;
 
 import com.cdyhrj.fastorm.FastORM;
 import com.cdyhrj.fastorm.entity.Student;
@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-public class InsertableTestCase {
+public class EntitiesInsertableTest {
     @Autowired
     private FastORM fastORM;
 
