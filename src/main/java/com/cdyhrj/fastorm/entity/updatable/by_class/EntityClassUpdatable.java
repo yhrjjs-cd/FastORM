@@ -101,6 +101,33 @@ public class EntityClassUpdatable<E extends Entity> implements ConditionHost<E> 
     }
 
     /**
+     * 设置参数
+     *
+     * @param keyFun 字段函数
+     * @param value  值
+     * @return 当前对象
+     */
+    private EntityClassUpdatable<E> set(@NonNull PropFn<E, ?> keyFun, Object value) {
+        if (Objects.isNull(paramChain)) {
+            paramChain = Chain.make(keyFun, value);
+        } else {
+            paramChain.add(keyFun, value);
+        }
+
+        return this;
+    }
+
+    public int exec() {
+        if (Objects.nonNull(this.id)) {
+            return this.execById();
+        } else if (Objects.nonNull(this.name)) {
+            return this.execByName();
+        } else {
+            return this.execByWhere();
+        }
+    }
+
+    /**
      * execute update by id
      *
      * @return affected rows
@@ -168,6 +195,103 @@ public class EntityClassUpdatable<E extends Entity> implements ConditionHost<E> 
         paramMap.putAll(conditionParamMap.getParams());
 
         return this.namedParameterJdbcOperations.update(sqlText, paramMap);
+    }
+
+    public int updateField(@NonNull PropFn<E, ?> PFun1, Object value1) {
+        return this.set(PFun1, value1)
+                .exec();
+    }
+
+    public int updateField(@NonNull PropFn<E, ?> PFun1, Object value1,
+                           @NonNull PropFn<E, ?> PFun2, Object value2) {
+        return this.set(PFun1, value1)
+                .set(PFun2, value2)
+                .exec();
+    }
+
+    public int updateField(@NonNull PropFn<E, ?> PFun1, Object value1,
+                           @NonNull PropFn<E, ?> PFun2, Object value2,
+                           @NonNull PropFn<E, ?> PFun3, Object value3) {
+        return this.set(PFun1, value1)
+                .set(PFun2, value2)
+                .set(PFun3, value3)
+                .exec();
+    }
+
+
+    public int updateField(@NonNull PropFn<E, ?> PFun1, Object value1,
+                           @NonNull PropFn<E, ?> PFun2, Object value2,
+                           @NonNull PropFn<E, ?> PFun3, Object value3,
+                           @NonNull PropFn<E, ?> PFun4, Object value4) {
+        return this.set(PFun1, value1)
+                .set(PFun2, value2)
+                .set(PFun3, value3)
+                .set(PFun4, value4)
+                .exec();
+    }
+
+    public int updateField(@NonNull PropFn<E, ?> PFun1, Object value1,
+                           @NonNull PropFn<E, ?> PFun2, Object value2,
+                           @NonNull PropFn<E, ?> PFun3, Object value3,
+                           @NonNull PropFn<E, ?> PFun4, Object value4,
+                           @NonNull PropFn<E, ?> PFun5, Object value5) {
+        return this.set(PFun1, value1)
+                .set(PFun2, value2)
+                .set(PFun3, value3)
+                .set(PFun4, value4)
+                .set(PFun5, value5)
+                .exec();
+    }
+
+    public int updateField(@NonNull PropFn<E, ?> PFun1, Object value1,
+                           @NonNull PropFn<E, ?> PFun2, Object value2,
+                           @NonNull PropFn<E, ?> PFun3, Object value3,
+                           @NonNull PropFn<E, ?> PFun4, Object value4,
+                           @NonNull PropFn<E, ?> PFun5, Object value5,
+                           @NonNull PropFn<E, ?> PFun6, Object value6) {
+        return this.set(PFun1, value1)
+                .set(PFun2, value2)
+                .set(PFun3, value3)
+                .set(PFun4, value4)
+                .set(PFun5, value5)
+                .set(PFun6, value6)
+                .exec();
+    }
+
+    public int updateField(@NonNull PropFn<E, ?> PFun1, Object value1,
+                           @NonNull PropFn<E, ?> PFun2, Object value2,
+                           @NonNull PropFn<E, ?> PFun3, Object value3,
+                           @NonNull PropFn<E, ?> PFun4, Object value4,
+                           @NonNull PropFn<E, ?> PFun5, Object value5,
+                           @NonNull PropFn<E, ?> PFun6, Object value6,
+                           @NonNull PropFn<E, ?> PFun7, Object value7) {
+        return this.set(PFun1, value1)
+                .set(PFun2, value2)
+                .set(PFun3, value3)
+                .set(PFun4, value4)
+                .set(PFun5, value5)
+                .set(PFun6, value6)
+                .set(PFun7, value7)
+                .exec();
+    }
+
+    public int updateField(@NonNull PropFn<E, ?> PFun1, Object value1,
+                           @NonNull PropFn<E, ?> PFun2, Object value2,
+                           @NonNull PropFn<E, ?> PFun3, Object value3,
+                           @NonNull PropFn<E, ?> PFun4, Object value4,
+                           @NonNull PropFn<E, ?> PFun5, Object value5,
+                           @NonNull PropFn<E, ?> PFun6, Object value6,
+                           @NonNull PropFn<E, ?> PFun7, Object value7,
+                           @NonNull PropFn<E, ?> PFun8, Object value8) {
+        return this.set(PFun1, value1)
+                .set(PFun2, value2)
+                .set(PFun3, value3)
+                .set(PFun4, value4)
+                .set(PFun5, value5)
+                .set(PFun6, value6)
+                .set(PFun7, value7)
+                .set(PFun8, value8)
+                .exec();
     }
 
     private Map<String, Object> paramChainToMap() {

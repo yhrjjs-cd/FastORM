@@ -45,4 +45,15 @@ public class EntityClassUpdatableTest {
 
         Assertions.assertTrue(rows >= 0);
     }
+
+    @Test
+    void tesEntityUpdateField() {
+        int rows = fastORM.updatable(Student.class)
+                .id(100L)
+                .updateField(
+                        Student::getName, "This is Name",
+                        Student::getCode, "This is Code");
+
+        Assertions.assertTrue(rows >= 0);
+    }
 }
