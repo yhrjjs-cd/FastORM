@@ -55,7 +55,6 @@ public class GetIdValueFunGenerator implements FunGenerator {
             methodSpecBuilder.addStatement("return new RuntimeException('不支持的@Id 字段类型(long|Long|int|Integer)')");
         }
 
-        System.out.println(methodSpecBuilder.build().toString());
         return methodSpecBuilder.build().toString();
     }
 }

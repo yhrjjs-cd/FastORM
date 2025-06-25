@@ -1,7 +1,6 @@
 package com.cdyhrj.fastorm.entity.updatable.by_object;
 
 import com.cdyhrj.fastorm.annotation.enums.OperationType;
-import com.cdyhrj.fastorm.api.parameter.ParamMap;
 import com.cdyhrj.fastorm.condition.ConditionHost;
 import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.entity.EntityProxy;
@@ -13,7 +12,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.Map;
-import java.util.Objects;
 
 @Slf4j
 public class EntityUpdatable<E extends Entity> implements ConditionHost<E> {
@@ -34,38 +32,18 @@ public class EntityUpdatable<E extends Entity> implements ConditionHost<E> {
         this.context = new ToSqlContext<>(this, (Class<E>) entity.getClass());
     }
 
-
-    private Where<E> where;
-
-    public Where<E> where() {
-        if (Objects.isNull(this.where)) {
-            this.where = new Where<>(context, this);
-        }
-
-        return this.where;
-    }
-
     /**
      * 执行插入操作
      *
-     * @return 插入的对象
+     * @return 插入的行数
      */
-    public E exec() {
+    public int exec() {
         EntityProxy entityProxy = Entity.getEntityProxy(entity.getClass());
         entityProxy.updateEntityWithDefaultValue(entity, OperationType.UPDATE);
 
         Map<String, Object> paramMap = entityProxy.getValueMap(entity);
 
-        if (Objects.nonNull(this.where)) {
-            ParamMap conditionParamMap = ParamMap.of();
-            this.where.writeToParamMap(conditionParamMap);
-
-            paramMap.putAll(conditionParamMap.getParams());
-        }
-
-        String sqlText = SqlHelper.generateUpdateSqlTextWithEntity(entityProxy, entity, this);
-        this.namedParameterJdbcOperations.update(sqlText, new MapSqlParameterSource(paramMap));
-
-        return entity;
+        String sqlText = SqlHelper.generateUpdateSqlTextWithEntity(entityProxy, entity);
+        return this.namedParameterJdbcOperations.update(sqlText, new MapSqlParameterSource(paramMap));
     }
 }

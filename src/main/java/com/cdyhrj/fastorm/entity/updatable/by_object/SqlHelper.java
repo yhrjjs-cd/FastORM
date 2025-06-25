@@ -4,12 +4,13 @@ import com.cdyhrj.fastorm.api.entity.FieldNameSpec;
 import com.cdyhrj.fastorm.api.entity.FieldNameType;
 import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.entity.EntityProxy;
+import com.cdyhrj.fastorm.exception.KeyValueRequiredException;
 
 import java.util.Objects;
 import java.util.StringJoiner;
 
 public class SqlHelper {
-    public static String generateUpdateSqlTextWithEntity(EntityProxy entityProxy, Entity entity, EntityUpdatable<?> updatable) {
+    public static String generateUpdateSqlTextWithEntity(EntityProxy entityProxy, Entity entity) {
         FieldNameSpec[] fieldNameSpecs = getUpdateFields(entityProxy, entity);
 
         StringJoiner joiner = new StringJoiner(" ");
@@ -19,18 +20,17 @@ public class SqlHelper {
                 .add(toUpdateFields(fieldNameSpecs))
                 .add("WHERE");
 
-//        if (Objects.nonNull(this.id)) {
-//            String idField = peerEntity.getIdFieldName();
-//            joiner.add("%s=:%s".formatted(idField, idField));
-//        } else if (Objects.nonNull(this.name)) {
-//            String nameField = peerEntity.getNameFieldName();
-//            joiner.add("%s=:%s".formatted(nameField, nameField));
-//        } else {
-//            Objects.requireNonNull(this.condition, "请设置更新条件");
-//            joiner.add(this.condition.toParametricExpression(peerEntity.propertyToFieldName()));
-//        }
-        if (Objects.nonNull(updatable.where())) {
-            joiner.add(updatable.where().toNoAliasSql());
+        Long id = entityProxy.getIdValue(entity);
+        String name = entityProxy.getNameValue(entity);
+
+        if (Objects.nonNull(id) && id > 0) {
+            String idField = entityProxy.getIdFieldName();
+            joiner.add("%s=:%s".formatted(idField, idField));
+        } else if (Objects.nonNull(name)) {
+            String nameField = entityProxy.getNameFieldName();
+            joiner.add("%s=:%s".formatted(nameField, nameField));
+        } else {
+            throw new KeyValueRequiredException(entity.getClass());
         }
 
         return joiner.toString();
