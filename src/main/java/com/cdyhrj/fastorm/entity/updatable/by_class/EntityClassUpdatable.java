@@ -23,6 +23,8 @@ import java.util.Objects;
 @Slf4j
 @RequiredArgsConstructor
 public class EntityClassUpdatable<E extends Entity> implements ConditionHost<E> {
+    public static final String PARAM_HOLDER_NAME = "_P_P_P_";
+
     private final NamedParameterJdbcOperations namedParameterJdbcOperations;
     private final TransactionTemplate transactionTemplate;
     private final Class<E> entityClass;
@@ -39,8 +41,22 @@ public class EntityClassUpdatable<E extends Entity> implements ConditionHost<E> 
         this.context = new ToSqlContext<>(this, entityClass);
     }
 
-    protected Chain<E> paramChain;
+    private Long id;
+    private String name;
+    private Chain<E> paramChain;
     private Where<E> where;
+
+    public EntityClassUpdatable<E> id(Long id) {
+        this.id = id;
+
+        return this;
+    }
+
+    public EntityClassUpdatable<E> name(String name) {
+        this.name = name;
+
+        return this;
+    }
 
     public Where<E> where() {
         if (Objects.isNull(this.where)) {
@@ -84,7 +100,14 @@ public class EntityClassUpdatable<E extends Entity> implements ConditionHost<E> 
         return this;
     }
 
-    public void exec() {
+    /**
+     * execute update by id
+     *
+     * @return affected rows
+     */
+    public int execById() {
+        Assert.notNull(this.id, "id must not be null");
+
         Map<String, Object> params = this.paramChainToMap();
         Assert.isTrue(!params.isEmpty(), "Please set update field!");
 
@@ -93,18 +116,58 @@ public class EntityClassUpdatable<E extends Entity> implements ConditionHost<E> 
         Map<String, Object> paramMap = entityProxy.getDefaultValueMap(OperationType.UPDATE);
         paramMap.putAll(params);
 
-        if (Objects.nonNull(this.where)) {
-            ParamMap conditionParamMap = ParamMap.of();
-            this.where.writeToParamMap(conditionParamMap);
+        String sqlText = SqlHelper.generateUpdateSqlTextByPlaceholder(entityProxy, paramMap, entityProxy.getIdFieldName());
+        paramMap.put(PARAM_HOLDER_NAME, this.id);
 
-            paramMap.putAll(conditionParamMap.getParams());
-        }
+        return this.namedParameterJdbcOperations.update(sqlText, paramMap);
+    }
 
-        String sqlText = SqlHelper.generateUpdateSqlText(entityProxy, paramMap, this);
-        log.info(paramMap.toString());
-        log.info("UPDATE SQL: {}", sqlText);
+    /**
+     * execute update by name
+     *
+     * @return affected rows
+     */
+    public int execByName() {
+        Assert.notNull(this.name, "name must not be null");
 
-        this.namedParameterJdbcOperations.update(sqlText, paramMap);
+        Map<String, Object> params = this.paramChainToMap();
+        Assert.isTrue(!params.isEmpty(), "Please set update field!");
+
+        EntityProxy entityProxy = Entity.getEntityProxy(entityClass);
+
+        Map<String, Object> paramMap = entityProxy.getDefaultValueMap(OperationType.UPDATE);
+        paramMap.putAll(params);
+
+        String sqlText = SqlHelper.generateUpdateSqlTextByPlaceholder(entityProxy, paramMap, entityProxy.getNameFieldName());
+        paramMap.put(PARAM_HOLDER_NAME, this.name);
+
+
+        return this.namedParameterJdbcOperations.update(sqlText, paramMap);
+    }
+
+    /**
+     * execute update by where
+     *
+     * @return affected rows
+     */
+    public int execByWhere() {
+        Assert.notNull(this.where, "where must not be null");
+
+        Map<String, Object> params = this.paramChainToMap();
+        Assert.isTrue(!params.isEmpty(), "Please set update field!");
+
+        EntityProxy entityProxy = Entity.getEntityProxy(entityClass);
+
+        Map<String, Object> paramMap = entityProxy.getDefaultValueMap(OperationType.UPDATE);
+        paramMap.putAll(params);
+
+        String sqlText = SqlHelper.generateUpdateSqlTextByWhere(entityProxy, paramMap, this.where);
+
+        ParamMap conditionParamMap = ParamMap.of();
+        this.where.writeToParamMap(conditionParamMap);
+        paramMap.putAll(conditionParamMap.getParams());
+
+        return this.namedParameterJdbcOperations.update(sqlText, paramMap);
     }
 
     private Map<String, Object> paramChainToMap() {

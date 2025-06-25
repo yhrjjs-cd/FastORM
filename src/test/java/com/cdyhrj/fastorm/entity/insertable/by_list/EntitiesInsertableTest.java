@@ -3,7 +3,6 @@ package com.cdyhrj.fastorm.entity.insertable.by_list;
 import com.cdyhrj.fastorm.FastORM;
 import com.cdyhrj.fastorm.entity.BaseEntity;
 import com.cdyhrj.fastorm.entity.entity.Student;
-import com.cdyhrj.fastorm.entity.entity.Student2;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +34,7 @@ public class EntitiesInsertableTest {
     void tesEntitiesInsertExecByEach() {
         List<BaseEntity> entities = new ArrayList<>();
         entities.add(new Student());
-        entities.add(new Student2());
+        entities.add(new Student());
         entities.add(new Student());
 
         Assertions.assertDoesNotThrow(() -> {

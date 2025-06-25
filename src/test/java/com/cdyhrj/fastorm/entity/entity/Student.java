@@ -18,4 +18,7 @@ public class Student extends BaseEntity {
     @Name
     @Column
     private String code;
+
+    @Column
+    private String name;
 }
