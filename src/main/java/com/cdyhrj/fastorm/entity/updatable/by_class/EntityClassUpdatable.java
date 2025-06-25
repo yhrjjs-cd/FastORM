@@ -294,6 +294,27 @@ public class EntityClassUpdatable<E extends Entity> implements ConditionHost<E> 
                 .exec();
     }
 
+    public int updateField(@NonNull PropFn<E, ?> PFun1, Object value1,
+                           @NonNull PropFn<E, ?> PFun2, Object value2,
+                           @NonNull PropFn<E, ?> PFun3, Object value3,
+                           @NonNull PropFn<E, ?> PFun4, Object value4,
+                           @NonNull PropFn<E, ?> PFun5, Object value5,
+                           @NonNull PropFn<E, ?> PFun6, Object value6,
+                           @NonNull PropFn<E, ?> PFun7, Object value7,
+                           @NonNull PropFn<E, ?> PFun8, Object value8,
+                           @NonNull PropFn<E, ?> PFun9, Object value9) {
+        return this.set(PFun1, value1)
+                .set(PFun2, value2)
+                .set(PFun3, value3)
+                .set(PFun4, value4)
+                .set(PFun5, value5)
+                .set(PFun6, value6)
+                .set(PFun7, value7)
+                .set(PFun8, value8)
+                .set(PFun9, value9)
+                .exec();
+    }
+
     private Map<String, Object> paramChainToMap() {
         if (Objects.isNull(this.paramChain)) {
             return Collections.emptyMap();
