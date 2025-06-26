@@ -2,6 +2,7 @@ package com.cdyhrj.fastorm;
 
 import com.cdyhrj.fastorm.config.FastOrmConfig;
 import com.cdyhrj.fastorm.entity.Entity;
+import com.cdyhrj.fastorm.entity.deletable.by_class.EntityClassDeletable;
 import com.cdyhrj.fastorm.entity.deletable.by_object.EntityDeletable;
 import com.cdyhrj.fastorm.entity.insertable.by_class.EntityClassInsertable;
 import com.cdyhrj.fastorm.entity.insertable.by_list.EntitiesInsertable;
@@ -85,4 +86,7 @@ public class FastORM {
         return new EntityDeletable<>(namedParamOps, transactionTemplate, entity);
     }
 
+    public <E extends Entity> EntityClassDeletable<E> deletable(Class<E> entityClass) {
+        return new EntityClassDeletable<>(namedParamOps, transactionTemplate, entityClass);
+    }
 }

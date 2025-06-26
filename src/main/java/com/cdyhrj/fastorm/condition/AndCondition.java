@@ -19,6 +19,15 @@ public abstract class AndCondition<T extends Entity, H extends ConditionHost<T>>
         return group;
     }
 
+    /**
+     * 是否为空，没有包含任何条件
+     *
+     * @return 如果为空, 返回<code>true</code>,否则<code>false</code>
+     */
+    public boolean isEmpty() {
+        return this.expressionList.isEmpty();
+    }
+
     @Override
     public AndCondition<T, H> andEq(PropFn<T, ?> propFn, Object value) {
         super.andEq(propFn, value);

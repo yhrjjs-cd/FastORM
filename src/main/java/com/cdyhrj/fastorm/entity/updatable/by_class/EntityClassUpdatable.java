@@ -179,6 +179,7 @@ public class EntityClassUpdatable<E extends Entity> implements ConditionHost<E> 
      */
     public int execByWhere() {
         Assert.notNull(this.where, "where must not be null");
+        Assert.isTrue(!this.where.isEmpty(), "where must not be empty");
 
         Map<String, Object> params = this.paramChainToMap();
         Assert.isTrue(!params.isEmpty(), "Please set update field!");
