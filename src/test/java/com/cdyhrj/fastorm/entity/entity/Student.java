@@ -13,7 +13,7 @@ import lombok.Data;
 public class Student extends BaseEntity {
     @Id
     @Column
-    private int id;
+    private Integer id;
 
     @Name
     @Column
