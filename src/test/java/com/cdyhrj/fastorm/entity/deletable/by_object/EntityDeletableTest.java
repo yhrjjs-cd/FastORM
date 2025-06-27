@@ -15,7 +15,7 @@ class EntityDeletableTest {
     @Test
     void testExecById() {
         Student student = new Student();
-        student.setId(1);
+        student.setId(1L);
         int rows = fastORM.deletable(student)
                 .execById();
 

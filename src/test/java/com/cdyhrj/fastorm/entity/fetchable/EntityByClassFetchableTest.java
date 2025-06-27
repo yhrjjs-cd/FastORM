@@ -18,7 +18,7 @@ class EntityByClassFetchableTest {
     void fetchByIdTest() {
         Optional<Student> student = fastORM.fetchable(Student.class)
                 .id(369L)
-                .fetchById();
+                .fetch();
 
         Assertions.assertTrue(student.isPresent());
     }
@@ -27,7 +27,7 @@ class EntityByClassFetchableTest {
     void fetchByNameTest() {
         Optional<Student> student = fastORM.fetchable(Student.class)
                 .name("test")
-                .fetchByName();
+                .fetch();
 
         Assertions.assertTrue(student.isPresent());
     }
@@ -38,7 +38,7 @@ class EntityByClassFetchableTest {
                 .where()
                 .andEq(Student::getCode, "test")
                 .ret()
-                .fetchByWhere();
+                .fetch();
 
         Assertions.assertTrue(student.isPresent());
     }

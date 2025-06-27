@@ -2,6 +2,7 @@ package com.cdyhrj.fastorm.entity.fetchable;
 
 import com.cdyhrj.fastorm.entity.EntityProxy;
 
+import java.util.Objects;
 import java.util.StringJoiner;
 
 
@@ -17,12 +18,18 @@ public class SqlHelper {
         return joiner.toString();
     }
 
-    public static String generateUpdateSqlTextByWhere(EntityProxy entityProxy, Where<?> where) {
+    public static String generateUpdateSqlTextByWhere(EntityProxy entityProxy, EntityByClassFetchable<?> fetchable) {
         StringJoiner joiner = new StringJoiner(" ");
         joiner.add("SELECT * FROM")
-                .add(entityProxy.getTableName())
-                .add("WHERE")
-                .add(where.toNoAliasSql());
+                .add(entityProxy.getTableName());
+
+        if (Objects.nonNull(fetchable.getWhere())) {
+            joiner.add(fetchable.getWhere().toNoAliasSql());
+        }
+
+        if (Objects.nonNull(fetchable.getOrderBy())) {
+            joiner.add(fetchable.getOrderBy().toSql());
+        }
 
         return joiner.toString();
     }

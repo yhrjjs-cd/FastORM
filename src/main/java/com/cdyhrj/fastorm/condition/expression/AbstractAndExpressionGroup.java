@@ -44,14 +44,14 @@ public abstract class AbstractAndExpressionGroup<T extends Entity, H extends Con
 
     @Override
     public String toSql() {
-        return "(" + this.expressionList.stream().map(SqlSegment::toSql)
+        return "WHERE (" + this.expressionList.stream().map(SqlSegment::toSql)
                 .collect(Collectors.joining(" AND ")) + ")";
     }
 
 
     @Override
     public String toNoAliasSql() {
-        return "(" + this.expressionList.stream().map(NoAliasSqlSegment::toNoAliasSql)
+        return "WHERE (" + this.expressionList.stream().map(NoAliasSqlSegment::toNoAliasSql)
                 .collect(Collectors.joining(" AND ")) + ")";
     }
 }

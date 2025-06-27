@@ -5,9 +5,12 @@ import com.cdyhrj.fastorm.condition.ConditionHost;
 import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.entity.EntityProxy;
 import com.cdyhrj.fastorm.entity.queryable.context.ToSqlContext;
+import com.cdyhrj.fastorm.entity.support.order_by.OrderBy;
+import com.cdyhrj.fastorm.entity.support.where.Where;
+import com.cdyhrj.fastorm.exception.ConditionRequiredException;
 import com.cdyhrj.fastorm.util.ResultSetUtils;
+import lombok.Getter;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
-import org.springframework.util.Assert;
 
 import java.util.Map;
 import java.util.Objects;
@@ -30,7 +33,16 @@ public class EntityByClassFetchable<E extends Entity> implements ConditionHost<E
 
     private Long id;
     private String name;
-    private Where<E> where;
+    /**
+     * 条件
+     */
+    @Getter
+    private Where<E, EntityByClassFetchable<E>> where;
+    /**
+     * Order By
+     */
+    @Getter
+    private OrderBy<E, EntityByClassFetchable<E>> orderBy;
 
     public EntityByClassFetchable<E> id(Long id) {
         this.id = id;
@@ -44,7 +56,7 @@ public class EntityByClassFetchable<E extends Entity> implements ConditionHost<E
         return this;
     }
 
-    public Where<E> where() {
+    public Where<E, EntityByClassFetchable<E>> where() {
         if (Objects.isNull(this.where)) {
             this.where = new Where<>(context, this);
         }
@@ -52,21 +64,38 @@ public class EntityByClassFetchable<E extends Entity> implements ConditionHost<E
         return this.where;
     }
 
+    public OrderBy<E, EntityByClassFetchable<E>> orderBy() {
+        this.orderBy = new OrderBy<>(context, this);
+
+        return this.orderBy;
+    }
+
     /**
-     * Fetch entity by id
+     * Fetch entity
      * <blockquote><pre>
      *     Student fetch(long id {
      *         return fastORM.fetchable(Student.class)
      *                       .id(100L)
-     *                       .fetchById()
+     *                       .fetch()
      *     }
      * </pre></blockquote>
      *
      * @return entity object
      */
-    public Optional<E> fetchById() {
-        Assert.notNull(this.id, "id must not be null");
 
+    public Optional<E> fetch() {
+        if (Objects.nonNull(id)) {
+            return fetchById();
+        } else if (Objects.nonNull(name)) {
+            return fetchByName();
+        } else if (Objects.nonNull(where)) {
+            return fetchByWhere();
+        }
+
+        throw new ConditionRequiredException();
+    }
+
+    private Optional<E> fetchById() {
         EntityProxy entityProxy = Entity.getEntityProxy(entityClass);
         String sqlText = SqlHelper.generateUpdateSqlTextByPlaceholder(entityProxy, entityProxy.getIdFieldName());
 
@@ -79,9 +108,7 @@ public class EntityByClassFetchable<E extends Entity> implements ConditionHost<E
         });
     }
 
-    public Optional<E> fetchByName() {
-        Assert.notNull(name, "name must not be null");
-
+    private Optional<E> fetchByName() {
         EntityProxy entityProxy = Entity.getEntityProxy(entityClass);
         String sqlText = SqlHelper.generateUpdateSqlTextByPlaceholder(entityProxy, entityProxy.getNameFieldName());
 
@@ -94,12 +121,9 @@ public class EntityByClassFetchable<E extends Entity> implements ConditionHost<E
         });
     }
 
-    public Optional<E> fetchByWhere() {
-        Assert.notNull(where, "where must not be null");
-        Assert.isTrue(!where.isEmpty(), "where must not be empty");
-
+    private Optional<E> fetchByWhere() {
         EntityProxy entityProxy = Entity.getEntityProxy(entityClass);
-        String sqlText = SqlHelper.generateUpdateSqlTextByWhere(entityProxy, where);
+        String sqlText = SqlHelper.generateUpdateSqlTextByWhere(entityProxy, this);
         ParamMap conditionParamMap = ParamMap.of();
         this.where.writeToParamMap(conditionParamMap);
 

@@ -20,7 +20,6 @@ public class SqlHelper {
         StringJoiner joiner = new StringJoiner(" ");
         joiner.add("DELETE FROM")
                 .add(entityProxy.getTableName())
-                .add("WHERE")
                 .add(where.toNoAliasSql());
 
         return joiner.toString();

@@ -31,7 +31,6 @@ public class SqlHelper {
                 .add(entityProxy.getTableName())
                 .add("SET")
                 .add(getUpdateFieldsSet(fieldNameSpecs))
-                .add("WHERE")
                 .add(where.toNoAliasSql());
 
         return joiner.toString();

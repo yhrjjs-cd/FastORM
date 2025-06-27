@@ -25,7 +25,7 @@ class EntityUpdatableTest {
     @Test
     void tesEntityUpdateExecById() {
         Student student = new Student();
-        student.setId(100);
+        student.setId(100L);
 
         int rows = fastORM.updatable(student)
                 .exec();

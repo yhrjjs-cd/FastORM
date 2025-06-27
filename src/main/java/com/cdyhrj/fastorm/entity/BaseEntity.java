@@ -1,6 +1,8 @@
 package com.cdyhrj.fastorm.entity;
 
 import com.cdyhrj.fastorm.annotation.Column;
+import com.cdyhrj.fastorm.annotation.Id;
+import com.cdyhrj.fastorm.annotation.Name;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -18,6 +20,10 @@ public class BaseEntity implements Entity {
      * 系统更新字段
      */
     private static final Set<String> SYSTEM_UPDATE_FIELDS = Set.of("updated_by", "updated_by_name", "updated_at");
+
+    @Id
+    @Column
+    private Long id;
 
     @Column
     private LocalDateTime createdAt;
@@ -37,7 +43,7 @@ public class BaseEntity implements Entity {
     @Column
     private String updatedByName;
 
-        @Override
+    @Override
     public boolean fieldIsOnlyForInsert(String fieldName) {
         return SYSTEM_INSERT_FIELDS.contains(fieldName);
     }

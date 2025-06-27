@@ -5,10 +5,11 @@ import com.cdyhrj.fastorm.condition.ConditionHost;
 import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.entity.EntityProxy;
 import com.cdyhrj.fastorm.entity.queryable.context.ToSqlContext;
+import com.cdyhrj.fastorm.entity.support.order_by.OrderBy;
+import com.cdyhrj.fastorm.entity.support.where.Where;
 import com.cdyhrj.fastorm.util.QueryRowMapper;
 import lombok.Getter;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
-import org.springframework.util.Assert;
 
 import java.util.List;
 import java.util.Objects;
@@ -33,7 +34,7 @@ public class EntityByClassQueryable<E extends Entity> implements ConditionHost<E
      * 条件
      */
     @Getter
-    private Where<E> where;
+    private Where<E, EntityByClassQueryable<E>> where;
 
     /**
      * Order By
@@ -41,7 +42,7 @@ public class EntityByClassQueryable<E extends Entity> implements ConditionHost<E
     @Getter
     private OrderBy<E, EntityByClassQueryable<E>> orderBy;
 
-    public Where<E> where() {
+    public Where<E, EntityByClassQueryable<E>> where() {
         if (Objects.isNull(this.where)) {
             this.where = new Where<>(context, this);
         }
@@ -56,11 +57,8 @@ public class EntityByClassQueryable<E extends Entity> implements ConditionHost<E
     }
 
     public List<E> query() {
-        Assert.notNull(where, "where must not be null");
-        Assert.isTrue(!where.isEmpty(), "where must not be empty");
-
         EntityProxy entityProxy = Entity.getEntityProxy(entityClass);
-        String sqlText = SqlHelper.generateUpdateSqlTextByWhere(entityProxy, where);
+        String sqlText = SqlHelper.generateUpdateSqlTextByWhere(entityProxy, this);
         ParamMap conditionParamMap = ParamMap.of();
         this.where.writeToParamMap(conditionParamMap);
 
