@@ -17,7 +17,7 @@ public class EntityInsertableTest {
         Student student = new Student();
 
         int count = fastORM.insertable(student)
-                .exec();
+                .insert();
 
         Assertions.assertEquals(1, count);
     }
@@ -27,7 +27,7 @@ public class EntityInsertableTest {
         Student student = new Student();
 
         Long id = fastORM.insertable(student)
-                .execReturnId();
+                .insertReturnId();
 
         Assertions.assertTrue(id > 0, "Id should be greater than 0");
     }

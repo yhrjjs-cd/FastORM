@@ -38,7 +38,7 @@ public class EntityInsertable<E extends Entity> {
     /**
      * 执行插入操作
      */
-    public int exec() {
+    public int insert() {
         entityProxy.updateEntityWithDefaultValue(entity, OperationType.INSERT);
 
         Map<String, Object> paramMap = entityProxy.getValueMap(entity);
@@ -55,8 +55,8 @@ public class EntityInsertable<E extends Entity> {
         return rows;
     }
 
-    public Long execReturnId() {
-        exec();
+    public Long insertReturnId() {
+        insert();
 
         return this.entityProxy.getIdValue(entity);
     }
