@@ -1,1 +1,1 @@
-rootProject.name = "FastORM"
+rootProject.name = "fast-orm"
