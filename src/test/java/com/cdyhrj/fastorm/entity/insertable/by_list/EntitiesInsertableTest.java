@@ -2,7 +2,7 @@ package com.cdyhrj.fastorm.entity.insertable.by_list;
 
 import com.cdyhrj.fastorm.FastORM;
 import com.cdyhrj.fastorm.entity.BaseEntity;
-import com.cdyhrj.fastorm.entity.entity.Student;
+import com.cdyhrj.fastorm.entity.Student;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

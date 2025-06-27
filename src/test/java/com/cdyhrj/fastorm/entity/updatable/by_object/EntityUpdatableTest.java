@@ -1,7 +1,7 @@
 package com.cdyhrj.fastorm.entity.updatable.by_object;
 
 import com.cdyhrj.fastorm.FastORM;
-import com.cdyhrj.fastorm.entity.entity.Student;
+import com.cdyhrj.fastorm.entity.Student;
 import com.cdyhrj.fastorm.exception.KeyValueRequiredException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

@@ -37,7 +37,6 @@ public class EntityRegistrar implements ImportSelector, ResourceLoaderAware {
 
     public EntityRegistrar() {
         if (isRegistered) {
-            log.info("FastORM Enhance entities. ============================================");
             this.doRegister = false;
 
             return;
