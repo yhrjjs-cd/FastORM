@@ -18,7 +18,7 @@ class EntityUpdatableTest {
         Assertions.assertThrows(KeyValueRequiredException.class, () -> {
             Student student = new Student();
             fastORM.updatable(student)
-                    .exec();
+                    .update();
         });
     }
 
@@ -28,7 +28,7 @@ class EntityUpdatableTest {
         student.setId(100L);
 
         int rows = fastORM.updatable(student)
-                .exec();
+                .update();
 
         Assertions.assertEquals(0, rows);
     }
@@ -39,7 +39,7 @@ class EntityUpdatableTest {
         student.setCode("Code");
 
         int rows = fastORM.updatable(student)
-                .exec();
+                .update();
 
         Assertions.assertEquals(0, rows);
     }

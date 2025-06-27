@@ -58,7 +58,7 @@ public class EntitiesInsertable<E extends Entity> {
         return this;
     }
 
-    public void exec() {
+    public void insert() {
         Entity entity = entities.get(0);
         EntityProxy entityProxy = Entity.getEntityProxy(entity.getClass());
         String sqlText = SqlHelper.generateInsertSqlText(entityProxy, entity);
@@ -84,7 +84,7 @@ public class EntitiesInsertable<E extends Entity> {
         });
     }
 
-    public void execByEach() {
+    public void insertByEach() {
         List<List<E>> subLists = partitionList(entities, batchSize);
 
         transactionTemplate.execute(new TransactionCallbackWithoutResult() {

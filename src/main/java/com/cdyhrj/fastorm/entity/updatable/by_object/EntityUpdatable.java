@@ -28,7 +28,7 @@ public class EntityUpdatable<E extends Entity> implements ConditionHost<E> {
      *
      * @return 插入的行数
      */
-    public int exec() {
+    public int update() {
         EntityProxy entityProxy = Entity.getEntityProxy(entity.getClass());
         entityProxy.updateEntityWithDefaultValue(entity, OperationType.UPDATE);
 

@@ -26,7 +26,7 @@ public class EntitiesInsertableTest {
         Assertions.assertDoesNotThrow(() -> {
             fastORM.insertable(students)
                     .batchSize(2)
-                    .exec();
+                    .insert();
         });
     }
 
@@ -39,7 +39,7 @@ public class EntitiesInsertableTest {
 
         Assertions.assertDoesNotThrow(() -> {
             fastORM.insertable(entities)
-                    .exec();
+                    .insert();
         });
     }
 }
