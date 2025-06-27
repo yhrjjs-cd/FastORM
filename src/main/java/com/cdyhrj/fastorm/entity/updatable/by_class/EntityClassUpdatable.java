@@ -1,14 +1,13 @@
 package com.cdyhrj.fastorm.entity.updatable.by_class;
 
 import com.cdyhrj.fastorm.annotation.enums.OperationType;
-import com.cdyhrj.fastorm.api.chain.Chain;
 import com.cdyhrj.fastorm.api.lambda.PropFn;
 import com.cdyhrj.fastorm.api.parameter.ParamMap;
 import com.cdyhrj.fastorm.condition.ConditionHost;
 import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.entity.EntityProxy;
+import com.cdyhrj.fastorm.entity.base.AbstractEntityByClassParamSetter;
 import com.cdyhrj.fastorm.entity.queryable.context.ToSqlContext;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
@@ -16,22 +15,19 @@ import org.springframework.lang.NonNull;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.util.Assert;
 
-import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
 
 @Slf4j
 @RequiredArgsConstructor
-public class EntityClassUpdatable<E extends Entity> implements ConditionHost<E> {
+public class EntityClassUpdatable<E extends Entity>
+        extends AbstractEntityByClassParamSetter<E, EntityClassUpdatable<E>>
+        implements ConditionHost<E> {
     public static final String PARAM_HOLDER_NAME = "_P_P_P_";
 
     private final NamedParameterJdbcOperations namedParameterJdbcOperations;
     private final TransactionTemplate transactionTemplate;
     private final Class<E> entityClass;
-    /**
-     * 上下文
-     */
-    @Getter
     private final ToSqlContext<E, EntityClassUpdatable<E>> context;
 
     public EntityClassUpdatable(NamedParameterJdbcOperations namedParameterJdbcOperations, TransactionTemplate transactionTemplate, Class<E> entityClass) {
@@ -43,7 +39,6 @@ public class EntityClassUpdatable<E extends Entity> implements ConditionHost<E> 
 
     private Long id;
     private String name;
-    private Chain<E> paramChain;
     private Where<E> where;
 
     public EntityClassUpdatable<E> id(Long id) {
@@ -64,57 +59,6 @@ public class EntityClassUpdatable<E extends Entity> implements ConditionHost<E> 
         }
 
         return this.where;
-    }
-
-    /**
-     * 设置参数
-     *
-     * @param keyFun 字段函数
-     * @param value  值
-     * @return 当前对象
-     */
-    public <R extends Number> EntityClassUpdatable<E> set(@NonNull PropFn<E, R> keyFun, R value) {
-        if (Objects.isNull(paramChain)) {
-            paramChain = Chain.make(keyFun, value);
-        } else {
-            paramChain.add(keyFun, value);
-        }
-
-        return this;
-    }
-
-    /**
-     * 设置参数
-     *
-     * @param keyFun 字段函数
-     * @param value  值
-     * @return 当前对象
-     */
-    public <R extends String> EntityClassUpdatable<E> set(@NonNull PropFn<E, R> keyFun, R value) {
-        if (Objects.isNull(paramChain)) {
-            paramChain = Chain.make(keyFun, value);
-        } else {
-            paramChain.add(keyFun, value);
-        }
-
-        return this;
-    }
-
-    /**
-     * 设置参数
-     *
-     * @param keyFun 字段函数
-     * @param value  值
-     * @return 当前对象
-     */
-    private EntityClassUpdatable<E> set(@NonNull PropFn<E, ?> keyFun, Object value) {
-        if (Objects.isNull(paramChain)) {
-            paramChain = Chain.make(keyFun, value);
-        } else {
-            paramChain.add(keyFun, value);
-        }
-
-        return this;
     }
 
     public int exec() {
@@ -314,13 +258,5 @@ public class EntityClassUpdatable<E extends Entity> implements ConditionHost<E> 
                 .set(PFun8, value8)
                 .set(PFun9, value9)
                 .exec();
-    }
-
-    private Map<String, Object> paramChainToMap() {
-        if (Objects.isNull(this.paramChain)) {
-            return Collections.emptyMap();
-        }
-
-        return this.paramChain.toParamMap();
     }
 }

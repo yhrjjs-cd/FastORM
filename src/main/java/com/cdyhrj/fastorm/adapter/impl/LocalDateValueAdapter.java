@@ -19,7 +19,14 @@ public class LocalDateValueAdapter implements ValueAdapter<LocalDate> {
     @SneakyThrows
     @Override
     public LocalDate readFromRs(ResultSet rs, int index, Class<LocalDate> fieldType) {
-        return rs.getDate(index).toLocalDate();
+        Date d = rs.getDate(index);
+
+        if (Objects.isNull(d)) {
+            return null;
+        } else {
+            return d.toLocalDate();
+        }
+
     }
 
     @Override

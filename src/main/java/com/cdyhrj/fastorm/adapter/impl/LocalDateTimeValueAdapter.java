@@ -21,7 +21,12 @@ public class LocalDateTimeValueAdapter implements ValueAdapter<LocalDateTime> {
     @SneakyThrows
     @Override
     public LocalDateTime readFromRs(ResultSet rs, int index, Class<LocalDateTime> fieldType) {
-        return rs.getTimestamp(index).toLocalDateTime();
+        Timestamp t = rs.getTimestamp(index);
+        if (Objects.isNull(t)) {
+            return null;
+        } else {
+            return t.toLocalDateTime();
+        }
     }
 
     @Override

@@ -246,6 +246,7 @@ public interface EntityProxy {
                 updateEntity(entity, i, rsMetaData.getColumnLabel(i).toLowerCase(), rs);
             }
         } catch (Exception ex) {
+            ex.printStackTrace();
             throw new ResultSetTransformException();
         }
 

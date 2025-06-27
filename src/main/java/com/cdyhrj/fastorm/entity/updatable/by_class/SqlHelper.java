@@ -38,9 +38,9 @@ public class SqlHelper {
     }
 
     private static FieldNameSpec[] getUpdateFields(EntityProxy entityProxy, Map<String, Object> paramMap) {
-        return entityProxy.getAllFieldInfo().stream().filter(fieldNameSpec -> {
-            return paramMap.containsKey(fieldNameSpec.fieldName());
-        }).toArray(FieldNameSpec[]::new);
+        return entityProxy.getAllFieldInfo().stream()
+                .filter(fieldNameSpec -> paramMap.containsKey(fieldNameSpec.fieldName()))
+                .toArray(FieldNameSpec[]::new);
     }
 
     private static CharSequence getUpdateFieldsSet(FieldNameSpec[] fieldNameSpecs) {
