@@ -2,7 +2,6 @@ package com.cdyhrj.fastorm.entity;
 
 import com.cdyhrj.fastorm.annotation.Column;
 import com.cdyhrj.fastorm.annotation.Id;
-import com.cdyhrj.fastorm.annotation.Name;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -24,6 +23,9 @@ public class BaseEntity implements Entity {
     @Id
     @Column
     private Long id;
+
+    @Column
+    private Long tenantId;
 
     @Column
     private LocalDateTime createdAt;
