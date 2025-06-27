@@ -31,4 +31,15 @@ class EntityByClassFetchableTest {
 
         Assertions.assertTrue(student.isPresent());
     }
+
+    @Test
+    void fetchByWhereTest() {
+        Optional<Student> student = fastORM.fetchable(Student.class)
+                .where()
+                .andEq(Student::getCode, "test")
+                .ret()
+                .fetchByWhere();
+
+        Assertions.assertTrue(student.isPresent());
+    }
 }

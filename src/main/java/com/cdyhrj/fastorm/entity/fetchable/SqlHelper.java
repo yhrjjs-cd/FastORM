@@ -1,11 +1,7 @@
 package com.cdyhrj.fastorm.entity.fetchable;
 
-import com.cdyhrj.fastorm.api.entity.FieldNameSpec;
 import com.cdyhrj.fastorm.entity.EntityProxy;
-import com.cdyhrj.fastorm.entity.updatable.by_class.EntityClassUpdatable;
-import com.cdyhrj.fastorm.entity.updatable.by_class.Where;
 
-import java.util.Map;
 import java.util.StringJoiner;
 
 
@@ -16,7 +12,7 @@ public class SqlHelper {
                 .add(entityProxy.getTableName())
                 .add("WHERE")
                 .add(placeholderField)
-                .add("= :%s".formatted(EntityClassUpdatable.PARAM_HOLDER_NAME));
+                .add("= :%s".formatted(EntityByClassFetchable.PARAM_HOLDER_NAME));
 
         return joiner.toString();
     }

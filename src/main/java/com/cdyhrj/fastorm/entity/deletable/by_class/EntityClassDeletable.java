@@ -95,8 +95,8 @@ public class EntityClassDeletable<E extends Entity> implements ConditionHost<E> 
      * @return affected rows
      */
     public int execByWhere() {
-        Assert.notNull(this.where, "where must not be null");
-        Assert.isTrue(!this.where.isEmpty(), "where must not be empty");
+        Assert.notNull(where, "where must not be null");
+        Assert.isTrue(!where.isEmpty(), "where must not be empty");
 
         EntityProxy entityProxy = Entity.getEntityProxy(entityClass);
 

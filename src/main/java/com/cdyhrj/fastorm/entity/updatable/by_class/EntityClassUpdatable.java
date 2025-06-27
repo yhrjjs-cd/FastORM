@@ -122,8 +122,8 @@ public class EntityClassUpdatable<E extends Entity>
      * @return affected rows
      */
     public int execByWhere() {
-        Assert.notNull(this.where, "where must not be null");
-        Assert.isTrue(!this.where.isEmpty(), "where must not be empty");
+        Assert.notNull(where, "where must not be null");
+        Assert.isTrue(!where.isEmpty(), "where must not be empty");
 
         Map<String, Object> params = this.paramChainToMap();
         Assert.isTrue(!params.isEmpty(), "Please set update field!");
@@ -133,7 +133,7 @@ public class EntityClassUpdatable<E extends Entity>
         Map<String, Object> paramMap = entityProxy.getDefaultValueMap(OperationType.UPDATE);
         paramMap.putAll(params);
 
-        String sqlText = SqlHelper.generateUpdateSqlTextByWhere(entityProxy, paramMap, this.where);
+        String sqlText = SqlHelper.generateUpdateSqlTextByWhere(entityProxy, paramMap, where);
 
         ParamMap conditionParamMap = ParamMap.of();
         this.where.writeToParamMap(conditionParamMap);

@@ -1,5 +1,6 @@
 package com.cdyhrj.fastorm.entity.fetchable;
 
+import com.cdyhrj.fastorm.api.parameter.ParamMap;
 import com.cdyhrj.fastorm.condition.ConditionHost;
 import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.entity.EntityProxy;
@@ -85,6 +86,24 @@ public class EntityByClassFetchable<E extends Entity> implements ConditionHost<E
         String sqlText = SqlHelper.generateUpdateSqlTextByPlaceholder(entityProxy, entityProxy.getNameFieldName());
 
         return this.namedParameterJdbcOperations.query(sqlText, Map.of(PARAM_HOLDER_NAME, name), rs -> {
+            if (rs.next()) {
+                return Optional.of(ResultSetUtils.toEntity(rs, entityClass));
+            } else {
+                return Optional.empty();
+            }
+        });
+    }
+
+    public Optional<E> fetchByWhere() {
+        Assert.notNull(where, "where must not be null");
+        Assert.isTrue(!where.isEmpty(), "where must not be empty");
+
+        EntityProxy entityProxy = Entity.getEntityProxy(entityClass);
+        String sqlText = SqlHelper.generateUpdateSqlTextByWhere(entityProxy, where);
+        ParamMap conditionParamMap = ParamMap.of();
+        this.where.writeToParamMap(conditionParamMap);
+
+        return this.namedParameterJdbcOperations.query(sqlText, conditionParamMap.getParams(), rs -> {
             if (rs.next()) {
                 return Optional.of(ResultSetUtils.toEntity(rs, entityClass));
             } else {
