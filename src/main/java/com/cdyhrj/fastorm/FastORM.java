@@ -9,6 +9,7 @@ import com.cdyhrj.fastorm.entity.insertable.by_class.EntityClassInsertable;
 import com.cdyhrj.fastorm.entity.insertable.by_list.EntitiesInsertable;
 import com.cdyhrj.fastorm.entity.insertable.by_object.EntityInsertable;
 import com.cdyhrj.fastorm.entity.queryable.EntityQueryable;
+import com.cdyhrj.fastorm.entity.queryable.s.EntityByClassQueryable;
 import com.cdyhrj.fastorm.entity.updatable.by_class.EntityClassUpdatable;
 import com.cdyhrj.fastorm.entity.updatable.by_object.EntityUpdatable;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
@@ -36,10 +37,6 @@ public class FastORM {
         this.transactionTemplate = transactionTemplate;
         this.namedParamOps = new NamedParameterJdbcTemplate(dataSource);
         this.fastOrmConfig = fastOrmConfig;
-    }
-
-    public <E extends Entity> EntityQueryable<E> queryable(Class<E> entityClazz) {
-        return new EntityQueryable<>(entityClazz);
     }
 
     /**
@@ -94,4 +91,9 @@ public class FastORM {
     public <E extends Entity> EntityByClassFetchable<E> fetchable(Class<E> entityClass) {
         return new EntityByClassFetchable<>(namedParamOps, entityClass);
     }
+
+    public <E extends Entity> EntityByClassQueryable<E> queryable(Class<E> entityClass) {
+        return new EntityByClassQueryable<>(namedParamOps, entityClass);
+    }
+
 }
