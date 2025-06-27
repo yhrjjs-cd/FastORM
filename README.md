@@ -87,3 +87,9 @@ fastORM.update(User.class)
 List<User> batchUsers = ...; // 批量数据集合
 fastORM.batchInsert(batchUsers, 100); // 分批次插入，每批100条
 ```
+
+### build
+```shell
+.\gradlew build -x test
+.\gradlew publishToMavenLocal
+```

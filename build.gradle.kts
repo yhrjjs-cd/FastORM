@@ -1,5 +1,6 @@
 plugins {
-    id("java")
+    java
+    `maven-publish`
     alias(libs.plugins.spring.boot)
 }
 
@@ -44,15 +45,11 @@ tasks.test {
         "--add-exports", "java.base/sun.security.ssl=ALL-UNNAMED"
     )
 }
-//
-//gradle.taskGraph.whenReady {
-//    val hasBuildTask = allTasks.any {
-//        it.name == "build"
-//    }
-//
-//    if (hasBuildTask) {
-//        tasks.named("test") {
-//            enabled = false
-//        }
-//    }
-//}
+
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            from(components["java"])
+        }
+    }
+}
