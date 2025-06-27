@@ -15,10 +15,19 @@ class EntityByClassFetchableTest {
     private FastORM fastORM;
 
     @Test
-    void tesEntityClassInsertExec() {
+    void fetchByIdTest() {
         Optional<Student> student = fastORM.fetchable(Student.class)
                 .id(369L)
                 .fetchById();
+
+        Assertions.assertTrue(student.isPresent());
+    }
+
+    @Test
+    void fetchByNameTest() {
+        Optional<Student> student = fastORM.fetchable(Student.class)
+                .name("test")
+                .fetchByName();
 
         Assertions.assertTrue(student.isPresent());
     }

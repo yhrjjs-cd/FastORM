@@ -77,4 +77,19 @@ public class EntityByClassFetchable<E extends Entity> implements ConditionHost<E
             }
         });
     }
+
+    public Optional<E> fetchByName() {
+        Assert.notNull(name, "name must not be null");
+
+        EntityProxy entityProxy = Entity.getEntityProxy(entityClass);
+        String sqlText = SqlHelper.generateUpdateSqlTextByPlaceholder(entityProxy, entityProxy.getNameFieldName());
+
+        return this.namedParameterJdbcOperations.query(sqlText, Map.of(PARAM_HOLDER_NAME, name), rs -> {
+            if (rs.next()) {
+                return Optional.of(ResultSetUtils.toEntity(rs, entityClass));
+            } else {
+                return Optional.empty();
+            }
+        });
+    }
 }
