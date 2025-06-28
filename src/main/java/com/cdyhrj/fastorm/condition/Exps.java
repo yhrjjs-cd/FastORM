@@ -25,27 +25,31 @@ public class Exps {
         return UnaryExpression.of(context, alias, keyFn, Operator.EQ, value);
     }
 
-    public static <E extends Entity> UnaryExpression lt(@NonNull ToSqlContext<?, ?> context,
-                                                        String alias, PropFn<E, ?> keyFn,
-                                                        Object value) {
+    public static <E extends Entity, N extends Number> UnaryExpression lt(@NonNull ToSqlContext<?, ?> context,
+                                                                          String alias,
+                                                                          PropFn<E, N> keyFn,
+                                                                          N value) {
         return UnaryExpression.of(context, alias, keyFn, Operator.LT, value);
     }
 
-    public static <E extends Entity> UnaryExpression lte(@NonNull ToSqlContext<?, ?> context,
-                                                         String alias, PropFn<E, ?> keyFn,
-                                                         Object value) {
+    public static <E extends Entity, N extends Number> UnaryExpression lte(@NonNull ToSqlContext<?, ?> context,
+                                                                           String alias,
+                                                                           PropFn<E, N> keyFn,
+                                                                           N value) {
         return UnaryExpression.of(context, alias, keyFn, Operator.LTE, value);
     }
 
-    public static <E extends Entity> UnaryExpression gt(@NonNull ToSqlContext<?, ?> context,
-                                                        String alias, PropFn<E, ?> keyFn,
-                                                        Object value) {
+    public static <E extends Entity, N extends Number> UnaryExpression gt(@NonNull ToSqlContext<?, ?> context,
+                                                                          String alias,
+                                                                          PropFn<E, N> keyFn,
+                                                                          N value) {
         return UnaryExpression.of(context, alias, keyFn, Operator.GT, value);
     }
 
-    public static <E extends Entity> UnaryExpression gte(@NonNull ToSqlContext<?, ?> context,
-                                                         String alias, PropFn<E, ?> keyFn,
-                                                         Object value) {
+    public static <E extends Entity, N extends Number> UnaryExpression gte(@NonNull ToSqlContext<?, ?> context,
+                                                                           String alias,
+                                                                           PropFn<E, N> keyFn,
+                                                                           N value) {
         return UnaryExpression.of(context, alias, keyFn, Operator.GTE, value);
     }
 }

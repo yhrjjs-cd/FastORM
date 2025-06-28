@@ -21,6 +21,7 @@ class EntityByClassQueryableTest {
                 .andEq(Student::getCode, "test")
                 .andOrGroup()
                 .orEq(Student::getCode, "test")
+                .orLte(Student::getId, 1L)
                 .orEq(Student::getCode, "test")
                 .orAndGroup()
                 .andEq(Student::getCode, "test")

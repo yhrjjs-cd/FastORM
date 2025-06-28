@@ -85,41 +85,41 @@ public class OrCondition<T extends Entity, H extends ConditionHost<T>> implement
         return this;
     }
 
-    public OrCondition<T, H> orLt(PropFn<T, ?> propFn, Object value) {
+    public <N extends Number> OrCondition<T, H> orLt(PropFn<T, N> propFn, N value) {
         return orEq(null, propFn, value);
     }
 
-    public OrCondition<T, H> orLt(String alias, PropFn<T, ?> propFn, Object value) {
+    public <N extends Number> OrCondition<T, H> orLt(String alias, PropFn<T, N> propFn, N value) {
         addExpression(Exps.lt(context, alias, propFn, value));
 
         return this;
     }
 
-    public OrCondition<T, H> orLte(PropFn<T, ?> propFn, Object value) {
+    public <N extends Number> OrCondition<T, H> orLte(PropFn<T, N> propFn, N value) {
         return orEq(null, propFn, value);
     }
 
-    public OrCondition<T, H> orLte(String alias, PropFn<T, ?> propFn, Object value) {
+    public <N extends Number> OrCondition<T, H> orLte(String alias, PropFn<T, N> propFn, N value) {
         addExpression(Exps.lte(context, alias, propFn, value));
 
         return this;
     }
 
-    public OrCondition<T, H> orGt(PropFn<T, ?> propFn, Object value) {
+    public <N extends Number> OrCondition<T, H> orGt(PropFn<T, N> propFn, N value) {
         return orEq(null, propFn, value);
     }
 
-    public OrCondition<T, H> orGt(String alias, PropFn<T, ?> propFn, Object value) {
+    public <N extends Number> OrCondition<T, H> orGt(String alias, PropFn<T, N> propFn, N value) {
         addExpression(Exps.gt(context, alias, propFn, value));
 
         return this;
     }
 
-    public OrCondition<T, H> orGte(PropFn<T, ?> propFn, Object value) {
+    public <N extends Number> OrCondition<T, H> orGte(PropFn<T, N> propFn, N value) {
         return orEq(null, propFn, value);
     }
 
-    public OrCondition<T, H> orGte(String alias, PropFn<T, ?> propFn, Object value) {
+    public <N extends Number> OrCondition<T, H> orGte(String alias, PropFn<T, N> propFn, N value) {
         addExpression(Exps.gte(context, alias, propFn, value));
 
         return this;

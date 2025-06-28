@@ -89,41 +89,41 @@ public class AndCondition<T extends Entity, H extends ConditionHost<T>> implemen
         return this;
     }
 
-    public AndCondition<T, H> andLt(PropFn<T, ?> propFn, Object value) {
+    public <N extends Number> AndCondition<T, H> andLt(PropFn<T, N> propFn, N value) {
         return andEq(null, propFn, value);
     }
 
-    public AndCondition<T, H> andLt(String alias, PropFn<T, ?> propFn, Object value) {
+    public <N extends Number> AndCondition<T, H> andLt(String alias, PropFn<T, N> propFn, N value) {
         addExpression(Exps.lt(context, alias, propFn, value));
 
         return this;
     }
 
-    public AndCondition<T, H> andLte(PropFn<T, ?> propFn, Object value) {
+    public <N extends Number> AndCondition<T, H> andLte(PropFn<T, N> propFn, N value) {
         return andEq(null, propFn, value);
     }
 
-    public AndCondition<T, H> andLte(String alias, PropFn<T, ?> propFn, Object value) {
+    public <N extends Number> AndCondition<T, H> andLte(String alias, PropFn<T, N> propFn, N value) {
         addExpression(Exps.lte(context, alias, propFn, value));
 
         return this;
     }
 
-    public AndCondition<T, H> andGt(PropFn<T, ?> propFn, Object value) {
+    public <N extends Number> AndCondition<T, H> andGt(PropFn<T, N> propFn, N value) {
         return andEq(null, propFn, value);
     }
 
-    public AndCondition<T, H> andGt(String alias, PropFn<T, ?> propFn, Object value) {
+    public <N extends Number> AndCondition<T, H> andGt(String alias, PropFn<T, N> propFn, N value) {
         addExpression(Exps.gt(context, alias, propFn, value));
 
         return this;
     }
 
-    public AndCondition<T, H> andGte(PropFn<T, ?> propFn, Object value) {
+    public <N extends Number> AndCondition<T, H> andGte(PropFn<T, N> propFn, N value) {
         return andEq(null, propFn, value);
     }
 
-    public AndCondition<T, H> andGte(String alias, PropFn<T, ?> propFn, Object value) {
+    public <N extends Number> AndCondition<T, H> andGte(String alias, PropFn<T, N> propFn, N value) {
         addExpression(Exps.gte(context, alias, propFn, value));
 
         return this;
