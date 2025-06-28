@@ -25,10 +25,27 @@ public class Exps {
         return UnaryExpression.of(context, alias, keyFn, Operator.EQ, value);
     }
 
-    public static <E extends Entity> UnaryExpression eq(@NonNull ToSqlContext<?, ?> context,
-                                                        String sourceAlias, PropFn<E, ?> sourceKeyFn,
-                                                        String targetAlias, PropFn<E, ?> targetKeyFn) {
-//        return UnaryExpression.of(context, alias, keyFn, Operator.EQ, value);
-        return null;
+    public static <E extends Entity> UnaryExpression lt(@NonNull ToSqlContext<?, ?> context,
+                                                        String alias, PropFn<E, ?> keyFn,
+                                                        Object value) {
+        return UnaryExpression.of(context, alias, keyFn, Operator.LT, value);
+    }
+
+    public static <E extends Entity> UnaryExpression lte(@NonNull ToSqlContext<?, ?> context,
+                                                         String alias, PropFn<E, ?> keyFn,
+                                                         Object value) {
+        return UnaryExpression.of(context, alias, keyFn, Operator.LTE, value);
+    }
+
+    public static <E extends Entity> UnaryExpression gt(@NonNull ToSqlContext<?, ?> context,
+                                                        String alias, PropFn<E, ?> keyFn,
+                                                        Object value) {
+        return UnaryExpression.of(context, alias, keyFn, Operator.GT, value);
+    }
+
+    public static <E extends Entity> UnaryExpression gte(@NonNull ToSqlContext<?, ?> context,
+                                                         String alias, PropFn<E, ?> keyFn,
+                                                         Object value) {
+        return UnaryExpression.of(context, alias, keyFn, Operator.GTE, value);
     }
 }

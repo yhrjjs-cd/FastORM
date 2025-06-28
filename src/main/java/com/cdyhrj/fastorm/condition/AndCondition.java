@@ -39,16 +39,6 @@ public class AndCondition<T extends Entity, H extends ConditionHost<T>> implemen
         this.expressionList.add(expression);
     }
 
-    public AndCondition<T, H> andEq(PropFn<T, ?> propFn, Object value) {
-        return andEq(null, propFn, value);
-    }
-
-    public AndCondition<T, H> andEq(String alias, PropFn<T, ?> propFn, Object value) {
-        addExpression(Exps.eq(context, alias, propFn, value));
-
-        return this;
-    }
-
     @Override
     public void writeToParamMap(@NonNull ParamMap paramMap) {
         this.expressionList.forEach(expression -> expression.writeToParamMap(paramMap));
@@ -87,5 +77,55 @@ public class AndCondition<T extends Entity, H extends ConditionHost<T>> implemen
 
     public OrCondition<T, H> end() {
         return this.belongTo;
+    }
+
+    public AndCondition<T, H> andEq(PropFn<T, ?> propFn, Object value) {
+        return andEq(null, propFn, value);
+    }
+
+    public AndCondition<T, H> andEq(String alias, PropFn<T, ?> propFn, Object value) {
+        addExpression(Exps.eq(context, alias, propFn, value));
+
+        return this;
+    }
+
+    public AndCondition<T, H> andLt(PropFn<T, ?> propFn, Object value) {
+        return andEq(null, propFn, value);
+    }
+
+    public AndCondition<T, H> andLt(String alias, PropFn<T, ?> propFn, Object value) {
+        addExpression(Exps.lt(context, alias, propFn, value));
+
+        return this;
+    }
+
+    public AndCondition<T, H> andLte(PropFn<T, ?> propFn, Object value) {
+        return andEq(null, propFn, value);
+    }
+
+    public AndCondition<T, H> andLte(String alias, PropFn<T, ?> propFn, Object value) {
+        addExpression(Exps.lte(context, alias, propFn, value));
+
+        return this;
+    }
+
+    public AndCondition<T, H> andGt(PropFn<T, ?> propFn, Object value) {
+        return andEq(null, propFn, value);
+    }
+
+    public AndCondition<T, H> andGt(String alias, PropFn<T, ?> propFn, Object value) {
+        addExpression(Exps.gt(context, alias, propFn, value));
+
+        return this;
+    }
+
+    public AndCondition<T, H> andGte(PropFn<T, ?> propFn, Object value) {
+        return andEq(null, propFn, value);
+    }
+
+    public AndCondition<T, H> andGte(String alias, PropFn<T, ?> propFn, Object value) {
+        addExpression(Exps.gte(context, alias, propFn, value));
+
+        return this;
     }
 }
