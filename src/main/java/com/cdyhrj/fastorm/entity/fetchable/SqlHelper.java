@@ -24,7 +24,7 @@ public class SqlHelper {
                 .add(entityProxy.getTableName());
 
         if (Objects.nonNull(fetchable.getWhere())) {
-            joiner.add(fetchable.getWhere().toNoAliasSql());
+            joiner.add("WHERE").add(fetchable.getWhere().toNoAliasSql());
         }
 
         if (Objects.nonNull(fetchable.getOrderBy())) {

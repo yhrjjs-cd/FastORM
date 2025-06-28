@@ -19,6 +19,14 @@ class EntityByClassQueryableTest {
         List<Student> students = fastORM.queryable(Student.class)
                 .where()
                 .andEq(Student::getCode, "test")
+                .andOrGroup()
+                .orEq(Student::getCode, "test")
+                .orEq(Student::getCode, "test")
+                .orAndGroup()
+                .andEq(Student::getCode, "test")
+                .end()
+                .end()
+                .andEq(Student::getCode, "test")
                 .ret()
                 .query();
 

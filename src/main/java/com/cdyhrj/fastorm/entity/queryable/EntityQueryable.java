@@ -8,8 +8,8 @@ import com.cdyhrj.fastorm.entity.queryable.helper.ListQueryHelper;
 import com.cdyhrj.fastorm.entity.queryable.join.Join;
 import com.cdyhrj.fastorm.entity.queryable.join.JoinType;
 import com.cdyhrj.fastorm.entity.queryable.join.Joins;
-import com.cdyhrj.fastorm.entity.queryable.where.Where;
 import com.cdyhrj.fastorm.entity.support.order_by.OrderBy;
+import com.cdyhrj.fastorm.entity.support.where.Where;
 import lombok.Getter;
 
 import java.util.List;
@@ -48,7 +48,7 @@ public class EntityQueryable<T extends Entity> implements ConditionHost<T> {
      * 条件
      */
     @Getter
-    private Where<T> where;
+    private Where<T, EntityQueryable<T>> where;
 
 
     /**
@@ -103,7 +103,7 @@ public class EntityQueryable<T extends Entity> implements ConditionHost<T> {
         return this;
     }
 
-    public Where<T> where() {
+    public Where<T, EntityQueryable<T>> where() {
         if (Objects.isNull(this.where)) {
             this.where = new Where<>(context, this);
         }

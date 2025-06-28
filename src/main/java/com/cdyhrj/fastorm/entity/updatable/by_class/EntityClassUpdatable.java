@@ -8,6 +8,7 @@ import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.entity.EntityProxy;
 import com.cdyhrj.fastorm.entity.base.AbstractEntityByClassParamSetter;
 import com.cdyhrj.fastorm.entity.queryable.context.ToSqlContext;
+import com.cdyhrj.fastorm.entity.support.where.Where;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
@@ -39,7 +40,7 @@ public class EntityClassUpdatable<E extends Entity>
 
     private Long id;
     private String name;
-    private Where<E> where;
+    private Where<E, EntityClassUpdatable<E>> where;
 
     public EntityClassUpdatable<E> id(Long id) {
         this.id = id;
@@ -53,7 +54,7 @@ public class EntityClassUpdatable<E extends Entity>
         return this;
     }
 
-    public Where<E> where() {
+    public Where<E, EntityClassUpdatable<E>> where() {
         if (Objects.isNull(this.where)) {
             this.where = new Where<>(context, this);
         }

@@ -5,6 +5,7 @@ import com.cdyhrj.fastorm.condition.ConditionHost;
 import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.entity.EntityProxy;
 import com.cdyhrj.fastorm.entity.queryable.context.ToSqlContext;
+import com.cdyhrj.fastorm.entity.support.where.Where;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +38,7 @@ public class EntityClassDeletable<E extends Entity> implements ConditionHost<E> 
 
     private Long id;
     private String name;
-    private Where<E> where;
+    private Where<E, EntityClassDeletable<E>> where;
 
     public EntityClassDeletable<E> id(Long id) {
         this.id = id;
@@ -51,7 +52,7 @@ public class EntityClassDeletable<E extends Entity> implements ConditionHost<E> 
         return this;
     }
 
-    public Where<E> where() {
+    public Where<E, EntityClassDeletable<E>> where() {
         if (Objects.isNull(this.where)) {
             this.where = new Where<>(context, this);
         }

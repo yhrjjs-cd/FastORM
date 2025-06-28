@@ -2,6 +2,7 @@ package com.cdyhrj.fastorm.entity.updatable.by_class;
 
 import com.cdyhrj.fastorm.api.entity.FieldNameSpec;
 import com.cdyhrj.fastorm.entity.EntityProxy;
+import com.cdyhrj.fastorm.entity.support.where.Where;
 
 import java.util.Map;
 import java.util.StringJoiner;
@@ -23,7 +24,7 @@ public class SqlHelper {
         return joiner.toString();
     }
 
-    public static String generateUpdateSqlTextByWhere(EntityProxy entityProxy, Map<String, Object> paramMap, Where<?> where) {
+    public static String generateUpdateSqlTextByWhere(EntityProxy entityProxy, Map<String, Object> paramMap, Where<?, ?> where) {
         FieldNameSpec[] fieldNameSpecs = getUpdateFields(entityProxy, paramMap);
 
         StringJoiner joiner = new StringJoiner(" ");
@@ -31,6 +32,7 @@ public class SqlHelper {
                 .add(entityProxy.getTableName())
                 .add("SET")
                 .add(getUpdateFieldsSet(fieldNameSpecs))
+                .add("WHERE")
                 .add(where.toNoAliasSql());
 
         return joiner.toString();
