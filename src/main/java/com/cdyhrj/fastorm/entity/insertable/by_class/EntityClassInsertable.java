@@ -1,6 +1,7 @@
 package com.cdyhrj.fastorm.entity.insertable.by_class;
 
 import com.cdyhrj.fastorm.annotation.enums.OperationType;
+import com.cdyhrj.fastorm.api.chain.Chain;
 import com.cdyhrj.fastorm.condition.ConditionHost;
 import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.entity.EntityProxy;
@@ -11,6 +12,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.lang.NonNull;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.Map;
@@ -23,7 +25,24 @@ public class EntityClassInsertable<E extends Entity> extends AbstractEntityByCla
     private final TransactionTemplate transactionTemplate;
     private final Class<E> entityClass;
 
-    public int exec() {
+    /**
+     * 设置参数, 仅仅为内部使用
+     *
+     * @param key   字段
+     * @param value 值
+     * @return 当前对象
+     */
+    public EntityClassInsertable<E> set(@NonNull String key, Long value) {
+        if (Objects.isNull(paramChain)) {
+            paramChain = Chain.make(key, value);
+        } else {
+            paramChain.add(key, value);
+        }
+
+        return this;
+    }
+
+    public int insert() {
         EntityProxy entityProxy = Entity.getEntityProxy(entityClass);
 
         Map<String, Object> paramMap = entityProxy.getDefaultValueMap(OperationType.INSERT);
@@ -33,7 +52,7 @@ public class EntityClassInsertable<E extends Entity> extends AbstractEntityByCla
         return this.namedParameterJdbcOperations.update(sqlText, new MapSqlParameterSource(paramMap));
     }
 
-    public Long execReturnId() {
+    public Long insertReturnId() {
         EntityProxy entityProxy = Entity.getEntityProxy(entityClass);
 
         Map<String, Object> paramMap = entityProxy.getDefaultValueMap(OperationType.INSERT);

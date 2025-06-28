@@ -16,7 +16,7 @@ class EntityClassInsertableTest {
     void tesEntityClassInsertExec() {
         int count = fastORM.insertable(Student.class)
                 .set(Student::getCode, "test")
-                .exec();
+                .insert();
 
         Assertions.assertEquals(1, count);
     }
@@ -25,7 +25,7 @@ class EntityClassInsertableTest {
     void tesEntityClassInsertExecReturnId() {
         Long id = fastORM.insertable(Student.class)
                 .set(Student::getCode, "test")
-                .execReturnId();
+                .insertReturnId();
 
         Assertions.assertTrue(id > 0, "Id should be greater than 0");
     }

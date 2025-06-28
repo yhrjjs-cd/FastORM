@@ -2,13 +2,12 @@ package com.cdyhrj.fastorm.entity;
 
 import com.cdyhrj.fastorm.annotation.enums.OperationType;
 import com.cdyhrj.fastorm.api.entity.FieldNameSpec;
+import com.cdyhrj.fastorm.api.enums.RelationType;
 import com.cdyhrj.fastorm.entity.meta.ManyToManyMasterInfo;
 import com.cdyhrj.fastorm.entity.meta.ManyToManyMeta;
 import com.cdyhrj.fastorm.entity.meta.OneToManyMeta;
 import com.cdyhrj.fastorm.entity.meta.OneToOneMeta;
 import com.cdyhrj.fastorm.exception.ResultSetTransformException;
-
-import javax.management.relation.RelationType;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.util.List;

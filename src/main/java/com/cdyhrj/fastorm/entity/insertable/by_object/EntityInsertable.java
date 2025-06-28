@@ -6,16 +6,25 @@
 package com.cdyhrj.fastorm.entity.insertable.by_object;
 
 import com.cdyhrj.fastorm.annotation.enums.OperationType;
+import com.cdyhrj.fastorm.api.enums.RelationType;
+import com.cdyhrj.fastorm.api.lambda.LambdaQuery;
+import com.cdyhrj.fastorm.api.lambda.PropFn;
 import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.entity.EntityProxy;
+import com.cdyhrj.fastorm.entity.insertable.by_class.EntityClassInsertable;
+import com.cdyhrj.fastorm.entity.meta.ManyToManyMasterInfo;
+import com.cdyhrj.fastorm.entity.meta.ManyToManyMeta;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.lang.NonNull;
 import org.springframework.transaction.support.TransactionTemplate;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -34,6 +43,26 @@ public class EntityInsertable<E extends Entity> {
         this.entityProxy = Entity.getEntityProxy(entity.getClass());
     }
 
+    /**
+     * 关系
+     */
+    private List<String> relations;
+
+    /**
+     * 插入关系 <font color="red">请注意：1次只能插入1个关系</font>
+     *
+     * @param relation 关系名
+     * @return 当前对象
+     */
+    public EntityInsertable<E> withRelation(@NonNull PropFn<E, ?> relation) {
+        if (Objects.isNull(this.relations)) {
+            this.relations = new ArrayList<>();
+        }
+
+        this.relations.add(LambdaQuery.resolve(relation).getName());
+
+        return this;
+    }
 
     /**
      * 执行插入操作
@@ -41,6 +70,20 @@ public class EntityInsertable<E extends Entity> {
     public int insert() {
         entityProxy.updateEntityWithDefaultValue(entity, OperationType.INSERT);
 
+        if (Objects.isNull(relations)) {
+            return insertWithNoRelation();
+        } else {
+            return insertWithRelations();
+        }
+    }
+
+    public Long insertReturnId() {
+        insert();
+
+        return this.entityProxy.getIdValue(entity);
+    }
+
+    private int insertWithNoRelation() {
         Map<String, Object> paramMap = entityProxy.getValueMap(entity);
         String sqlText = SqlHelper.generateInsertSqlText(entityProxy, entity);
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -55,9 +98,77 @@ public class EntityInsertable<E extends Entity> {
         return rows;
     }
 
-    public Long insertReturnId() {
-        insert();
+    private Integer insertWithRelations() {
+        return transactionTemplate.execute(status -> {
+            Map<String, Object> paramMap = entityProxy.getValueMap(entity);
+            String sqlText = SqlHelper.generateInsertSqlText(entityProxy, entity);
+            KeyHolder keyHolder = new GeneratedKeyHolder();
 
-        return this.entityProxy.getIdValue(entity);
+            int rows = this.namedParameterJdbcOperations.update(sqlText, new MapSqlParameterSource(paramMap), keyHolder);
+            Number key = keyHolder.getKey();
+            if (Objects.nonNull(key)) {
+                entityProxy.updateEntityId(entity, key.longValue());
+            }
+
+            for (String relation : relations) {
+                RelationType relationType = entityProxy.getRelationType(relation);
+
+                switch (relationType) {
+                    case OneToOne -> insertOneToOneRelation(entity, relation);
+                    case OneToMany -> insertOneToManyRelation(entity, relation);
+                    case ManyToMany -> insertManyToManyRelation(entity, relation);
+                }
+            }
+
+            return rows;
+        });
+    }
+
+    private void insertOneToOneRelation(Entity entity, String relation) {
+        Entity relationEntity = entityProxy.getRelationOneToOneValue(entity, relation);
+
+        if (Objects.nonNull(relationEntity)) {
+            EntityProxy relationEntityProxy = Entity.getEntityProxy(relationEntity.getClass());
+            relationEntityProxy.updateEntityOneToOneId(relationEntity, entityProxy.getIdValue(entity));
+
+            new EntityInsertable<>(namedParameterJdbcOperations, transactionTemplate, relationEntity).insert();
+        }
+    }
+
+    private void insertOneToManyRelation(Entity entity, String relation) {
+        List<Entity> relationEntities = Objects.requireNonNull(entityProxy.getRelationOneToManyValue(entity, relation));
+
+        long mainId = entityProxy.getIdValue(entity);
+        if (!relationEntities.isEmpty()) {
+            Class<? extends Entity> relationEntitieClass = relationEntities.get(0).getClass();
+            EntityProxy relationEntityProxy = Entity.getEntityProxy(relationEntitieClass);
+
+            for (Entity re : relationEntities) {
+                relationEntityProxy.updateEntityOneToManyName(re, mainId);
+                new EntityInsertable<>(namedParameterJdbcOperations, transactionTemplate, re).insert();
+            }
+        }
+    }
+
+    private void insertManyToManyRelation(Entity entity, String relation) {
+        List<Entity> relationEntities = entityProxy.getRelationManyToManyValue(entity, relation);
+        if (relationEntities.isEmpty()) {
+            return;
+        }
+
+        ManyToManyMasterInfo manyToManyMasterInfo = entityProxy.getManyToManyRelationMasterInfoClass(relation);
+        EntityProxy middleEntityProxy = Entity.getEntityProxy(manyToManyMasterInfo.relationClass());
+        ManyToManyMeta manyToManyMeta = middleEntityProxy.getRelationManyToManyMeta();
+
+        Long leftId = entityProxy.getIdValue(entity);
+
+        for (Entity re : relationEntities) {
+            Long id = new EntityInsertable<>(namedParameterJdbcOperations, transactionTemplate, re).insertReturnId();
+
+            new EntityClassInsertable<>(namedParameterJdbcOperations, transactionTemplate, manyToManyMasterInfo.relationClass())
+                    .set(manyToManyMeta.leftFieldName(), leftId)
+                    .set(manyToManyMeta.rightFieldName(), id)
+                    .insert();
+        }
     }
 }

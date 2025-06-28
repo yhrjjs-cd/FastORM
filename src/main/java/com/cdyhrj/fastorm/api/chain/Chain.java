@@ -24,15 +24,23 @@ public class Chain<E extends Entity> {
     private ChainEntry<E> tail;
     private int size;
 
-    public Chain(@NonNull PropFn<? extends E, ?> keyFn, Object value) {
-        this.head = ChainEntry.of(LambdaQuery.resolve(keyFn).getName(), value);
+    public Chain(@NonNull String key, Object value) {
+        this.head = ChainEntry.of(key, value);
         this.current = head;
         this.tail = head;
         this.size = 1;
     }
 
+    public Chain(@NonNull PropFn<? extends E, ?> keyFn, Object value) {
+        this(LambdaQuery.resolve(keyFn).getName(), value);
+    }
+
     public static <E extends Entity> Chain<E> make(@NonNull PropFn<? extends E, ?> keyFn, Object value) {
         return new Chain<>(keyFn, value);
+    }
+
+    public static <E extends Entity> Chain<E> make(@NonNull String key, Object value) {
+        return new Chain<>(key, value);
     }
 
     public static <E extends Entity> Chain<E> makeSpecial(@NonNull PropFn<? extends E, ?> keyFn, Object value) {
@@ -56,12 +64,16 @@ public class Chain<E extends Entity> {
         return current.adaptor;
     }
 
-    public Chain<E> add(@NonNull PropFn<? extends E, ?> keyFn, Object value) {
-        String name = LambdaQuery.resolve(keyFn).getName();
-
-        tail.next = ChainEntry.of(name, value);
+    public Chain<E> add(@NonNull String key, Object value) {
+        tail.next = ChainEntry.of(key, value);
         tail = tail.next;
         size++;
+
+        return this;
+    }
+
+    public Chain<E> add(@NonNull PropFn<? extends E, ?> keyFn, Object value) {
+        add(LambdaQuery.resolve(keyFn).getName(), value);
 
         return this;
     }
