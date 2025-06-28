@@ -128,4 +128,14 @@ public class AndCondition<T extends Entity, H extends ConditionHost<T>> implemen
 
         return this;
     }
+
+    public AndCondition<T, H> andIsNull(PropFn<T, ?> propFn) {
+        return andIsNull(null, propFn);
+    }
+
+    public AndCondition<T, H> andIsNull(String alias, PropFn<T, ?> propFn) {
+        addExpression(Exps.isNull(context, alias, propFn));
+
+        return this;
+    }
 }

@@ -124,4 +124,14 @@ public class OrCondition<T extends Entity, H extends ConditionHost<T>> implement
 
         return this;
     }
+
+    public OrCondition<T, H> orIsNull(PropFn<T, ?> propFn) {
+        return orIsNull(null, propFn);
+    }
+
+    public OrCondition<T, H> orIsNull(String alias, PropFn<T, ?> propFn) {
+        addExpression(Exps.isNull(context, alias, propFn));
+
+        return this;
+    }
 }
