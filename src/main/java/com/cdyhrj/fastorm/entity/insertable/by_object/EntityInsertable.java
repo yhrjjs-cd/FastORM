@@ -54,7 +54,7 @@ public class EntityInsertable<E extends Entity> {
      * @param relation 关系名
      * @return 当前对象
      */
-    public EntityInsertable<E> withRelation(@NonNull PropFn<E, ?> relation) {
+    public EntityInsertable<E> withRelation(@NonNull PropFn<E, ? extends Entity> relation) {
         if (Objects.isNull(this.relations)) {
             this.relations = new ArrayList<>();
         }
