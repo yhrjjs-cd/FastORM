@@ -35,11 +35,11 @@ public class UnaryExpression extends AbstractUnaryExpression<Object> {
 
     @Override
     public String toSql() {
-        return "%s.%s %s :%s".formatted(alias, field, operator.getValue(), paramName);
+        return "%s.%s %s :%s".formatted(alias, field, operator, paramName);
     }
 
     @Override
     public String toNoAliasSql() {
-        return "%s %s :%s".formatted(field, operator.getValue(), paramName);
+        return "%s %s :%s".formatted(field, operator, paramName);
     }
 }

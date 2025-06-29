@@ -51,12 +51,12 @@ public class PropFnExpression implements Expression {
 
     @Override
     public String toSql() {
-        return "%s.%s %s %s.%s".formatted(leftAlias, leftFieldName, operator.getValue(), rightAlias, rightFieldName);
+        return "%s.%s %s %s.%s".formatted(leftAlias, leftFieldName, operator, rightAlias, rightFieldName);
     }
 
     @Override
     public String toNoAliasSql() {
-        return "%s %s %s".formatted(leftFieldName, operator.getValue(), rightFieldName);
+        return "%s %s %s".formatted(leftFieldName, operator, rightFieldName);
     }
 
     @Override
