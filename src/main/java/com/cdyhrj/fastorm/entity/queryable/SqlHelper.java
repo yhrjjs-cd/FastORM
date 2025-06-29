@@ -21,6 +21,11 @@ public class SqlHelper {
             joiner.add(queryable.getOrderBy().toSql());
         }
 
-        return joiner.toString();
+        String sqlText = joiner.toString();
+        if (Objects.nonNull(queryable.getPager())) {
+            return queryable.getPagerProvider().withSql(sqlText, queryable.getPager());
+        }
+
+        return sqlText;
     }
 }

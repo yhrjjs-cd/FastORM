@@ -11,6 +11,7 @@ import com.cdyhrj.fastorm.entity.insertable.by_object.EntityInsertable;
 import com.cdyhrj.fastorm.entity.queryable.EntityByClassQueryable;
 import com.cdyhrj.fastorm.entity.updatable.by_class.EntityClassUpdatable;
 import com.cdyhrj.fastorm.entity.updatable.by_object.EntityUpdatable;
+import com.cdyhrj.fastorm.pager.IPagerProvider;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.lang.NonNull;
@@ -29,13 +30,16 @@ public class FastORM {
     private final TransactionTemplate transactionTemplate;
     private final NamedParameterJdbcOperations namedParamOps;
     private final FastOrmConfig fastOrmConfig;
+    private final IPagerProvider pagerProvider;
 
     public FastORM(@NonNull DataSource dataSource,
                    @NonNull TransactionTemplate transactionTemplate,
-                   @NonNull FastOrmConfig fastOrmConfig) {
+                   @NonNull FastOrmConfig fastOrmConfig,
+                   @NonNull IPagerProvider pagerProvider) {
         this.transactionTemplate = transactionTemplate;
         this.namedParamOps = new NamedParameterJdbcTemplate(dataSource);
         this.fastOrmConfig = fastOrmConfig;
+        this.pagerProvider = pagerProvider;
     }
 
     /**
@@ -92,7 +96,7 @@ public class FastORM {
     }
 
     public <E extends Entity> EntityByClassQueryable<E> queryable(Class<E> entityClass) {
-        return new EntityByClassQueryable<>(namedParamOps, entityClass);
+        return new EntityByClassQueryable<>(namedParamOps, pagerProvider, entityClass);
     }
 
 }

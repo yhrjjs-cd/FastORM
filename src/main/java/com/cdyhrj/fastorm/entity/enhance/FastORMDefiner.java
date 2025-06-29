@@ -2,6 +2,7 @@ package com.cdyhrj.fastorm.entity.enhance;
 
 import com.cdyhrj.fastorm.FastORM;
 import com.cdyhrj.fastorm.config.FastOrmConfig;
+import com.cdyhrj.fastorm.pager.IPagerProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +20,10 @@ class FastORMDefiner {
     }
 
     @Bean
-    public FastORM getFastORM(DataSource dataSource, TransactionTemplate transactionTemplate, FastOrmConfig fastOrmConfig) {
-        return new FastORM(dataSource, transactionTemplate, fastOrmConfig);
+    public FastORM getFastORM(DataSource dataSource,
+                              TransactionTemplate transactionTemplate,
+                              FastOrmConfig fastOrmConfig,
+                              IPagerProvider pagerProvider) {
+        return new FastORM(dataSource, transactionTemplate, fastOrmConfig, pagerProvider);
     }
 }

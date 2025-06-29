@@ -2,6 +2,7 @@ package com.cdyhrj.fastorm.entity.queryable;
 
 import com.cdyhrj.fastorm.FastORM;
 import com.cdyhrj.fastorm.entity.Student;
+import com.cdyhrj.fastorm.pager.Pager;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,7 @@ class EntityByClassQueryableTest {
                 .end()
                 .andEq(Student::getCode, "test")
                 .ret()
+                .pager(Pager.DEFAULT)
                 .query();
 
         Assertions.assertFalse(students.isEmpty());
