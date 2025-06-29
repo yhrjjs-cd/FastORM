@@ -87,7 +87,7 @@ public class AndConditionX<T extends Entity, H extends ConditionHost<T>> impleme
         return andEq(null, propFn, value);
     }
 
-    public AndConditionX<T, H> andEq(String alias, PropFn<? extends Entity, ?> propFn, Object value) {
+    public <E extends Entity> AndConditionX<T, H> andEq(String alias, PropFn<E, ?> propFn, Object value) {
         addExpression(Exps.eq(context, alias, propFn, value));
 
         return this;

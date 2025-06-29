@@ -4,7 +4,7 @@ import com.cdyhrj.fastorm.condition.ConditionHost;
 import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.entity.queryablex.from.ClassFrom;
 import com.cdyhrj.fastorm.entity.queryablex.from.From;
-import com.cdyhrj.fastorm.exception.TableAliasNameException;
+import com.cdyhrj.fastorm.exception.TableAliasNameDuplicateException;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -43,7 +43,7 @@ public class ToSqlContext<E extends Entity, H extends ConditionHost<E>> {
     public void addEntity(Class<? extends Entity> entityClass) {
         String alias = entityClass.getName();
         if (entityMap.containsKey(alias)) {
-            throw new TableAliasNameException();
+            throw new TableAliasNameDuplicateException(entityClass);
         }
         TableAvailable newEntity = newEntityFrom(ClassFrom.of(entityClass));
 
@@ -52,7 +52,7 @@ public class ToSqlContext<E extends Entity, H extends ConditionHost<E>> {
 
     public void addEntity(Class<? extends Entity> entityClass, String entityAlias) {
         if (entityMap.containsKey(entityAlias)) {
-            throw new TableAliasNameException();
+            throw new TableAliasNameDuplicateException(entityClass);
         }
 
         TableAvailable newEntity = newEntityFrom(ClassFrom.of(entityClass), entityAlias);

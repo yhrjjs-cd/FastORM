@@ -86,8 +86,6 @@ public class EntityByClassQueryable<E extends Entity> implements ConditionHost<E
             pagerProvider.writeToParamMap(conditionParamMap, getPager());
         }
 
-        System.out.println(conditionParamMap.getParams());
-
         return this.namedParameterJdbcOperations.query(sqlText, conditionParamMap.getParams(), new QueryRowMapper<>(entityClass));
     }
 }

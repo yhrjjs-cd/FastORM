@@ -9,6 +9,7 @@ import com.cdyhrj.fastorm.entity.insertable.by_class.EntityClassInsertable;
 import com.cdyhrj.fastorm.entity.insertable.by_list.EntitiesInsertable;
 import com.cdyhrj.fastorm.entity.insertable.by_object.EntityInsertable;
 import com.cdyhrj.fastorm.entity.queryable.EntityByClassQueryable;
+import com.cdyhrj.fastorm.entity.queryablex.EntityByClassQueryableX;
 import com.cdyhrj.fastorm.entity.updatable.by_class.EntityClassUpdatable;
 import com.cdyhrj.fastorm.entity.updatable.by_object.EntityUpdatable;
 import com.cdyhrj.fastorm.pager.IPagerProvider;
@@ -99,4 +100,7 @@ public class FastORM {
         return new EntityByClassQueryable<>(namedParamOps, pagerProvider, entityClass);
     }
 
+    public <E extends Entity> EntityByClassQueryableX<E> queryableX(Class<E> entityClass) {
+        return new EntityByClassQueryableX<>(namedParamOps, pagerProvider, entityClass);
+    }
 }

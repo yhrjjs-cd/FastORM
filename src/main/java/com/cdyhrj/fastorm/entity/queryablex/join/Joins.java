@@ -1,37 +1,58 @@
 package com.cdyhrj.fastorm.entity.queryablex.join;
 
-import com.cdyhrj.fastorm.condition.ConditionHost;
+import com.cdyhrj.fastorm.api.meta.SqlSegment;
 import com.cdyhrj.fastorm.entity.Entity;
-import com.cdyhrj.fastorm.entity.context.AbstractSqlSegmentContextAware;
 import com.cdyhrj.fastorm.entity.context.ToSqlContext;
+import com.cdyhrj.fastorm.entity.queryablex.EntityByClassQueryableX;
 import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Joins<E extends Entity, H extends ConditionHost<E>> extends AbstractSqlSegmentContextAware<E, H> {
+/**
+ * Join
+ *
+ * @param <E> 实体类
+ */
+public class Joins<E extends Entity> implements SqlSegment {
     @Getter
-    private List<Join<E, H, ?, ?>> joins = new ArrayList<>();
+    private final ToSqlContext<E, EntityByClassQueryableX<E>> context;
 
-    public static <E1 extends Entity, H extends ConditionHost<E1>> Joins<E1, H> of() {
-        return new Joins<>(null);
+    @Getter
+    private List<Join<E, ?, ?>> joins = new ArrayList<>();
+
+    public Joins(ToSqlContext<E, EntityByClassQueryableX<E>> context) {
+        this.context = context;
     }
 
-    public Joins(ToSqlContext<E, H> context) {
-        super(context);
+    public EntityByClassQueryableX<E> ret() {
+        return context.getBelongTo();
     }
 
-    public <E1 extends Entity> Join<E, H, E, E1> addJoin(JoinType joinType, Class<E1> entityClass) {
-        Join<E, H, E, E1> join = Join.of(this.getContext(), joinType, entityClass);
+    public <R extends Entity> Join<E, E, R> addJoin(JoinType joinType, Class<R> entityClass) {
+        Join<E, E, R> join = Join.of(this, joinType, entityClass);
         this.joins.add(join);
 
         return join;
     }
 
-    public <E1 extends Entity, E2 extends Entity> Join<E, H, E1, E2> addJoin(JoinType joinType, Class<E1> sourceEntityClass, Class<E2> targetEntityClass) {
-        Join<E, H, E1, E2> join = Join.of(this.getContext(), joinType, sourceEntityClass, targetEntityClass);
+    public <R extends Entity> Join<E, E, R> addJoin(JoinType joinType, Class<R> entityClass, String alias) {
+        Join<E, E, R> join = Join.of(this, joinType, entityClass, alias);
+        this.joins.add(join);
 
+        return join;
+    }
+
+    public <R extends Entity, L extends Entity> Join<E, L, R> addJoin(JoinType joinType, Class<R> entityClass, Class<L> linkEntityClass) {
+        Join<E, L, R> join = Join.of(this, joinType, entityClass, linkEntityClass);
+        this.joins.add(join);
+
+        return join;
+    }
+
+    public <R extends Entity, L extends Entity> Join<E, L, R> addJoin(JoinType joinType, Class<R> entityClass, Class<L> linkEntityClass, String linkEntityAlias) {
+        Join<E, L, R> join = Join.of(this, joinType, entityClass, linkEntityClass, linkEntityAlias);
         this.joins.add(join);
 
         return join;
