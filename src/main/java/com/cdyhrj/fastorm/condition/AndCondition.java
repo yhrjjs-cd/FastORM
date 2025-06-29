@@ -138,4 +138,15 @@ public class AndCondition<T extends Entity, H extends ConditionHost<T>> implemen
 
         return this;
     }
+
+    public AndCondition<T, H> andLike(PropFn<T, String> propFn, String value) {
+        return andLike(null, propFn, value
+        );
+    }
+
+    public AndCondition<T, H> andLike(String alias, PropFn<T, String> propFn, String value) {
+        addExpression(Exps.like(context, alias, propFn, value));
+
+        return this;
+    }
 }

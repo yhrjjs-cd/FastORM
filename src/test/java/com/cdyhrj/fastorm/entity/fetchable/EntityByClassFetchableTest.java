@@ -37,6 +37,7 @@ class EntityByClassFetchableTest {
         Optional<Student> student = fastORM.fetchable(Student.class)
                 .where()
                 .andEq(Student::getCode, "test")
+                .andIsNull(Student::getName)
                 .ret()
                 .fetch();
 

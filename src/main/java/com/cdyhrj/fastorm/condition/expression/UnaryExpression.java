@@ -10,7 +10,7 @@ import org.springframework.lang.NonNull;
 
 import java.util.Objects;
 
-public class UnaryExpression extends AbstractUnaryExpression {
+public class UnaryExpression extends AbstractUnaryExpression<Object> {
     protected Operator operator;
 
     public static <E extends Entity> UnaryExpression of(@NonNull ToSqlContext<?, ?> context, String entityAlias, PropFn<E, ?> field, Operator operator, Object value) {

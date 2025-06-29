@@ -1,13 +1,13 @@
 package com.cdyhrj.fastorm.condition.expression;
 
-import com.cdyhrj.fastorm.condition.expression.helper.ParamNameGenerator;
 import com.cdyhrj.fastorm.api.parameter.ParamMap;
+import com.cdyhrj.fastorm.condition.expression.helper.ParamNameGenerator;
 import org.springframework.lang.NonNull;
 
-public abstract class AbstractUnaryExpression implements Expression {
+public abstract class AbstractUnaryExpression<T> implements Expression {
     protected String alias;
     protected String field;
-    protected Object value;
+    protected T value;
     /**
      * 参数名，用于SQL生成中占位，一个SQL中哟唯一性
      */
@@ -18,7 +18,7 @@ public abstract class AbstractUnaryExpression implements Expression {
         paramMap.add(paramName, value);
     }
 
-    public AbstractUnaryExpression(String alias, String field, Object value) {
+    public AbstractUnaryExpression(String alias, String field, T value) {
         this.alias = alias;
         this.field = field;
         this.value = value;

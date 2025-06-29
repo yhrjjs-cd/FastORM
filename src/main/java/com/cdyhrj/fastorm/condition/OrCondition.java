@@ -134,4 +134,14 @@ public class OrCondition<T extends Entity, H extends ConditionHost<T>> implement
 
         return this;
     }
+
+    public OrCondition<T, H> orLike(PropFn<T, String> propFn, String value) {
+        return orLike(null, propFn, value);
+    }
+
+    public OrCondition<T, H> orLike(String alias, PropFn<T, String> propFn, String value) {
+        addExpression(Exps.like(context, alias, propFn, value));
+
+        return this;
+    }
 }
