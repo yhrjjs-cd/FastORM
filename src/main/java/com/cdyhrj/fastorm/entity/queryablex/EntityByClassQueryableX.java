@@ -8,7 +8,6 @@ import com.cdyhrj.fastorm.entity.queryablex.join.Joins;
 import com.cdyhrj.fastorm.entity.queryablex.order_by.OrderBy;
 import com.cdyhrj.fastorm.entity.queryablex.where.Where;
 import com.cdyhrj.fastorm.pager.IPagerProvider;
-import lombok.Getter;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 
 import java.util.List;
@@ -21,11 +20,14 @@ import java.util.Objects;
  */
 public class EntityByClassQueryableX<E extends Entity> implements ConditionHost<E> {
     private final NamedParameterJdbcOperations namedParameterJdbcOperations;
-    @Getter
+
     private final IPagerProvider pagerProvider;
+
+
     private final Class<E> entityClass;
-    @Getter
+
     private final ToSqlContext<E, EntityByClassQueryableX<E>> context;
+
 
     /**
      * 连接
@@ -42,6 +44,13 @@ public class EntityByClassQueryableX<E extends Entity> implements ConditionHost<
         this.joins = new Joins<>(this.context);
     }
 
+    IPagerProvider getPagerProvider() {
+        return pagerProvider;
+    }
+
+    ToSqlContext<E, EntityByClassQueryableX<E>> getContext() {
+        return context;
+    }
 
     /**
      * 条件
