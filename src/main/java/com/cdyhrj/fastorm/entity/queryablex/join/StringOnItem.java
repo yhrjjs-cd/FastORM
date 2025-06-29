@@ -1,4 +1,4 @@
-package com.cdyhrj.fastorm.entity.queryable.join;
+package com.cdyhrj.fastorm.entity.queryablex.join;
 
 public class StringOnItem implements OnItem {
     public static StringOnItem of(String itemString) {

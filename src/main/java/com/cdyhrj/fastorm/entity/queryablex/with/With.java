@@ -1,4 +1,4 @@
-package com.cdyhrj.fastorm.entity.queryable.with;
+package com.cdyhrj.fastorm.entity.queryablex.with;
 
 import com.cdyhrj.fastorm.api.meta.SqlSegment;
 import lombok.Getter;

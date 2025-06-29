@@ -1,4 +1,4 @@
-package com.cdyhrj.fastorm.entity.queryable.join;
+package com.cdyhrj.fastorm.entity.queryablex.join;
 
 public class OnItem1 implements OnItem {
     public static OnItem1 of(String alias,

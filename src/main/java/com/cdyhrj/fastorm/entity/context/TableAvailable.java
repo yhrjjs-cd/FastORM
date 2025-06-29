@@ -1,4 +1,4 @@
-package com.cdyhrj.fastorm.entity.queryable.context;
+package com.cdyhrj.fastorm.entity.context;
 
 import com.cdyhrj.fastorm.api.meta.SqlSegment;
 import com.cdyhrj.fastorm.entity.queryablex.from.From;

@@ -58,6 +58,7 @@ public class EntitiesInsertable<E extends Entity> {
         return this;
     }
 
+    @SuppressWarnings("unchecked")
     public void insert() {
         Entity entity = entities.get(0);
         EntityProxy entityProxy = Entity.getEntityProxy(entity.getClass());
@@ -65,7 +66,6 @@ public class EntitiesInsertable<E extends Entity> {
 
         List<List<E>> subLists = partitionList(entities, batchSize);
 
-        System.out.println(subLists);
         transactionTemplate.execute(new TransactionCallbackWithoutResult() {
 
             @Override
@@ -78,7 +78,7 @@ public class EntitiesInsertable<E extends Entity> {
                         paramMapList.add(entityProxy.getValueMap(e));
                     });
 
-                    namedParameterJdbcOperations.batchUpdate(sqlText, paramMapList.<Map<String, Object>>toArray(Map[]::new));
+                    namedParameterJdbcOperations.batchUpdate(sqlText, paramMapList.toArray(Map[]::new));
                 });
             }
         });

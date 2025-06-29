@@ -6,7 +6,7 @@ import com.cdyhrj.fastorm.api.meta.SqlSegment;
 import com.cdyhrj.fastorm.api.parameter.ParamMap;
 import com.cdyhrj.fastorm.condition.expression.Expression;
 import com.cdyhrj.fastorm.entity.Entity;
-import com.cdyhrj.fastorm.entity.queryable.context.ToSqlContext;
+import com.cdyhrj.fastorm.entity.context.ToSqlContext;
 import org.springframework.lang.NonNull;
 import org.springframework.util.Assert;
 

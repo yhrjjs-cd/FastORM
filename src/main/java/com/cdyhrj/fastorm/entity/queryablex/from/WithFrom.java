@@ -1,6 +1,6 @@
 package com.cdyhrj.fastorm.entity.queryablex.from;
 
-import com.cdyhrj.fastorm.entity.queryable.with.With;
+import com.cdyhrj.fastorm.entity.queryablex.with.With;
 
 public class WithFrom implements From {
     public static WithFrom of(With with) {

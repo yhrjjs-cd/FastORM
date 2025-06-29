@@ -1,4 +1,4 @@
-package com.cdyhrj.fastorm.entity.queryable.join;
+package com.cdyhrj.fastorm.entity.queryablex.join;
 
 /**
  * 连接类型

@@ -23,6 +23,7 @@ public class AbstractEntityByClassParamSetter<E extends Entity, H extends Condit
      * @param value  值
      * @return 当前对象
      */
+    @SuppressWarnings("unchecked")
     public <R extends Number> H set(@NonNull PropFn<E, R> keyFun, R value) {
         if (Objects.isNull(paramChain)) {
             paramChain = Chain.make(keyFun, value);
@@ -30,7 +31,6 @@ public class AbstractEntityByClassParamSetter<E extends Entity, H extends Condit
             paramChain.add(keyFun, value);
         }
 
-        //noinspection unchecked
         return (H) this;
     }
 
@@ -41,6 +41,7 @@ public class AbstractEntityByClassParamSetter<E extends Entity, H extends Condit
      * @param value  值
      * @return 当前对象
      */
+    @SuppressWarnings("unchecked")
     public <R extends String> H set(@NonNull PropFn<E, R> keyFun, R value) {
         if (Objects.isNull(paramChain)) {
             paramChain = Chain.make(keyFun, value);
@@ -48,7 +49,6 @@ public class AbstractEntityByClassParamSetter<E extends Entity, H extends Condit
             paramChain.add(keyFun, value);
         }
 
-        //noinspection unchecked
         return (H) this;
     }
 
@@ -60,6 +60,7 @@ public class AbstractEntityByClassParamSetter<E extends Entity, H extends Condit
      * @param value  值
      * @return 当前对象
      */
+    @SuppressWarnings("unchecked")
     protected H set(@NonNull PropFn<E, ?> keyFun, Object value) {
         if (Objects.isNull(paramChain)) {
             paramChain = Chain.make(keyFun, value);
@@ -67,7 +68,6 @@ public class AbstractEntityByClassParamSetter<E extends Entity, H extends Condit
             paramChain.add(keyFun, value);
         }
 
-        //noinspection unchecked
         return (H) this;
     }
 

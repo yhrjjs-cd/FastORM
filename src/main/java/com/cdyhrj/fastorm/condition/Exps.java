@@ -8,7 +8,7 @@ import com.cdyhrj.fastorm.condition.expression.IsNull;
 import com.cdyhrj.fastorm.condition.expression.Like;
 import com.cdyhrj.fastorm.condition.expression.UnaryExpression;
 import com.cdyhrj.fastorm.entity.Entity;
-import com.cdyhrj.fastorm.entity.queryable.context.ToSqlContext;
+import com.cdyhrj.fastorm.entity.context.ToSqlContext;
 import org.springframework.lang.NonNull;
 
 import java.time.LocalDate;

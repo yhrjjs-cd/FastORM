@@ -5,9 +5,9 @@ import com.cdyhrj.fastorm.api.lambda.PropFn;
 import com.cdyhrj.fastorm.api.meta.FieldInfo;
 import com.cdyhrj.fastorm.condition.ConditionHost;
 import com.cdyhrj.fastorm.entity.Entity;
-import com.cdyhrj.fastorm.entity.queryable.context.AbstractSqlSegmentContextAware;
-import com.cdyhrj.fastorm.entity.queryable.context.TableAvailable;
-import com.cdyhrj.fastorm.entity.queryable.context.ToSqlContext;
+import com.cdyhrj.fastorm.entity.context.AbstractSqlSegmentContextAware;
+import com.cdyhrj.fastorm.entity.context.TableAvailable;
+import com.cdyhrj.fastorm.entity.context.ToSqlContext;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;

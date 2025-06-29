@@ -45,6 +45,10 @@ dependencies {
     testAnnotationProcessor(libs.lombok)
 }
 
+tasks.withType<JavaCompile> {
+    options.compilerArgs.add("-Xlint:unchecked")
+}
+
 tasks.test {
     useJUnitPlatform()
 

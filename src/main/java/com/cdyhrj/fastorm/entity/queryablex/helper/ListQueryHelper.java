@@ -1,10 +1,10 @@
-package com.cdyhrj.fastorm.entity.queryable.helper;
+package com.cdyhrj.fastorm.entity.queryablex.helper;
 
 import com.alibaba.fastjson2.JSONArray;
 import com.cdyhrj.fastorm.api.parameter.ParamMap;
 import com.cdyhrj.fastorm.entity.Entity;
+import com.cdyhrj.fastorm.entity.context.TableAvailable;
 import com.cdyhrj.fastorm.entity.queryablex.EntityQueryable;
-import com.cdyhrj.fastorm.entity.queryable.context.TableAvailable;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collections;
