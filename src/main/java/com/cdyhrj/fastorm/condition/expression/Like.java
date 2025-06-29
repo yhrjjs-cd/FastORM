@@ -13,10 +13,10 @@ import org.springframework.lang.NonNull;
 import java.util.Objects;
 
 public class Like extends AbstractUnaryExpression<String> {
-    public static <E extends Entity> Like of(
+    public static Like of(
             @NonNull ToSqlContext<?, ?> context,
             String entityAlias,
-            PropFn<E, String> field,
+            PropFn<? extends Entity, String> field,
             String value,
             String prefix,
             String suffix) {

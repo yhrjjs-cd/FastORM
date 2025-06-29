@@ -27,91 +27,91 @@ public class Exps {
 
     }
 
-    public static <E extends Entity> UnaryExpression eq(@NonNull ToSqlContext<?, ?> context,
-                                                        String alias,
-                                                        PropFn<E, ?> keyFn,
-                                                        Object value) {
+    public static UnaryExpression eq(@NonNull ToSqlContext<?, ?> context,
+                                     String alias,
+                                     PropFn<? extends Entity, ?> keyFn,
+                                     Object value) {
         return UnaryExpression.of(context, alias, keyFn, Operator.EQ, value);
     }
 
-    public static <E extends Entity, N extends Number> UnaryExpression lt(@NonNull ToSqlContext<?, ?> context,
-                                                                          String alias,
-                                                                          PropFn<E, N> keyFn,
-                                                                          N value) {
+    public static <N extends Number> UnaryExpression lt(@NonNull ToSqlContext<?, ?> context,
+                                                        String alias,
+                                                        PropFn<? extends Entity, N> keyFn,
+                                                        N value) {
         return UnaryExpression.of(context, alias, keyFn, Operator.LT, value);
     }
 
-    public static <E extends Entity, N extends Number> UnaryExpression lte(@NonNull ToSqlContext<?, ?> context,
-                                                                           String alias,
-                                                                           PropFn<E, N> keyFn,
-                                                                           N value) {
+    public static <N extends Number> UnaryExpression lte(@NonNull ToSqlContext<?, ?> context,
+                                                         String alias,
+                                                         PropFn<? extends Entity, N> keyFn,
+                                                         N value) {
         return UnaryExpression.of(context, alias, keyFn, Operator.LTE, value);
     }
 
-    public static <E extends Entity, N extends Number> UnaryExpression gt(@NonNull ToSqlContext<?, ?> context,
-                                                                          String alias,
-                                                                          PropFn<E, N> keyFn,
-                                                                          N value) {
+    public static <N extends Number> UnaryExpression gt(@NonNull ToSqlContext<?, ?> context,
+                                                        String alias,
+                                                        PropFn<? extends Entity, N> keyFn,
+                                                        N value) {
         return UnaryExpression.of(context, alias, keyFn, Operator.GT, value);
     }
 
-    public static <E extends Entity, N extends Number> UnaryExpression gte(@NonNull ToSqlContext<?, ?> context,
-                                                                           String alias,
-                                                                           PropFn<E, N> keyFn,
-                                                                           N value) {
+    public static <N extends Number> UnaryExpression gte(@NonNull ToSqlContext<?, ?> context,
+                                                         String alias,
+                                                         PropFn<? extends Entity, N> keyFn,
+                                                         N value) {
         return UnaryExpression.of(context, alias, keyFn, Operator.GTE, value);
     }
 
-    public static <E extends Entity> IsNull isNull(@NonNull ToSqlContext<?, ?> context,
-                                                   String alias,
-                                                   PropFn<E, ?> keyFn) {
+    public static IsNull isNull(@NonNull ToSqlContext<?, ?> context,
+                                String alias,
+                                PropFn<? extends Entity, ?> keyFn) {
         return IsNull.of(context, alias, keyFn);
     }
 
-    public static <E extends Entity> Like like(@NonNull ToSqlContext<?, ?> context,
-                                               String alias,
-                                               PropFn<E, String> keyFn,
-                                               String value) {
+    public static Like like(@NonNull ToSqlContext<?, ?> context,
+                            String alias,
+                            PropFn<? extends Entity, String> keyFn,
+                            String value) {
         return Like.of(context, alias, keyFn, value, "%", "%");
     }
 
-    public static <E extends Entity> Between<LocalDateTime> between(@NonNull ToSqlContext<?, ?> context,
-                                                                    String alias,
-                                                                    PropFn<E, LocalDateTime> keyFn,
-                                                                    LocalDateTime value1,
-                                                                    LocalDateTime value2) {
+    public static Between<LocalDateTime> between(@NonNull ToSqlContext<?, ?> context,
+                                                 String alias,
+                                                 PropFn<? extends Entity, LocalDateTime> keyFn,
+                                                 LocalDateTime value1,
+                                                 LocalDateTime value2) {
         return Between.of(context, alias, keyFn, value1, value2);
     }
 
-    public static <E extends Entity> Between<LocalDate> between(@NonNull ToSqlContext<?, ?> context,
-                                                                String alias,
-                                                                PropFn<E, LocalDate> keyFn,
-                                                                LocalDate value1,
-                                                                LocalDate value2) {
+    public static Between<LocalDate> between(@NonNull ToSqlContext<?, ?> context,
+                                             String alias,
+                                             PropFn<? extends Entity, LocalDate> keyFn,
+                                             LocalDate value1,
+                                             LocalDate value2) {
         return Between.of(context, alias, keyFn, value1, value2);
     }
 
-    public static <E extends Entity> Between<YearMonth> between(@NonNull ToSqlContext<?, ?> context,
-                                                                String alias,
-                                                                PropFn<E, YearMonth> keyFn,
-                                                                YearMonth value1,
-                                                                YearMonth value2) {
+    public static Between<YearMonth> between(@NonNull ToSqlContext<?, ?> context,
+                                             String alias,
+                                             PropFn<? extends Entity, YearMonth> keyFn,
+                                             YearMonth value1,
+                                             YearMonth value2) {
         return Between.of(context, alias, keyFn, value1, value2);
     }
 
-    public static <E extends Entity> Between<Year> between(@NonNull ToSqlContext<?, ?> context,
-                                                           String alias,
-                                                           PropFn<E, Year> keyFn,
-                                                           Year value1,
-                                                           Year value2) {
+    public static Between<Year> between(@NonNull ToSqlContext<?, ?> context,
+                                        String alias,
+                                        PropFn<? extends Entity, Year> keyFn,
+                                        Year value1,
+                                        Year value2) {
         return Between.of(context, alias, keyFn, value1, value2);
     }
 
-    public static <E extends Entity> Between<Number> between(@NonNull ToSqlContext<?, ?> context,
-                                                             String alias,
-                                                             PropFn<E, Number> keyFn,
-                                                             Number value1,
-                                                             Number value2) {
+    public static Between<Number> between(@NonNull ToSqlContext<?, ?> context,
+                                          String alias,
+                                          PropFn<? extends Entity, Number> keyFn,
+                                          Number value1,
+                                          Number value2) {
         return Between.of(context, alias, keyFn, value1, value2);
     }
 }

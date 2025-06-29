@@ -14,7 +14,9 @@ public class IsNull implements Expression {
     private final String alias;
     private final String field;
 
-    public static <E extends Entity> IsNull of(@NonNull ToSqlContext<?, ?> context, String entityAlias, PropFn<E, ?> field) {
+    public static IsNull of(@NonNull ToSqlContext<?, ?> context,
+                            String entityAlias,
+                            PropFn<? extends Entity, ?> field) {
         FieldInfo fieldInfo = LambdaQuery.resolve(field);
 
         String alias;

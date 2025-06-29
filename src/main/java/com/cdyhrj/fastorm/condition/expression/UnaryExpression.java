@@ -13,7 +13,10 @@ import java.util.Objects;
 public class UnaryExpression extends AbstractUnaryExpression<Object> {
     protected Operator operator;
 
-    public static <E extends Entity> UnaryExpression of(@NonNull ToSqlContext<?, ?> context, String entityAlias, PropFn<E, ?> field, Operator operator, Object value) {
+    public static UnaryExpression of(@NonNull ToSqlContext<?, ?> context,
+                                     String entityAlias,
+                                     PropFn<? extends Entity, ?> field,
+                                     Operator operator, Object value) {
         FieldInfo fieldInfo = LambdaQuery.resolve(field);
 
         String alias;

@@ -11,10 +11,10 @@ import org.springframework.lang.NonNull;
 import java.util.Objects;
 
 public class Between<T> extends AbstractBinaryExpression<T> {
-    public static <E extends Entity, T> Between<T> of(
+    public static <T> Between<T> of(
             @NonNull ToSqlContext<?, ?> context,
             String entityAlias,
-            PropFn<E, T> field,
+            PropFn<? extends Entity, T> field,
             T value1,
             T value2) {
         FieldInfo fieldInfo = LambdaQuery.resolve(field);

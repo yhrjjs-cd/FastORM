@@ -84,123 +84,85 @@ public class AndCondition<T extends Entity, H extends ConditionHost<T>> implemen
     }
 
     public AndCondition<T, H> andEq(PropFn<T, ?> propFn, Object value) {
-        return andEq(null, propFn, value);
-    }
-
-    public AndCondition<T, H> andEq(String alias, PropFn<T, ?> propFn, Object value) {
-        addExpression(Exps.eq(context, alias, propFn, value));
+        addExpression(Exps.eq(context, null, propFn, value));
 
         return this;
     }
 
-    public <N extends Number> AndCondition<T, H> andLt(PropFn<T, N> propFn, N value) {
-        return andEq(null, propFn, value);
-    }
 
-    public <N extends Number> AndCondition<T, H> andLt(String alias, PropFn<T, N> propFn, N value) {
-        addExpression(Exps.lt(context, alias, propFn, value));
+    public <N extends Number> AndCondition<T, H> andLt(PropFn<T, N> propFn, N value) {
+        addExpression(Exps.lt(context, null, propFn, value));
 
         return this;
     }
 
     public <N extends Number> AndCondition<T, H> andLte(PropFn<T, N> propFn, N value) {
-        return andEq(null, propFn, value);
-    }
-
-    public <N extends Number> AndCondition<T, H> andLte(String alias, PropFn<T, N> propFn, N value) {
-        addExpression(Exps.lte(context, alias, propFn, value));
+        addExpression(Exps.lte(context, null, propFn, value));
 
         return this;
     }
+
 
     public <N extends Number> AndCondition<T, H> andGt(PropFn<T, N> propFn, N value) {
-        return andEq(null, propFn, value);
-    }
-
-    public <N extends Number> AndCondition<T, H> andGt(String alias, PropFn<T, N> propFn, N value) {
-        addExpression(Exps.gt(context, alias, propFn, value));
+        addExpression(Exps.gt(context, null, propFn, value));
 
         return this;
     }
+
 
     public <N extends Number> AndCondition<T, H> andGte(PropFn<T, N> propFn, N value) {
-        return andEq(null, propFn, value);
-    }
-
-    public <N extends Number> AndCondition<T, H> andGte(String alias, PropFn<T, N> propFn, N value) {
-        addExpression(Exps.gte(context, alias, propFn, value));
+        addExpression(Exps.gte(context, null, propFn, value));
 
         return this;
     }
+
 
     public AndCondition<T, H> andIsNull(PropFn<T, ?> propFn) {
-        return andIsNull(null, propFn);
-    }
-
-    public AndCondition<T, H> andIsNull(String alias, PropFn<T, ?> propFn) {
-        addExpression(Exps.isNull(context, alias, propFn));
+        addExpression(Exps.isNull(context, null, propFn));
 
         return this;
     }
+
 
     public AndCondition<T, H> andLike(PropFn<T, String> propFn, String value) {
-        return andLike(null, propFn, value
-        );
-    }
-
-    public AndCondition<T, H> andLike(String alias, PropFn<T, String> propFn, String value) {
-        addExpression(Exps.like(context, alias, propFn, value));
+        addExpression(Exps.like(context, null, propFn, value));
 
         return this;
     }
+
 
     public AndCondition<T, H> andBetween(PropFn<T, LocalDateTime> propFn, LocalDateTime value1, LocalDateTime value2) {
-        return andBetween(null, propFn, value1, value2);
-    }
-
-    public AndCondition<T, H> andBetween(String alias, PropFn<T, LocalDateTime> propFn, LocalDateTime value1, LocalDateTime value2) {
-        addExpression(Exps.between(context, alias, propFn, value1, value2));
+        addExpression(Exps.between(context, null, propFn, value1, value2));
 
         return this;
     }
+
 
     public AndCondition<T, H> andBetween(PropFn<T, LocalDate> propFn, LocalDate value1, LocalDate value2) {
-        return andBetween(null, propFn, value1, value2);
-    }
-
-    public AndCondition<T, H> andBetween(String alias, PropFn<T, LocalDate> propFn, LocalDate value1, LocalDate value2) {
-        addExpression(Exps.between(context, alias, propFn, value1, value2));
+        addExpression(Exps.between(context, null, propFn, value1, value2));
 
         return this;
     }
+
 
     public AndCondition<T, H> andBetween(PropFn<T, YearMonth> propFn, YearMonth value1, YearMonth value2) {
-        return andBetween(null, propFn, value1, value2);
-    }
-
-    public AndCondition<T, H> andBetween(String alias, PropFn<T, YearMonth> propFn, YearMonth value1, YearMonth value2) {
-        addExpression(Exps.between(context, alias, propFn, value1, value2));
+        addExpression(Exps.between(context, null, propFn, value1, value2));
 
         return this;
     }
+
 
     public AndCondition<T, H> andBetween(PropFn<T, Year> propFn, Year value1, Year value2) {
-        return andBetween(null, propFn, value1, value2);
-    }
-
-    public AndCondition<T, H> andBetween(String alias, PropFn<T, Year> propFn, Year value1, Year value2) {
-        addExpression(Exps.between(context, alias, propFn, value1, value2));
+        addExpression(Exps.between(context, null, propFn, value1, value2));
 
         return this;
     }
+
 
     public AndCondition<T, H> andBetween(PropFn<T, Number> propFn, Number value1, Number value2) {
-        return andBetween(null, propFn, value1, value2);
-    }
-
-    public AndCondition<T, H> andBetween(String alias, PropFn<T, Number> propFn, Number value1, Number value2) {
-        addExpression(Exps.between(context, alias, propFn, value1, value2));
+        addExpression(Exps.between(context, null, propFn, value1, value2));
 
         return this;
     }
+
 }
