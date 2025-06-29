@@ -13,6 +13,7 @@ import com.cdyhrj.fastorm.entity.queryablex.EntityByClassQueryableX;
 import com.cdyhrj.fastorm.entity.updatable.by_class.EntityClassUpdatable;
 import com.cdyhrj.fastorm.entity.updatable.by_object.EntityUpdatable;
 import com.cdyhrj.fastorm.pager.IPagerProvider;
+import com.cdyhrj.fastorm.sql.SqlQuery;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.lang.NonNull;
@@ -102,5 +103,9 @@ public class FastORM {
 
     public <E extends Entity> EntityByClassQueryableX<E> queryableX(Class<E> entityClass) {
         return new EntityByClassQueryableX<>(namedParamOps, pagerProvider, entityClass);
+    }
+
+    public SqlQuery sqlQuery() {
+        return SqlQuery.of(namedParamOps);
     }
 }
