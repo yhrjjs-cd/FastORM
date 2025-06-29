@@ -1,16 +1,8 @@
 package com.cdyhrj.fastorm.entity.queryablex;
 
 import com.cdyhrj.fastorm.FastORM;
-import com.cdyhrj.fastorm.entity.MailMan;
-import com.cdyhrj.fastorm.entity.MailMan2;
-import com.cdyhrj.fastorm.entity.Student;
-import com.cdyhrj.fastorm.entity.queryablex.join.JoinType;
-import com.cdyhrj.fastorm.entity.queryablex.with.With;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.List;
 
 @SpringBootTest
 class EntityByClassQueryableXTest {
@@ -35,17 +27,17 @@ class EntityByClassQueryableXTest {
 //                .query();
 //    }
 
-    @Test
-    void withTest() {
-        With with1 = With.of("S1", fastORM.queryableX(MailMan.class));
-        List<Student> students = fastORM.queryableX(Student.class)
-                .addWith(with1)
-                .addWith(With.of("S2", fastORM.queryableX(MailMan2.class)))
-                .joins()
-                .addWithJoin(JoinType.INNER, with1.getName())
-                .onEq(Student::getId, "code")
-                .end()
-                .ret()
-                .query();
-    }
+//    @Test
+//    void withTest() {
+//        With with1 = With.of("S1", fastORM.queryableX(MailMan.class));
+//        List<Student> students = fastORM.queryableX(Student.class)
+//                .addWith(with1)
+//                .addWith(With.of("S2", fastORM.queryableX(MailMan2.class)))
+//                .joins()
+//                .addWithJoin(JoinType.INNER, with1.getName())
+//                .onEq(Student::getId, "code")
+//                .end()
+//                .ret()
+//                .query();
+//    }
 }

@@ -5,17 +5,14 @@ import com.cdyhrj.fastorm.condition.ConditionHost;
 import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.entity.EntityProxy;
 import com.cdyhrj.fastorm.entity.context.ToSqlContext;
-import com.cdyhrj.fastorm.entity.queryable.EntityByClassQueryable;
 import com.cdyhrj.fastorm.entity.queryablex.join.Joins;
 import com.cdyhrj.fastorm.entity.queryablex.order_by.OrderBy;
 import com.cdyhrj.fastorm.entity.queryablex.where.Where;
-import com.cdyhrj.fastorm.entity.queryablex.with.With;
 import com.cdyhrj.fastorm.pager.IPagerProvider;
 import com.cdyhrj.fastorm.pager.Pager;
 import com.cdyhrj.fastorm.util.QueryRowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -82,11 +79,11 @@ public class EntityByClassQueryableX<E extends Entity> implements ConditionHost<
         return pager;
     }
 
-    private List<With> withs;
-
-    List<With> getWiths() {
-        return withs;
-    }
+//    private List<With> withs;
+//
+//    List<With> getWiths() {
+//        return withs;
+//    }
 
     public Joins<E> joins() {
         return this.joins;
@@ -109,16 +106,16 @@ public class EntityByClassQueryableX<E extends Entity> implements ConditionHost<
         return this.orderBy;
     }
 
-    public EntityByClassQueryableX<E> addWith(With with) {
-        if (Objects.isNull(withs)) {
-            withs = new ArrayList<>();
-        }
-
-        withs.add(with);
-        context.addWith(with);
-
-        return this;
-    }
+//    public EntityByClassQueryableX<E> addWith(With with) {
+//        if (Objects.isNull(withs)) {
+//            withs = new ArrayList<>();
+//        }
+//
+//        withs.add(with);
+//        context.addWith(with);
+//
+//        return this;
+//    }
 
     public EntityByClassQueryableX<E> pager(Pager pager) {
         this.pager = pager;

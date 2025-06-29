@@ -5,7 +5,6 @@ import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.entity.context.ToSqlContext;
 import com.cdyhrj.fastorm.entity.queryablex.EntityByClassQueryableX;
 import lombok.Getter;
-import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,12 +58,12 @@ public class Joins<E extends Entity> implements SqlSegment {
         return join;
     }
 
-    public WithJoin<E> addWithJoin(JoinType joinType, String nameOfWith) {
-        WithJoin<E> join = WithJoin.of(joinType, this, nameOfWith);
-        this.joinItems.add(join);
-
-        return join;
-    }
+//    public WithJoin<E> addWithJoin(JoinType joinType, String nameOfWith) {
+//        WithJoin<E> join = WithJoin.of(joinType, this, nameOfWith);
+//        this.joinItems.add(join);
+//
+//        return join;
+//    }
 
     @Override
     public String toSql() {

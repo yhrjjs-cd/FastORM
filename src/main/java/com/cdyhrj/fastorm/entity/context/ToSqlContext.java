@@ -4,8 +4,6 @@ import com.cdyhrj.fastorm.condition.ConditionHost;
 import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.entity.queryablex.from.ClassFrom;
 import com.cdyhrj.fastorm.entity.queryablex.from.From;
-import com.cdyhrj.fastorm.entity.queryablex.from.WithFrom;
-import com.cdyhrj.fastorm.entity.queryablex.with.With;
 import com.cdyhrj.fastorm.exception.TableAliasNameDuplicateException;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -62,11 +60,11 @@ public class ToSqlContext<E extends Entity, H extends ConditionHost<E>> {
         entityMap.put(entityAlias, newEntity);
     }
 
-    public void addWith(With with) {
-        TableAvailable newEntity = newEntityFrom(WithFrom.of(with));
-
-        entityMap.put(with.getName(), newEntity);
-    }
+//    public void addWith(With with) {
+//        TableAvailable newEntity = newEntityFrom(WithFrom.of(with));
+//
+//        entityMap.put(with.getName(), newEntity);
+//    }
 
     public TableAvailable getTableEntity(String key) {
         return Objects.requireNonNull(entityMap.get(key), "table '%s' not exists".formatted(key));
