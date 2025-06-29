@@ -19,12 +19,11 @@ public class UnaryExpression extends AbstractUnaryExpression<Object> {
                                      Operator operator, Object value) {
         FieldInfo fieldInfo = LambdaQuery.resolve(field);
 
-        String alias;
-        if (Objects.isNull(entityAlias)) {
+        String alias = entityAlias;
+        if (Objects.isNull(alias)) {
             alias = context.getTableEntity(fieldInfo.getEntityClass().getName()).getAlias();
-        } else {
-            alias = context.getTableEntity(entityAlias).getAlias();
         }
+
         return new UnaryExpression(alias, fieldInfo.getName(), operator, value);
     }
 

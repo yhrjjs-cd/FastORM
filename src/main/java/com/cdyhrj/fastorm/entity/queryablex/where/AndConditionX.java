@@ -85,6 +85,25 @@ public class AndConditionX<E extends Entity, H extends ConditionHost<E>> impleme
         return this.belongTo;
     }
 
+    public <L extends Entity, R extends Entity> AndConditionX<E, H> andEq(String leftAlias, PropFn<L, ?> leftFn, String rightAlias, PropFn<R, ?> rightFn) {
+        addExpression(Exps.eq(context, leftAlias, leftFn, rightAlias, rightFn));
+
+        return this;
+    }
+
+    public <L extends Entity, R extends Entity> AndConditionX<E, H> andEq(PropFn<L, ?> leftFn, PropFn<R, ?> rightFn) {
+        return andEq(null, leftFn, null, rightFn);
+    }
+
+    public <L extends Entity, R extends Entity> AndConditionX<E, H> andEq(String leftAlias, PropFn<L, ?> leftFn, PropFn<R, ?> rightFn) {
+        return andEq(leftAlias, leftFn, null, rightFn);
+    }
+
+    public <L extends Entity, R extends Entity> AndConditionX<E, H> andEq(PropFn<L, ?> leftFn, String rightAlias, PropFn<R, ?> rightFn) {
+        return andEq(null, leftFn, rightAlias, rightFn);
+    }
+
+
     public AndConditionX<E, H> andEq(PropFn<E, ?> propFn, Object value) {
         return andEq(null, propFn, value);
     }

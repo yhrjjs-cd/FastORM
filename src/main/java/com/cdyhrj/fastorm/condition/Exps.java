@@ -6,6 +6,7 @@ import com.cdyhrj.fastorm.condition.enums.Operator;
 import com.cdyhrj.fastorm.condition.expression.Between;
 import com.cdyhrj.fastorm.condition.expression.IsNull;
 import com.cdyhrj.fastorm.condition.expression.Like;
+import com.cdyhrj.fastorm.condition.expression.PropFnExpression;
 import com.cdyhrj.fastorm.condition.expression.UnaryExpression;
 import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.entity.context.ToSqlContext;
@@ -25,6 +26,14 @@ import java.time.YearMonth;
 public class Exps {
     private Exps() {
 
+    }
+
+    public static PropFnExpression eq(@NonNull ToSqlContext<?, ?> context,
+                                      String leftAlias,
+                                      PropFn<? extends Entity, ?> leftPropFn,
+                                      String rightAlias,
+                                      PropFn<? extends Entity, ?> propPropFn) {
+        return PropFnExpression.of(context, leftAlias, leftPropFn, Operator.EQ, rightAlias, propPropFn);
     }
 
     public static UnaryExpression eq(@NonNull ToSqlContext<?, ?> context,

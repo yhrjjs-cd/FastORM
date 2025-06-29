@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class AndCondition<T extends Entity, H extends ConditionHost<T>> implements NoAliasSqlSegment, Expression {
+public class AndCondition<T extends Entity, H extends ConditionHost<T>> implements SqlSegment, NoAliasSqlSegment, Expression {
     private final ToSqlContext<T, H> context;
     private final List<Expression> expressionList = new ArrayList<>();
     private OrCondition<T, H> belongTo;
