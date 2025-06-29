@@ -5,6 +5,7 @@ import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.entity.EntityProxy;
 import com.cdyhrj.fastorm.entity.context.ToSqlContext;
 import com.cdyhrj.fastorm.entity.queryablex.join.Joins;
+import com.cdyhrj.fastorm.entity.queryablex.order_by.OrderBy;
 import com.cdyhrj.fastorm.entity.queryablex.where.Where;
 import com.cdyhrj.fastorm.pager.IPagerProvider;
 import lombok.Getter;
@@ -47,21 +48,21 @@ public class EntityByClassQueryableX<E extends Entity> implements ConditionHost<
      */
     private Where<E, EntityByClassQueryableX<E>> where;
 
+    Where<E, EntityByClassQueryableX<E>> getWhere() {
+        return this.where;
+    }
 
-    //    /**
-//     * Order By
-//     */
-//    @Getter
-//    private OrderBy<T, EntityByClassQueryableX<T>> orderBy;
-//
+    /**
+     * Order By
+     */
+    private OrderBy<E, EntityByClassQueryableX<E>> orderBy;
+
+    OrderBy<E, EntityByClassQueryableX<E>> getOrderBy() {
+        return orderBy;
+    }
 
     public Joins<E> joins() {
         return this.joins;
-    }
-
-
-    Where<E, EntityByClassQueryableX<E>> getWhere() {
-        return this.where;
     }
 
     public Where<E, EntityByClassQueryableX<E>> where() {
@@ -72,13 +73,16 @@ public class EntityByClassQueryableX<E extends Entity> implements ConditionHost<
         return this.where;
     }
 
+
+    public OrderBy<E, EntityByClassQueryableX<E>> orderBy() {
+        if (Objects.isNull(this.orderBy)) {
+            this.orderBy = new OrderBy<>(context, this);
+        }
+
+        return this.orderBy;
+    }
+
     //
-//    public OrderBy<T, EntityByClassQueryableX<T>> orderBy() {
-//        this.orderBy = new OrderBy<>(context, this);
-//
-//        return this.orderBy;
-//    }
-//
 //    /**
 //     * 查询实体列表
 //     *

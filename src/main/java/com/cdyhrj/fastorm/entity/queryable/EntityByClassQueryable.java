@@ -40,15 +40,20 @@ public class EntityByClassQueryable<E extends Entity> implements ConditionHost<E
     /**
      * 条件
      */
-    @Getter
     private Where<E, EntityByClassQueryable<E>> where;
 
+    Where<E, EntityByClassQueryable<E>> getWhere() {
+        return where;
+    }
 
     /**
      * Order By
      */
-    @Getter
     private OrderBy<E, EntityByClassQueryable<E>> orderBy;
+
+    OrderBy<E, EntityByClassQueryable<E>> getOrderBy() {
+        return orderBy;
+    }
 
     /**
      * 分页
@@ -65,7 +70,9 @@ public class EntityByClassQueryable<E extends Entity> implements ConditionHost<E
     }
 
     public OrderBy<E, EntityByClassQueryable<E>> orderBy() {
-        this.orderBy = new OrderBy<>(this);
+        if (Objects.isNull(this.orderBy)) {
+            this.orderBy = new OrderBy<>(this);
+        }
 
         return this.orderBy;
     }

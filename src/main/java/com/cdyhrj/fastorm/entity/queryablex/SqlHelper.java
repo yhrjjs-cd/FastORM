@@ -24,11 +24,11 @@ public class SqlHelper {
         if (Objects.nonNull(queryable.getWhere())) {
             joiner.add("WHERE").add(queryable.getWhere().toSql());
         }
-//
-//        if (Objects.nonNull(queryable.getOrderBy())) {
-//            joiner.add(queryable.getOrderBy().toSql());
-//        }
-//
+
+        if (Objects.nonNull(queryable.getOrderBy())) {
+            joiner.add(queryable.getOrderBy().toSql());
+        }
+
         String sqlText = joiner.toString();
 //        if (Objects.nonNull(queryable.getPager())) {
 //            return queryable.getPagerProvider().withSql(sqlText, queryable.getPager());

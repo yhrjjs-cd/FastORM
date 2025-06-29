@@ -4,11 +4,11 @@ import com.cdyhrj.fastorm.api.lambda.PropFn;
 import com.cdyhrj.fastorm.api.meta.NoAliasSqlSegment;
 import com.cdyhrj.fastorm.api.meta.SqlSegment;
 import com.cdyhrj.fastorm.api.parameter.ParamMap;
-import com.cdyhrj.fastorm.condition.ConditionHost;
 import com.cdyhrj.fastorm.condition.Exps;
 import com.cdyhrj.fastorm.condition.expression.Expression;
 import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.entity.context.ToSqlContext;
+import com.cdyhrj.fastorm.entity.queryablex.EntityByClassQueryableX;
 import org.springframework.lang.NonNull;
 import org.springframework.util.Assert;
 
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class AndConditionX<E extends Entity, H extends ConditionHost<E>> implements SqlSegment, NoAliasSqlSegment, Expression {
+public class AndConditionX<E extends Entity, H extends EntityByClassQueryableX<E>> implements SqlSegment, NoAliasSqlSegment, Expression {
     private final ToSqlContext<E, H> context;
     private final List<Expression> expressionList = new ArrayList<>();
     private OrConditionX<E, H> belongTo;

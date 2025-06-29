@@ -1,6 +1,7 @@
 package com.cdyhrj.fastorm.entity.queryablex;
 
 import com.cdyhrj.fastorm.FastORM;
+import com.cdyhrj.fastorm.api.order.Order;
 import com.cdyhrj.fastorm.entity.MailMan;
 import com.cdyhrj.fastorm.entity.Student;
 import com.cdyhrj.fastorm.entity.queryablex.join.JoinType;
@@ -26,6 +27,9 @@ class EntityByClassQueryableXTest {
                 .where()
                 .andEq(Student::getId, "XX", MailMan::getId)
                 .andIsNull("XX", MailMan::getCode)
+                .ret()
+                .orderBy()
+                .add(Student::getCode, Order.DESC)
                 .ret()
                 .query();
 
