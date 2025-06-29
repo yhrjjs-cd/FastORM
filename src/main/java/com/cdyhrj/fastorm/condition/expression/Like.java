@@ -4,6 +4,7 @@ import com.cdyhrj.fastorm.api.lambda.LambdaQuery;
 import com.cdyhrj.fastorm.api.lambda.PropFn;
 import com.cdyhrj.fastorm.api.meta.FieldInfo;
 import com.cdyhrj.fastorm.api.parameter.ParamMap;
+import com.cdyhrj.fastorm.condition.enums.Operator;
 import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.entity.queryable.context.ToSqlContext;
 import org.apache.commons.lang3.StringUtils;
@@ -48,11 +49,11 @@ public class Like extends AbstractUnaryExpression<String> {
 
     @Override
     public String toSql() {
-        return "%s.%s LIKE :%s".formatted(alias, field, paramName);
+        return "%s.%s %s :%s".formatted(alias, field, Operator.LIKE, paramName);
     }
 
     @Override
     public String toNoAliasSql() {
-        return "%s LIKE :%s".formatted(field, paramName);
+        return "%s %s :%s".formatted(field, Operator.LIKE, paramName);
     }
 }

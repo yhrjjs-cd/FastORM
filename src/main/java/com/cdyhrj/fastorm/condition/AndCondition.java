@@ -10,6 +10,10 @@ import com.cdyhrj.fastorm.entity.queryable.context.ToSqlContext;
 import org.springframework.lang.NonNull;
 import org.springframework.util.Assert;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Year;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -146,6 +150,56 @@ public class AndCondition<T extends Entity, H extends ConditionHost<T>> implemen
 
     public AndCondition<T, H> andLike(String alias, PropFn<T, String> propFn, String value) {
         addExpression(Exps.like(context, alias, propFn, value));
+
+        return this;
+    }
+
+    public AndCondition<T, H> andBetween(PropFn<T, LocalDateTime> propFn, LocalDateTime value1, LocalDateTime value2) {
+        return andBetween(null, propFn, value1, value2);
+    }
+
+    public AndCondition<T, H> andBetween(String alias, PropFn<T, LocalDateTime> propFn, LocalDateTime value1, LocalDateTime value2) {
+        addExpression(Exps.between(context, alias, propFn, value1, value2));
+
+        return this;
+    }
+
+    public AndCondition<T, H> andBetween(PropFn<T, LocalDate> propFn, LocalDate value1, LocalDate value2) {
+        return andBetween(null, propFn, value1, value2);
+    }
+
+    public AndCondition<T, H> andBetween(String alias, PropFn<T, LocalDate> propFn, LocalDate value1, LocalDate value2) {
+        addExpression(Exps.between(context, alias, propFn, value1, value2));
+
+        return this;
+    }
+
+    public AndCondition<T, H> andBetween(PropFn<T, YearMonth> propFn, YearMonth value1, YearMonth value2) {
+        return andBetween(null, propFn, value1, value2);
+    }
+
+    public AndCondition<T, H> andBetween(String alias, PropFn<T, YearMonth> propFn, YearMonth value1, YearMonth value2) {
+        addExpression(Exps.between(context, alias, propFn, value1, value2));
+
+        return this;
+    }
+
+    public AndCondition<T, H> andBetween(PropFn<T, Year> propFn, Year value1, Year value2) {
+        return andBetween(null, propFn, value1, value2);
+    }
+
+    public AndCondition<T, H> andBetween(String alias, PropFn<T, Year> propFn, Year value1, Year value2) {
+        addExpression(Exps.between(context, alias, propFn, value1, value2));
+
+        return this;
+    }
+
+    public AndCondition<T, H> andBetween(PropFn<T, Number> propFn, Number value1, Number value2) {
+        return andBetween(null, propFn, value1, value2);
+    }
+
+    public AndCondition<T, H> andBetween(String alias, PropFn<T, Number> propFn, Number value1, Number value2) {
+        addExpression(Exps.between(context, alias, propFn, value1, value2));
 
         return this;
     }

@@ -20,7 +20,8 @@ public enum Operator {
     END_WITH("LIKE"),
     IN_LONG("IN"),
     IN_STRING("IN"),
-    IN_SQL("IN");
+    IN_SQL("IN"),
+    BETWEEN("BETWEEN");
 
     Operator(String value) {
         this.value = value;
