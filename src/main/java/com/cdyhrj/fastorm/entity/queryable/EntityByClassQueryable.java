@@ -1,4 +1,4 @@
-package com.cdyhrj.fastorm.entity.queryable.s;
+package com.cdyhrj.fastorm.entity.queryable;
 
 import com.cdyhrj.fastorm.api.parameter.ParamMap;
 import com.cdyhrj.fastorm.condition.ConditionHost;

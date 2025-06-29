@@ -1,4 +1,4 @@
-package com.cdyhrj.fastorm.entity.queryable.s;
+package com.cdyhrj.fastorm.entity.queryable;
 
 import com.cdyhrj.fastorm.entity.EntityProxy;
 import lombok.extern.slf4j.Slf4j;

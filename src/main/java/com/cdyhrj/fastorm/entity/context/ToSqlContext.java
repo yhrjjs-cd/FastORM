@@ -2,8 +2,8 @@ package com.cdyhrj.fastorm.entity.queryable.context;
 
 import com.cdyhrj.fastorm.condition.ConditionHost;
 import com.cdyhrj.fastorm.entity.Entity;
-import com.cdyhrj.fastorm.entity.queryable.from.ClassFrom;
-import com.cdyhrj.fastorm.entity.queryable.from.From;
+import com.cdyhrj.fastorm.entity.queryablex.from.ClassFrom;
+import com.cdyhrj.fastorm.entity.queryablex.from.From;
 import com.cdyhrj.fastorm.exception.TableAliasNameException;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;

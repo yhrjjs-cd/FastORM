@@ -1,7 +1,7 @@
 package com.cdyhrj.fastorm.entity.queryable.context;
 
 import com.cdyhrj.fastorm.api.meta.SqlSegment;
-import com.cdyhrj.fastorm.entity.queryable.from.From;
+import com.cdyhrj.fastorm.entity.queryablex.from.From;
 import lombok.Data;
 
 /**

@@ -1,4 +1,4 @@
-package com.cdyhrj.fastorm.entity.queryable.from;
+package com.cdyhrj.fastorm.entity.queryablex.from;
 
 import com.cdyhrj.fastorm.entity.Entity;
 

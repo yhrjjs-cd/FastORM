@@ -8,7 +8,7 @@ import com.cdyhrj.fastorm.entity.fetchable.EntityByClassFetchable;
 import com.cdyhrj.fastorm.entity.insertable.by_class.EntityClassInsertable;
 import com.cdyhrj.fastorm.entity.insertable.by_list.EntitiesInsertable;
 import com.cdyhrj.fastorm.entity.insertable.by_object.EntityInsertable;
-import com.cdyhrj.fastorm.entity.queryable.s.EntityByClassQueryable;
+import com.cdyhrj.fastorm.entity.queryable.EntityByClassQueryable;
 import com.cdyhrj.fastorm.entity.updatable.by_class.EntityClassUpdatable;
 import com.cdyhrj.fastorm.entity.updatable.by_object.EntityUpdatable;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
