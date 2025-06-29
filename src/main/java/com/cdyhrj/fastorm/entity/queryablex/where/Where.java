@@ -1,6 +1,5 @@
 package com.cdyhrj.fastorm.entity.queryablex.where;
 
-import com.cdyhrj.fastorm.condition.AndConditionX;
 import com.cdyhrj.fastorm.condition.ConditionHost;
 import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.entity.context.ToSqlContext;

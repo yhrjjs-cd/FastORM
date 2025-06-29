@@ -59,33 +59,7 @@ public class EntityByClassQueryableX<E extends Entity> implements ConditionHost<
         return this.joins;
     }
 
-    //
-//    public <E extends Entity> Join<T, EntityByClassQueryableX<T>, T, E> join(Class<E> entityClass) {
-//        return joins.addJoin(JoinType.INNER, entityClass);
-//    }
-//
-//    public <E1 extends Entity, E2 extends Entity> Join<T, EntityByClassQueryableX<T>, E1, E2> join(Class<E1> sourceEntityClass, Class<E2> targetEntityClass) {
-//        return joins.addJoin(JoinType.INNER, sourceEntityClass, targetEntityClass);
-//    }
-//
-//    public <E extends Entity> Join<T, EntityByClassQueryableX<T>, T, E> leftJoin(Class<E> entityClass) {
-//        return joins.addJoin(JoinType.INNER, entityClass);
-//    }
-//
-//    public <E1 extends Entity, E2 extends Entity> Join<T, EntityByClassQueryableX<T>, E1, E2> leftJoin(Class<E1> sourceEntityClass, Class<E2> targetEntityClass) {
-//        return joins.addJoin(JoinType.INNER, sourceEntityClass, targetEntityClass);
-//    }
-//
-//    public <E extends Entity> Join<T, EntityByClassQueryableX<T>, T, E> rightJoin(Class<E> entityClass) {
-//        return joins.addJoin(JoinType.INNER, entityClass);
-//    }
-//
-//
-//    public <E1 extends Entity, E2 extends Entity> Join<T, EntityByClassQueryableX<T>, E1, E2> rightJoin(Class<E1> sourceEntityClass, Class<E2> targetEntityClass) {
-//        return joins.addJoin(JoinType.INNER, sourceEntityClass, targetEntityClass);
-//    }
-//
-//
+
     Where<E, EntityByClassQueryableX<E>> getWhere() {
         return this.where;
     }

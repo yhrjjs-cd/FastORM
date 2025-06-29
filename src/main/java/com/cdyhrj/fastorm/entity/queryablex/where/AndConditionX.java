@@ -1,9 +1,11 @@
-package com.cdyhrj.fastorm.condition;
+package com.cdyhrj.fastorm.entity.queryablex.where;
 
 import com.cdyhrj.fastorm.api.lambda.PropFn;
 import com.cdyhrj.fastorm.api.meta.NoAliasSqlSegment;
 import com.cdyhrj.fastorm.api.meta.SqlSegment;
 import com.cdyhrj.fastorm.api.parameter.ParamMap;
+import com.cdyhrj.fastorm.condition.ConditionHost;
+import com.cdyhrj.fastorm.condition.Exps;
 import com.cdyhrj.fastorm.condition.expression.Expression;
 import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.entity.context.ToSqlContext;
@@ -18,22 +20,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class AndConditionX<T extends Entity, H extends ConditionHost<T>> implements SqlSegment, NoAliasSqlSegment, Expression {
-    private final ToSqlContext<T, H> context;
+public class AndConditionX<E extends Entity, H extends ConditionHost<E>> implements SqlSegment, NoAliasSqlSegment, Expression {
+    private final ToSqlContext<E, H> context;
     private final List<Expression> expressionList = new ArrayList<>();
-    private OrConditionX<T, H> belongTo;
+    private OrConditionX<E, H> belongTo;
 
-    public AndConditionX(@NonNull ToSqlContext<T, H> context) {
+    public AndConditionX(@NonNull ToSqlContext<E, H> context) {
         this.context = context;
     }
 
-    public AndConditionX(@NonNull ToSqlContext<T, H> context, OrConditionX<T, H> belongTo) {
+    public AndConditionX(@NonNull ToSqlContext<E, H> context, OrConditionX<E, H> belongTo) {
         this.context = context;
         this.belongTo = belongTo;
     }
 
-    public OrConditionX<T, H> andOrGroup() {
-        OrConditionX<T, H> group = new OrConditionX<>(context, this);
+    public OrConditionX<E, H> andOrGroup() {
+        OrConditionX<E, H> group = new OrConditionX<>(context, this);
         addExpression(group);
 
         return group;
@@ -79,126 +81,126 @@ public class AndConditionX<T extends Entity, H extends ConditionHost<T>> impleme
         return null;
     }
 
-    public OrConditionX<T, H> end() {
+    public OrConditionX<E, H> end() {
         return this.belongTo;
     }
 
-    public AndConditionX<T, H> andEq(PropFn<T, ?> propFn, Object value) {
+    public AndConditionX<E, H> andEq(PropFn<E, ?> propFn, Object value) {
         return andEq(null, propFn, value);
     }
 
-    public <E extends Entity> AndConditionX<T, H> andEq(String alias, PropFn<E, ?> propFn, Object value) {
+    public <T extends Entity> AndConditionX<E, H> andEq(String alias, PropFn<T, ?> propFn, Object value) {
         addExpression(Exps.eq(context, alias, propFn, value));
 
         return this;
     }
 
-    public <N extends Number> AndConditionX<T, H> andLt(PropFn<T, N> propFn, N value) {
+    public <N extends Number> AndConditionX<E, H> andLt(PropFn<E, N> propFn, N value) {
         return andLt(null, propFn, value);
     }
 
-    public <N extends Number> AndConditionX<T, H> andLt(String alias, PropFn<? extends Entity, N> propFn, N value) {
+    public <N extends Number, T extends Entity> AndConditionX<E, H> andLt(String alias, PropFn<T, N> propFn, N value) {
         addExpression(Exps.lt(context, alias, propFn, value));
 
         return this;
     }
 
-    public <N extends Number> AndConditionX<T, H> andLte(PropFn<T, N> propFn, N value) {
+    public <N extends Number> AndConditionX<E, H> andLte(PropFn<E, N> propFn, N value) {
         return andLte(null, propFn, value);
     }
 
-    public <N extends Number> AndConditionX<T, H> andLte(String alias, PropFn<? extends Entity, N> propFn, N value) {
+    public <N extends Number, T extends Entity> AndConditionX<E, H> andLte(String alias, PropFn<T, N> propFn, N value) {
         addExpression(Exps.lte(context, alias, propFn, value));
 
         return this;
     }
 
-    public <N extends Number> AndConditionX<T, H> andGt(PropFn<T, N> propFn, N value) {
+    public <N extends Number> AndConditionX<E, H> andGt(PropFn<E, N> propFn, N value) {
         return andGt(null, propFn, value);
     }
 
-    public <N extends Number> AndConditionX<T, H> andGt(String alias, PropFn<? extends Entity, N> propFn, N value) {
+    public <N extends Number, T extends Entity> AndConditionX<E, H> andGt(String alias, PropFn<T, N> propFn, N value) {
         addExpression(Exps.gt(context, alias, propFn, value));
 
         return this;
     }
 
-    public <N extends Number> AndConditionX<T, H> andGte(PropFn<T, N> propFn, N value) {
+    public <N extends Number> AndConditionX<E, H> andGte(PropFn<E, N> propFn, N value) {
         return andGte(null, propFn, value);
     }
 
-    public <N extends Number> AndConditionX<T, H> andGte(String alias, PropFn<? extends Entity, N> propFn, N value) {
+    public <N extends Number, T extends Entity> AndConditionX<E, H> andGte(String alias, PropFn<T, N> propFn, N value) {
         addExpression(Exps.gte(context, alias, propFn, value));
 
         return this;
     }
 
-    public AndConditionX<T, H> andIsNull(PropFn<T, ?> propFn) {
+    public AndConditionX<E, H> andIsNull(PropFn<E, ?> propFn) {
         return andIsNull(null, propFn);
     }
 
-    public AndConditionX<T, H> andIsNull(String alias, PropFn<? extends Entity, ?> propFn) {
+    public <T extends Entity> AndConditionX<E, H> andIsNull(String alias, PropFn<T, ?> propFn) {
         addExpression(Exps.isNull(context, alias, propFn));
 
         return this;
     }
 
-    public AndConditionX<T, H> andLike(PropFn<T, String> propFn, String value) {
+    public AndConditionX<E, H> andLike(PropFn<E, String> propFn, String value) {
         return andLike(null, propFn, value
         );
     }
 
-    public AndConditionX<T, H> andLike(String alias, PropFn<? extends Entity, String> propFn, String value) {
+    public <T extends Entity> AndConditionX<E, H> andLike(String alias, PropFn<T, String> propFn, String value) {
         addExpression(Exps.like(context, alias, propFn, value));
 
         return this;
     }
 
-    public AndConditionX<T, H> andBetween(PropFn<T, LocalDateTime> propFn, LocalDateTime value1, LocalDateTime value2) {
+    public AndConditionX<E, H> andBetween(PropFn<E, LocalDateTime> propFn, LocalDateTime value1, LocalDateTime value2) {
         return andBetween(null, propFn, value1, value2);
     }
 
-    public AndConditionX<T, H> andBetween(String alias, PropFn<? extends Entity, LocalDateTime> propFn, LocalDateTime value1, LocalDateTime value2) {
+    public <T extends Entity> AndConditionX<E, H> andBetween(String alias, PropFn<T, LocalDateTime> propFn, LocalDateTime value1, LocalDateTime value2) {
         addExpression(Exps.between(context, alias, propFn, value1, value2));
 
         return this;
     }
 
-    public AndConditionX<T, H> andBetween(PropFn<T, LocalDate> propFn, LocalDate value1, LocalDate value2) {
+    public AndConditionX<E, H> andBetween(PropFn<E, LocalDate> propFn, LocalDate value1, LocalDate value2) {
         return andBetween(null, propFn, value1, value2);
     }
 
-    public AndConditionX<T, H> andBetween(String alias, PropFn<? extends Entity, LocalDate> propFn, LocalDate value1, LocalDate value2) {
+    public <T extends Entity> AndConditionX<E, H> andBetween(String alias, PropFn<T, LocalDate> propFn, LocalDate value1, LocalDate value2) {
         addExpression(Exps.between(context, alias, propFn, value1, value2));
 
         return this;
     }
 
-    public AndConditionX<T, H> andBetween(PropFn<T, YearMonth> propFn, YearMonth value1, YearMonth value2) {
+    public AndConditionX<E, H> andBetween(PropFn<E, YearMonth> propFn, YearMonth value1, YearMonth value2) {
         return andBetween(null, propFn, value1, value2);
     }
 
-    public AndConditionX<T, H> andBetween(String alias, PropFn<? extends Entity, YearMonth> propFn, YearMonth value1, YearMonth value2) {
+    public <T extends Entity> AndConditionX<E, H> andBetween(String alias, PropFn<T, YearMonth> propFn, YearMonth value1, YearMonth value2) {
         addExpression(Exps.between(context, alias, propFn, value1, value2));
 
         return this;
     }
 
-    public AndConditionX<T, H> andBetween(PropFn<T, Year> propFn, Year value1, Year value2) {
+    public AndConditionX<E, H> andBetween(PropFn<E, Year> propFn, Year value1, Year value2) {
         return andBetween(null, propFn, value1, value2);
     }
 
-    public AndConditionX<T, H> andBetween(String alias, PropFn<? extends Entity, Year> propFn, Year value1, Year value2) {
+    public <T extends Entity> AndConditionX<E, H> andBetween(String alias, PropFn<T, Year> propFn, Year value1, Year value2) {
         addExpression(Exps.between(context, alias, propFn, value1, value2));
 
         return this;
     }
 
-    public AndConditionX<T, H> andBetween(PropFn<T, Number> propFn, Number value1, Number value2) {
+    public AndConditionX<E, H> andBetween(PropFn<E, Number> propFn, Number value1, Number value2) {
         return andBetween(null, propFn, value1, value2);
     }
 
-    public AndConditionX<T, H> andBetween(String alias, PropFn<? extends Entity, Number> propFn, Number value1, Number value2) {
+    public <T extends Entity> AndConditionX<E, H> andBetween(String alias, PropFn<T, Number> propFn, Number value1, Number value2) {
         addExpression(Exps.between(context, alias, propFn, value1, value2));
 
         return this;
