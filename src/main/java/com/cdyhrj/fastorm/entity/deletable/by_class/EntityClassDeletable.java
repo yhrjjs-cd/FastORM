@@ -5,7 +5,7 @@ import com.cdyhrj.fastorm.condition.ConditionHost;
 import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.entity.EntityProxy;
 import com.cdyhrj.fastorm.entity.context.ToSqlContext;
-import com.cdyhrj.fastorm.entity.support.where.Where;
+import com.cdyhrj.fastorm.entity.queryable.where.Where;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -8,8 +8,8 @@ import com.cdyhrj.fastorm.entity.queryablex.helper.ListQueryHelper;
 import com.cdyhrj.fastorm.entity.queryablex.join.Join;
 import com.cdyhrj.fastorm.entity.queryablex.join.JoinType;
 import com.cdyhrj.fastorm.entity.queryablex.join.Joins;
-import com.cdyhrj.fastorm.entity.support.order_by.OrderBy;
-import com.cdyhrj.fastorm.entity.support.where.Where;
+import com.cdyhrj.fastorm.entity.queryablex.order_by.OrderBy;
+import com.cdyhrj.fastorm.entity.queryablex.where.Where;
 import lombok.Getter;
 
 import java.util.List;

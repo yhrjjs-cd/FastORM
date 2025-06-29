@@ -8,7 +8,7 @@ import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.entity.EntityProxy;
 import com.cdyhrj.fastorm.entity.base.AbstractEntityByClassParamSetter;
 import com.cdyhrj.fastorm.entity.context.ToSqlContext;
-import com.cdyhrj.fastorm.entity.support.where.Where;
+import com.cdyhrj.fastorm.entity.queryable.where.Where;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;

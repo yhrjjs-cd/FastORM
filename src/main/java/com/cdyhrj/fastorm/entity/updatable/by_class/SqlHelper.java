@@ -2,7 +2,7 @@ package com.cdyhrj.fastorm.entity.updatable.by_class;
 
 import com.cdyhrj.fastorm.api.entity.FieldNameSpec;
 import com.cdyhrj.fastorm.entity.EntityProxy;
-import com.cdyhrj.fastorm.entity.support.where.Where;
+import com.cdyhrj.fastorm.entity.queryable.where.Where;
 
 import java.util.Map;
 import java.util.StringJoiner;

@@ -1,7 +1,7 @@
 package com.cdyhrj.fastorm.entity.deletable.by_class;
 
 import com.cdyhrj.fastorm.entity.EntityProxy;
-import com.cdyhrj.fastorm.entity.support.where.Where;
+import com.cdyhrj.fastorm.entity.queryable.where.Where;
 
 import java.util.StringJoiner;
 

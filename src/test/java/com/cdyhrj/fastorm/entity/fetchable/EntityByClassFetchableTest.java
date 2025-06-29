@@ -2,6 +2,7 @@ package com.cdyhrj.fastorm.entity.fetchable;
 
 import com.cdyhrj.fastorm.FastORM;
 import com.cdyhrj.fastorm.entity.Student;
+import com.cdyhrj.fastorm.api.order.Order;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,9 @@ class EntityByClassFetchableTest {
                 .where()
                 .andEq(Student::getCode, "test")
                 .andIsNull(Student::getName)
+                .ret()
+                .orderBy()
+                .add(Student::getId, Order.DESC)
                 .ret()
                 .fetch();
 

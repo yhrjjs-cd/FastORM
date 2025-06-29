@@ -1,13 +1,19 @@
 package com.cdyhrj.fastorm.entity.fetchable;
 
 import com.cdyhrj.fastorm.entity.EntityProxy;
+import com.cdyhrj.fastorm.pager.IPagerProvider;
+import com.cdyhrj.fastorm.pager.Pager;
 
 import java.util.Objects;
 import java.util.StringJoiner;
 
 
 public class SqlHelper {
-    public static String generateUpdateSqlTextByPlaceholder(EntityProxy entityProxy, String placeholderField) {
+    public static final Pager PAGER_ONE = Pager.of(1, 1);
+
+    public static String generateUpdateSqlTextByPlaceholder(EntityProxy entityProxy,
+                                                            String placeholderField,
+                                                            IPagerProvider pagerProvider) {
         StringJoiner joiner = new StringJoiner(" ");
         joiner.add("SELECT * FROM")
                 .add(entityProxy.getTableName())
@@ -15,10 +21,12 @@ public class SqlHelper {
                 .add(placeholderField)
                 .add("= :%s".formatted(EntityByClassFetchable.PARAM_HOLDER_NAME));
 
-        return joiner.toString();
+        return pagerProvider.withSql(joiner.toString(), PAGER_ONE);
     }
 
-    public static String generateUpdateSqlTextByWhere(EntityProxy entityProxy, EntityByClassFetchable<?> fetchable) {
+    public static String generateUpdateSqlTextByWhere(EntityProxy entityProxy,
+                                                      EntityByClassFetchable<?> fetchable,
+                                                      IPagerProvider pagerProvider) {
         StringJoiner joiner = new StringJoiner(" ");
         joiner.add("SELECT * FROM")
                 .add(entityProxy.getTableName());
@@ -31,6 +39,6 @@ public class SqlHelper {
             joiner.add(fetchable.getOrderBy().toSql());
         }
 
-        return joiner.toString();
+        return pagerProvider.withSql(joiner.toString(), PAGER_ONE);
     }
 }

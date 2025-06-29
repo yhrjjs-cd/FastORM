@@ -5,8 +5,8 @@ import com.cdyhrj.fastorm.condition.ConditionHost;
 import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.entity.EntityProxy;
 import com.cdyhrj.fastorm.entity.context.ToSqlContext;
-import com.cdyhrj.fastorm.entity.support.order_by.OrderBy;
-import com.cdyhrj.fastorm.entity.support.where.Where;
+import com.cdyhrj.fastorm.entity.queryable.order_by.OrderBy;
+import com.cdyhrj.fastorm.entity.queryable.where.Where;
 import com.cdyhrj.fastorm.pager.IPagerProvider;
 import com.cdyhrj.fastorm.pager.Pager;
 import com.cdyhrj.fastorm.util.QueryRowMapper;
@@ -65,7 +65,7 @@ public class EntityByClassQueryable<E extends Entity> implements ConditionHost<E
     }
 
     public OrderBy<E, EntityByClassQueryable<E>> orderBy() {
-        this.orderBy = new OrderBy<>(context, this);
+        this.orderBy = new OrderBy<>(this);
 
         return this.orderBy;
     }

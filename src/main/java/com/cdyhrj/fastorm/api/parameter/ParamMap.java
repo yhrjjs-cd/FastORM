@@ -20,6 +20,13 @@ public class ParamMap {
         return new ParamMap();
     }
 
+    public static ParamMap of(String name, Object value) {
+        ParamMap paramMap = new ParamMap();
+        paramMap.add(name, value);
+        
+        return paramMap;
+    }
+
     @Getter
     private final Map<String, Object> params = new HashMap<>();
 

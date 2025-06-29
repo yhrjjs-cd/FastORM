@@ -1,4 +1,4 @@
-package com.cdyhrj.fastorm.entity.support.where;
+package com.cdyhrj.fastorm.entity.queryable.where;
 
 import com.cdyhrj.fastorm.condition.AndCondition;
 import com.cdyhrj.fastorm.condition.ConditionHost;

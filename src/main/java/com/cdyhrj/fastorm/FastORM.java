@@ -92,7 +92,7 @@ public class FastORM {
     }
 
     public <E extends Entity> EntityByClassFetchable<E> fetchable(Class<E> entityClass) {
-        return new EntityByClassFetchable<>(namedParamOps, entityClass);
+        return new EntityByClassFetchable<>(namedParamOps, pagerProvider, entityClass);
     }
 
     public <E extends Entity> EntityByClassQueryable<E> queryable(Class<E> entityClass) {

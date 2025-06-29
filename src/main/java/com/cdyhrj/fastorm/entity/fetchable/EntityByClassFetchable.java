@@ -5,16 +5,18 @@ import com.cdyhrj.fastorm.condition.ConditionHost;
 import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.entity.EntityProxy;
 import com.cdyhrj.fastorm.entity.context.ToSqlContext;
-import com.cdyhrj.fastorm.entity.support.order_by.OrderBy;
-import com.cdyhrj.fastorm.entity.support.where.Where;
+import com.cdyhrj.fastorm.entity.queryable.order_by.OrderBy;
+import com.cdyhrj.fastorm.entity.queryable.where.Where;
 import com.cdyhrj.fastorm.exception.ConditionRequiredException;
+import com.cdyhrj.fastorm.pager.IPagerProvider;
 import com.cdyhrj.fastorm.util.ResultSetUtils;
 import lombok.Getter;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+
+import static com.cdyhrj.fastorm.entity.fetchable.SqlHelper.PAGER_ONE;
 
 /**
  * 通过<code>Class</code>获取<code>Entity</code>
@@ -22,11 +24,15 @@ import java.util.Optional;
 public class EntityByClassFetchable<E extends Entity> implements ConditionHost<E> {
     public static final String PARAM_HOLDER_NAME = "_P_P_P_";
     private final NamedParameterJdbcOperations namedParameterJdbcOperations;
+    private final IPagerProvider pagerProvider;
     private final Class<E> entityClass;
     private final ToSqlContext<E, EntityByClassFetchable<E>> context;
 
-    public EntityByClassFetchable(NamedParameterJdbcOperations namedParameterJdbcOperations, Class<E> entityClass) {
+    public EntityByClassFetchable(NamedParameterJdbcOperations namedParameterJdbcOperations,
+                                  IPagerProvider pagerProvider,
+                                  Class<E> entityClass) {
         this.namedParameterJdbcOperations = namedParameterJdbcOperations;
+        this.pagerProvider = pagerProvider;
         this.entityClass = entityClass;
         this.context = new ToSqlContext<>(this, entityClass);
     }
@@ -65,7 +71,7 @@ public class EntityByClassFetchable<E extends Entity> implements ConditionHost<E
     }
 
     public OrderBy<E, EntityByClassFetchable<E>> orderBy() {
-        this.orderBy = new OrderBy<>(context, this);
+        this.orderBy = new OrderBy<>(this);
 
         return this.orderBy;
     }
@@ -97,9 +103,12 @@ public class EntityByClassFetchable<E extends Entity> implements ConditionHost<E
 
     private Optional<E> fetchById() {
         EntityProxy entityProxy = Entity.getEntityProxy(entityClass);
-        String sqlText = SqlHelper.generateUpdateSqlTextByPlaceholder(entityProxy, entityProxy.getIdFieldName());
+        String sqlText = SqlHelper.generateUpdateSqlTextByPlaceholder(entityProxy, entityProxy.getIdFieldName(), pagerProvider);
 
-        return this.namedParameterJdbcOperations.query(sqlText, Map.of(PARAM_HOLDER_NAME, id), rs -> {
+        ParamMap conditionParamMap = ParamMap.of(PARAM_HOLDER_NAME, id);
+        pagerProvider.writeToParamMap(conditionParamMap, PAGER_ONE);
+
+        return this.namedParameterJdbcOperations.query(sqlText, conditionParamMap.getParams(), rs -> {
             if (rs.next()) {
                 return Optional.of(ResultSetUtils.toEntity(rs, entityClass));
             } else {
@@ -110,9 +119,12 @@ public class EntityByClassFetchable<E extends Entity> implements ConditionHost<E
 
     private Optional<E> fetchByName() {
         EntityProxy entityProxy = Entity.getEntityProxy(entityClass);
-        String sqlText = SqlHelper.generateUpdateSqlTextByPlaceholder(entityProxy, entityProxy.getNameFieldName());
+        String sqlText = SqlHelper.generateUpdateSqlTextByPlaceholder(entityProxy, entityProxy.getNameFieldName(), pagerProvider);
 
-        return this.namedParameterJdbcOperations.query(sqlText, Map.of(PARAM_HOLDER_NAME, name), rs -> {
+        ParamMap conditionParamMap = ParamMap.of(PARAM_HOLDER_NAME, name);
+        pagerProvider.writeToParamMap(conditionParamMap, PAGER_ONE);
+
+        return this.namedParameterJdbcOperations.query(sqlText, conditionParamMap.getParams(), rs -> {
             if (rs.next()) {
                 return Optional.of(ResultSetUtils.toEntity(rs, entityClass));
             } else {
@@ -123,9 +135,11 @@ public class EntityByClassFetchable<E extends Entity> implements ConditionHost<E
 
     private Optional<E> fetchByWhere() {
         EntityProxy entityProxy = Entity.getEntityProxy(entityClass);
-        String sqlText = SqlHelper.generateUpdateSqlTextByWhere(entityProxy, this);
+        String sqlText = SqlHelper.generateUpdateSqlTextByWhere(entityProxy, this, pagerProvider);
+
         ParamMap conditionParamMap = ParamMap.of();
         this.where.writeToParamMap(conditionParamMap);
+        pagerProvider.writeToParamMap(conditionParamMap, PAGER_ONE);
 
         return this.namedParameterJdbcOperations.query(sqlText, conditionParamMap.getParams(), rs -> {
             if (rs.next()) {
