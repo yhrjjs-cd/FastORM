@@ -58,8 +58,11 @@ public class EntityByClassQueryable<E extends Entity> implements ConditionHost<E
     /**
      * 分页
      */
-    @Getter
     private Pager pager;
+
+    Pager getPager() {
+        return pager;
+    }
 
     public Where<E, EntityByClassQueryable<E>> where() {
         if (Objects.isNull(this.where)) {
@@ -89,8 +92,8 @@ public class EntityByClassQueryable<E extends Entity> implements ConditionHost<E
 
         ParamMap conditionParamMap = ParamMap.of();
         this.where.writeToParamMap(conditionParamMap);
-        if (Objects.nonNull(getPager())) {
-            pagerProvider.writeToParamMap(conditionParamMap, getPager());
+        if (Objects.nonNull(pager)) {
+            pagerProvider.writeToParamMap(conditionParamMap, pager);
         }
 
         return this.namedParameterJdbcOperations.query(sqlText, conditionParamMap.getParams(), new QueryRowMapper<>(entityClass));

@@ -40,9 +40,9 @@ public class SqlHelper {
         }
 
         String sqlText = joiner.toString();
-//        if (Objects.nonNull(queryable.getPager())) {
-//            return queryable.getPagerProvider().withSql(sqlText, queryable.getPager());
-//        }
+        if (Objects.nonNull(queryable.getPager())) {
+            return queryable.getPagerProvider().withSql(sqlText, queryable.getPager());
+        }
 
         return sqlText;
     }
