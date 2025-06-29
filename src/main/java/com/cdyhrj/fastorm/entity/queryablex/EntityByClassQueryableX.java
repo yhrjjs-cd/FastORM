@@ -7,9 +7,11 @@ import com.cdyhrj.fastorm.entity.context.ToSqlContext;
 import com.cdyhrj.fastorm.entity.queryablex.join.Joins;
 import com.cdyhrj.fastorm.entity.queryablex.order_by.OrderBy;
 import com.cdyhrj.fastorm.entity.queryablex.where.Where;
+import com.cdyhrj.fastorm.entity.queryablex.with.With;
 import com.cdyhrj.fastorm.pager.IPagerProvider;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,12 +22,8 @@ import java.util.Objects;
  */
 public class EntityByClassQueryableX<E extends Entity> implements ConditionHost<E> {
     private final NamedParameterJdbcOperations namedParameterJdbcOperations;
-
     private final IPagerProvider pagerProvider;
-
-
     private final Class<E> entityClass;
-
     private final ToSqlContext<E, EntityByClassQueryableX<E>> context;
 
 
@@ -70,6 +68,12 @@ public class EntityByClassQueryableX<E extends Entity> implements ConditionHost<
         return orderBy;
     }
 
+    private List<With> withs;
+
+    List<With> getWiths() {
+        return withs;
+    }
+
     public Joins<E> joins() {
         return this.joins;
     }
@@ -89,6 +93,17 @@ public class EntityByClassQueryableX<E extends Entity> implements ConditionHost<
         }
 
         return this.orderBy;
+    }
+
+    public EntityByClassQueryableX<E> addWith(With with) {
+        if (Objects.isNull(withs)) {
+            withs = new ArrayList<>();
+        }
+
+        withs.add(with);
+        context.addWith(with);
+
+        return this;
     }
 
     //
@@ -118,6 +133,11 @@ public class EntityByClassQueryableX<E extends Entity> implements ConditionHost<
 //    public JSONArray toJSONArray() {
 //        return ListQueryHelper.of(this).toJSONArray();
 //    }
+    public String getSqlText() {
+        EntityProxy entityProxy = Entity.getEntityProxy(entityClass);
+        return SqlHelper.generateUpdateSqlTextByWhere(entityProxy, this);
+    }
+
     public List<E> query() {
         EntityProxy entityProxy = Entity.getEntityProxy(entityClass);
         String sqlText = SqlHelper.generateUpdateSqlTextByWhere(entityProxy, this);

@@ -29,6 +29,6 @@ public class TableAvailable implements SqlSegment {
 
     @Override
     public String toSql() {
-        return "%s %s".formatted(from.getName(), alias);
+        return "%s %s".formatted(from.getContent(), alias);
     }
 }

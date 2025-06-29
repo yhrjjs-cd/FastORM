@@ -7,14 +7,14 @@ public class WithFrom implements From {
         return new WithFrom(with);
     }
 
-    private With with;
+    private final With with;
 
     public WithFrom(With with) {
         this.with = with;
     }
 
     @Override
-    public String getName() {
-        return "WITH";
+    public String getContent() {
+        return with.getName();
     }
 }

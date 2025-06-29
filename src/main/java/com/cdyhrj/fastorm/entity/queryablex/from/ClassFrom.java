@@ -7,14 +7,14 @@ public class ClassFrom implements From {
         return new ClassFrom(entityClass);
     }
 
-    private Class<? extends Entity> entityClass;
+    private final Class<? extends Entity> entityClass;
 
     public ClassFrom(Class<? extends Entity> entityClass) {
         this.entityClass = entityClass;
     }
 
     @Override
-    public String getName() {
+    public String getContent() {
         return entityClass.getSimpleName();
     }
 }
