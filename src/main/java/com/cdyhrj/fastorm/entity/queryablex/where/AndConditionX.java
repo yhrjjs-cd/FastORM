@@ -95,6 +95,10 @@ public class AndConditionX<E extends Entity, H extends ConditionHost<E>> impleme
         return this;
     }
 
+    public <T extends Entity> AndConditionX<E, H> andEqX(PropFn<T, ?> propFn, Object value) {
+        return andEq(null, propFn, value);
+    }
+
     public <N extends Number> AndConditionX<E, H> andLt(PropFn<E, N> propFn, N value) {
         return andLt(null, propFn, value);
     }
@@ -103,6 +107,10 @@ public class AndConditionX<E extends Entity, H extends ConditionHost<E>> impleme
         addExpression(Exps.lt(context, alias, propFn, value));
 
         return this;
+    }
+
+    public <N extends Number, T extends Entity> AndConditionX<E, H> andLtX(PropFn<T, N> propFn, N value) {
+        return andLt(null, propFn, value);
     }
 
     public <N extends Number> AndConditionX<E, H> andLte(PropFn<E, N> propFn, N value) {
@@ -115,6 +123,10 @@ public class AndConditionX<E extends Entity, H extends ConditionHost<E>> impleme
         return this;
     }
 
+    public <N extends Number, T extends Entity> AndConditionX<E, H> andLteX(PropFn<T, N> propFn, N value) {
+        return andLte(null, propFn, value);
+    }
+
     public <N extends Number> AndConditionX<E, H> andGt(PropFn<E, N> propFn, N value) {
         return andGt(null, propFn, value);
     }
@@ -123,6 +135,10 @@ public class AndConditionX<E extends Entity, H extends ConditionHost<E>> impleme
         addExpression(Exps.gt(context, alias, propFn, value));
 
         return this;
+    }
+
+    public <N extends Number, T extends Entity> AndConditionX<E, H> andGtX(PropFn<T, N> propFn, N value) {
+        return andGt(null, propFn, value);
     }
 
     public <N extends Number> AndConditionX<E, H> andGte(PropFn<E, N> propFn, N value) {
@@ -135,6 +151,10 @@ public class AndConditionX<E extends Entity, H extends ConditionHost<E>> impleme
         return this;
     }
 
+    public <N extends Number, T extends Entity> AndConditionX<E, H> andGteX(PropFn<T, N> propFn, N value) {
+        return andGte(null, propFn, value);
+    }
+
     public AndConditionX<E, H> andIsNull(PropFn<E, ?> propFn) {
         return andIsNull(null, propFn);
     }
@@ -143,6 +163,10 @@ public class AndConditionX<E extends Entity, H extends ConditionHost<E>> impleme
         addExpression(Exps.isNull(context, alias, propFn));
 
         return this;
+    }
+
+    public <T extends Entity> AndConditionX<E, H> andIsNullX(PropFn<T, ?> propFn) {
+        return andIsNull(null, propFn);
     }
 
     public AndConditionX<E, H> andLike(PropFn<E, String> propFn, String value) {
@@ -156,6 +180,11 @@ public class AndConditionX<E extends Entity, H extends ConditionHost<E>> impleme
         return this;
     }
 
+    public <T extends Entity> AndConditionX<E, H> andLikeX(PropFn<T, String> propFn, String value) {
+        return andLike(null, propFn, value
+        );
+    }
+
     public AndConditionX<E, H> andBetween(PropFn<E, LocalDateTime> propFn, LocalDateTime value1, LocalDateTime value2) {
         return andBetween(null, propFn, value1, value2);
     }
@@ -164,6 +193,10 @@ public class AndConditionX<E extends Entity, H extends ConditionHost<E>> impleme
         addExpression(Exps.between(context, alias, propFn, value1, value2));
 
         return this;
+    }
+
+    public <T extends Entity> AndConditionX<E, H> andBetweenX(PropFn<T, LocalDateTime> propFn, LocalDateTime value1, LocalDateTime value2) {
+        return andBetween(null, propFn, value1, value2);
     }
 
     public AndConditionX<E, H> andBetween(PropFn<E, LocalDate> propFn, LocalDate value1, LocalDate value2) {
@@ -176,6 +209,10 @@ public class AndConditionX<E extends Entity, H extends ConditionHost<E>> impleme
         return this;
     }
 
+    public <T extends Entity> AndConditionX<E, H> andBetweenX(PropFn<T, LocalDate> propFn, LocalDate value1, LocalDate value2) {
+        return andBetween(null, propFn, value1, value2);
+    }
+
     public AndConditionX<E, H> andBetween(PropFn<E, YearMonth> propFn, YearMonth value1, YearMonth value2) {
         return andBetween(null, propFn, value1, value2);
     }
@@ -184,6 +221,10 @@ public class AndConditionX<E extends Entity, H extends ConditionHost<E>> impleme
         addExpression(Exps.between(context, alias, propFn, value1, value2));
 
         return this;
+    }
+
+    public <T extends Entity> AndConditionX<E, H> andBetweenX(PropFn<T, YearMonth> propFn, YearMonth value1, YearMonth value2) {
+        return andBetween(null, propFn, value1, value2);
     }
 
     public AndConditionX<E, H> andBetween(PropFn<E, Year> propFn, Year value1, Year value2) {
@@ -196,6 +237,10 @@ public class AndConditionX<E extends Entity, H extends ConditionHost<E>> impleme
         return this;
     }
 
+    public <T extends Entity> AndConditionX<E, H> andBetweenX(PropFn<T, Year> propFn, Year value1, Year value2) {
+        return andBetween(null, propFn, value1, value2);
+    }
+
     public AndConditionX<E, H> andBetween(PropFn<E, Number> propFn, Number value1, Number value2) {
         return andBetween(null, propFn, value1, value2);
     }
@@ -204,5 +249,9 @@ public class AndConditionX<E extends Entity, H extends ConditionHost<E>> impleme
         addExpression(Exps.between(context, alias, propFn, value1, value2));
 
         return this;
+    }
+
+    public <T extends Entity> AndConditionX<E, H> andBetweenX(PropFn<T, Number> propFn, Number value1, Number value2) {
+        return andBetween(null, propFn, value1, value2);
     }
 }

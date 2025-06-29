@@ -19,13 +19,14 @@ class EntityByClassQueryableXTest {
     void queryTest() {
         List<Student> students = fastORM.queryableX(Student.class)
                 .joins()
-                .addJoin(JoinType.INNER, MailMan.class, "XX1")
+                .addJoin(JoinType.INNER, MailMan.class)
                 .onEq(Student::getId, MailMan::getId)
                 .end()
                 .ret()
                 .where()
                 .andEq(Student::getCode, "that")
-                .andEq("XX1", MailMan::getCode, "that")
+                .andEqX(MailMan::getCode, "that")
+                .andIsNullX(MailMan::getCode)
                 .ret()
                 .query();
 

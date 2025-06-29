@@ -91,6 +91,10 @@ public class OrConditionX<E extends Entity, H extends ConditionHost<E>> implemen
         return this;
     }
 
+    public <T extends Entity> OrConditionX<E, H> orEqX(PropFn<T, ?> propFn, Object value) {
+        return orEq(null, propFn, value);
+    }
+
     public <N extends Number> OrConditionX<E, H> orLt(PropFn<E, N> propFn, N value) {
         return orEq(null, propFn, value);
     }
@@ -99,6 +103,10 @@ public class OrConditionX<E extends Entity, H extends ConditionHost<E>> implemen
         addExpression(Exps.lt(context, alias, propFn, value));
 
         return this;
+    }
+
+    public <N extends Number, T extends Entity> OrConditionX<E, H> orLtX(PropFn<T, N> propFn, N value) {
+        return orEq(null, propFn, value);
     }
 
     public <N extends Number> OrConditionX<E, H> orLte(PropFn<E, N> propFn, N value) {
@@ -111,6 +119,10 @@ public class OrConditionX<E extends Entity, H extends ConditionHost<E>> implemen
         return this;
     }
 
+    public <N extends Number, T extends Entity> OrConditionX<E, H> orLteX(PropFn<T, N> propFn, N value) {
+        return orLte(null, propFn, value);
+    }
+
     public <N extends Number> OrConditionX<E, H> orGt(PropFn<E, N> propFn, N value) {
         return orGt(null, propFn, value);
     }
@@ -119,6 +131,10 @@ public class OrConditionX<E extends Entity, H extends ConditionHost<E>> implemen
         addExpression(Exps.gt(context, alias, propFn, value));
 
         return this;
+    }
+
+    public <N extends Number, T extends Entity> OrConditionX<E, H> orGtX(PropFn<T, N> propFn, N value) {
+        return orGt(null, propFn, value);
     }
 
     public <N extends Number> OrConditionX<E, H> orGte(PropFn<E, N> propFn, N value) {
@@ -131,6 +147,10 @@ public class OrConditionX<E extends Entity, H extends ConditionHost<E>> implemen
         return this;
     }
 
+    public <N extends Number, T extends Entity> OrConditionX<E, H> orGteX(PropFn<T, N> propFn, N value) {
+        return orGte(null, propFn, value);
+    }
+
     public OrConditionX<E, H> orIsNull(PropFn<E, ?> propFn) {
         return orIsNull(null, propFn);
     }
@@ -139,6 +159,10 @@ public class OrConditionX<E extends Entity, H extends ConditionHost<E>> implemen
         addExpression(Exps.isNull(context, alias, propFn));
 
         return this;
+    }
+
+    public <T extends Entity> OrConditionX<E, H> orIsNullX(PropFn<T, ?> propFn) {
+        return orIsNull(null, propFn);
     }
 
     public OrConditionX<E, H> orLike(PropFn<E, String> propFn, String value) {
@@ -151,6 +175,10 @@ public class OrConditionX<E extends Entity, H extends ConditionHost<E>> implemen
         return this;
     }
 
+    public <T extends Entity> OrConditionX<E, H> orLikeX(PropFn<T, String> propFn, String value) {
+        return orLike(null, propFn, value);
+    }
+
     public OrConditionX<E, H> orBetween(PropFn<E, LocalDateTime> propFn, LocalDateTime value1, LocalDateTime value2) {
         return orBetween(null, propFn, value1, value2);
     }
@@ -159,6 +187,10 @@ public class OrConditionX<E extends Entity, H extends ConditionHost<E>> implemen
         addExpression(Exps.between(context, alias, propFn, value1, value2));
 
         return this;
+    }
+
+    public <T extends Entity> OrConditionX<E, H> orBetweenX(PropFn<T, LocalDateTime> propFn, LocalDateTime value1, LocalDateTime value2) {
+        return orBetween(null, propFn, value1, value2);
     }
 
     public OrConditionX<E, H> orBetween(PropFn<E, LocalDate> propFn, LocalDate value1, LocalDate value2) {
@@ -171,6 +203,10 @@ public class OrConditionX<E extends Entity, H extends ConditionHost<E>> implemen
         return this;
     }
 
+    public <T extends Entity> OrConditionX<E, H> orBetweenX(PropFn<T, LocalDate> propFn, LocalDate value1, LocalDate value2) {
+        return orBetween(null, propFn, value1, value2);
+    }
+
     public OrConditionX<E, H> orBetween(PropFn<E, YearMonth> propFn, YearMonth value1, YearMonth value2) {
         return orBetween(null, propFn, value1, value2);
     }
@@ -179,6 +215,10 @@ public class OrConditionX<E extends Entity, H extends ConditionHost<E>> implemen
         addExpression(Exps.between(context, alias, propFn, value1, value2));
 
         return this;
+    }
+
+    public <T extends Entity> OrConditionX<E, H> orBetweenX(PropFn<T, YearMonth> propFn, YearMonth value1, YearMonth value2) {
+        return orBetween(null, propFn, value1, value2);
     }
 
     public OrConditionX<E, H> orBetween(PropFn<E, Year> propFn, Year value1, Year value2) {
@@ -191,6 +231,10 @@ public class OrConditionX<E extends Entity, H extends ConditionHost<E>> implemen
         return this;
     }
 
+    public <T extends Entity> OrConditionX<E, H> orBetweenX(PropFn<T, Year> propFn, Year value1, Year value2) {
+        return orBetween(null, propFn, value1, value2);
+    }
+
     public OrConditionX<E, H> orBetween(PropFn<E, Number> propFn, Number value1, Number value2) {
         return orBetween(null, propFn, value1, value2);
     }
@@ -199,5 +243,9 @@ public class OrConditionX<E extends Entity, H extends ConditionHost<E>> implemen
         addExpression(Exps.between(context, alias, propFn, value1, value2));
 
         return this;
+    }
+
+    public <T extends Entity> OrConditionX<E, H> orBetweenX(PropFn<T, Number> propFn, Number value1, Number value2) {
+        return orBetween(null, propFn, value1, value2);
     }
 }
