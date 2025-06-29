@@ -1,4 +1,4 @@
-package com.cdyhrj.fastorm.entity.queryable;
+package com.cdyhrj.fastorm.entity.queryablex;
 
 import com.alibaba.fastjson2.JSONArray;
 import com.cdyhrj.fastorm.condition.ConditionHost;
