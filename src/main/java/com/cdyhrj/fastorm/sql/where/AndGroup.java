@@ -40,7 +40,7 @@ public class AndGroup implements Item {
         return orGroup;
     }
 
-    public AndGroup end() {
+    public OrGroup end() {
         return belongTo;
     }
 
