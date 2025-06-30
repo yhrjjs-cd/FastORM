@@ -1,6 +1,6 @@
 package com.cdyhrj.fastorm.entity;
 
-import com.cdyhrj.fastorm.entity.enhance.EntityClassEnhancer;
+import com.cdyhrj.fastorm.enhance.EntityClassEnhancer;
 import com.google.common.collect.Maps;
 
 import java.util.Map;
