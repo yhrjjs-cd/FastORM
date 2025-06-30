@@ -18,15 +18,4 @@ import org.springframework.context.annotation.Configuration;
 public class FastOrmConfig {
     @Value("${yhrj.fastORM.batchSize:200}")
     private Integer batchSize;
-
-    /**
-     * 分页提供， 默认使用MySql，如果需要定制，业务中使用自定义Bean
-     *
-     * @return 分页提供
-     */
-    @Bean
-    @ConditionalOnMissingBean(IPagerProvider.class)
-    public IPagerProvider pagerProvider() {
-        return new MySql8PagerProvider();
-    }
 }

@@ -1,5 +1,6 @@
 package com.cdyhrj.fastorm;
 
+import com.cdyhrj.fastorm.config.FastOrmConfig;
 import com.cdyhrj.fastorm.enhance.EntityRegistrar;
 import org.springframework.context.annotation.Import;
 
@@ -15,7 +16,7 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Import({EntityRegistrar.class, FastORMDefiner.class})
+@Import({EntityRegistrar.class, FastORMDefiner.class, FastOrmConfig.class})
 public @interface EnableFastORM {
     /**
      * 扫描类所在包
