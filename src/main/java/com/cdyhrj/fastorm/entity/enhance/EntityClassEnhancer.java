@@ -6,6 +6,7 @@ import com.cdyhrj.fastorm.annotation.ManyToMany;
 import com.cdyhrj.fastorm.annotation.enums.OperationType;
 import com.cdyhrj.fastorm.api.entity.FieldNameSpec;
 import com.cdyhrj.fastorm.api.entity.FieldNameType;
+import com.cdyhrj.fastorm.api.enums.RelationType;
 import com.cdyhrj.fastorm.entity.EnhancedEntityClassMap;
 import com.cdyhrj.fastorm.entity.Entity;
 import com.cdyhrj.fastorm.entity.EntityProxy;
@@ -48,7 +49,6 @@ import javassist.CtMethod;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ReflectionUtils;
 
-import javax.management.relation.RelationType;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -126,7 +126,7 @@ public class EntityClassEnhancer {
                 }
 
                 Class<? extends Entity> entityClass = enhanceBaseEntity(classStringOfT, classPool, ctEntityInterface);
-                generatePeerEntity(entityClass, classPool, ctEntityPeerInterface);
+                generateEntityProxies(entityClass, classPool, ctEntityPeerInterface);
                 registerValueAdapter(entityClass);
                 EnhancedEntityClassMap.registerEntity(entityClass);
             }
@@ -259,7 +259,7 @@ public class EntityClassEnhancer {
      * @param classPool             类池
      * @param ctEntityPeerInterface 接口
      */
-    private void generatePeerEntity(Class<?> classOfT, ClassPool classPool, CtClass ctEntityPeerInterface) {
+    private void generateEntityProxies(Class<?> classOfT, ClassPool classPool, CtClass ctEntityPeerInterface) {
         try {
             CtClass ctClass = classPool.makeClass(PROXY_CLASS_NAME_TEMPLATE.formatted(classOfT.getName()));
             ctClass.addInterface(ctEntityPeerInterface);
