@@ -20,7 +20,7 @@ public class Oracle11gPagerProvider implements IPagerProvider {
 
     @Override
     public void writeToParamMap(ParamMap paramMap, Pager pager) {
-        paramMap.add("__R_N_T__", pager.getOffset());
-        paramMap.add("__R_N_F__", pager.getOffset() + pager.getPageSize());
+        paramMap.add("__R_N_T__", pager.getOffset() + pager.getPageSize());
+        paramMap.add("__R_N_F__", pager.getOffset());
     }
 }

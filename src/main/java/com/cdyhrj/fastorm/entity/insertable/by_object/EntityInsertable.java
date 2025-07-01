@@ -49,7 +49,12 @@ public class EntityInsertable<E extends Entity> {
     private List<String> relations;
 
     /**
-     * 插入关系 <font color="red">请注意：1次只能插入1个关系</font>
+     * 主键字段名，默认id
+     */
+    private String primaryKeyName = "id";
+
+    /**
+     * 插入关系
      *
      * @param relation 关系名
      * @return 当前对象
@@ -63,6 +68,19 @@ public class EntityInsertable<E extends Entity> {
 
         return this;
     }
+
+    /**
+     * 设置主键字段名称， 默认为：<code>id</code>
+     *
+     * @param primaryKeyName 主键字段名
+     * @return 当前对象
+     */
+    public EntityInsertable<E> primaryKeyName(@NonNull String primaryKeyName) {
+        this.primaryKeyName = primaryKeyName;
+
+        return this;
+    }
+
 
     /**
      * 执行插入操作
@@ -88,7 +106,7 @@ public class EntityInsertable<E extends Entity> {
         String sqlText = SqlHelper.generateInsertSqlText(entityProxy, entity);
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
-        int rows = this.namedParameterJdbcOperations.update(sqlText, new MapSqlParameterSource(paramMap), keyHolder);
+        int rows = this.namedParameterJdbcOperations.update(sqlText, new MapSqlParameterSource(paramMap), keyHolder, new String[]{primaryKeyName});
 
         Number key = keyHolder.getKey();
         if (Objects.nonNull(key)) {
@@ -104,7 +122,7 @@ public class EntityInsertable<E extends Entity> {
             String sqlText = SqlHelper.generateInsertSqlText(entityProxy, entity);
             KeyHolder keyHolder = new GeneratedKeyHolder();
 
-            int rows = this.namedParameterJdbcOperations.update(sqlText, new MapSqlParameterSource(paramMap), keyHolder);
+            int rows = this.namedParameterJdbcOperations.update(sqlText, new MapSqlParameterSource(paramMap), keyHolder, new String[]{primaryKeyName});
             Number key = keyHolder.getKey();
             if (Objects.nonNull(key)) {
                 entityProxy.updateEntityId(entity, key.longValue());

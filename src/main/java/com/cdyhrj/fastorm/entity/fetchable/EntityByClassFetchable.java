@@ -11,6 +11,7 @@ import com.cdyhrj.fastorm.exception.ConditionRequiredException;
 import com.cdyhrj.fastorm.pager.IPagerProvider;
 import com.cdyhrj.fastorm.util.ResultSetUtils;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 
 import java.util.Objects;
@@ -21,6 +22,7 @@ import static com.cdyhrj.fastorm.entity.fetchable.SqlHelper.PAGER_ONE;
 /**
  * 通过<code>Class</code>获取<code>Entity</code>
  */
+@Slf4j
 public class EntityByClassFetchable<E extends Entity> implements ConditionHost<E> {
     public static final String PARAM_HOLDER_NAME = "_P_P_P_";
     private final NamedParameterJdbcOperations namedParameterJdbcOperations;
@@ -108,6 +110,8 @@ public class EntityByClassFetchable<E extends Entity> implements ConditionHost<E
         ParamMap conditionParamMap = ParamMap.of(PARAM_HOLDER_NAME, id);
         pagerProvider.writeToParamMap(conditionParamMap, PAGER_ONE);
 
+        log.info("fetchById id:{}", sqlText);
+        log.info("fetchById id:{}", conditionParamMap.getParams());
         return this.namedParameterJdbcOperations.query(sqlText, conditionParamMap.getParams(), rs -> {
             if (rs.next()) {
                 return Optional.of(ResultSetUtils.toEntity(rs, entityClass));
@@ -123,6 +127,8 @@ public class EntityByClassFetchable<E extends Entity> implements ConditionHost<E
 
         ParamMap conditionParamMap = ParamMap.of(PARAM_HOLDER_NAME, name);
         pagerProvider.writeToParamMap(conditionParamMap, PAGER_ONE);
+        log.info("fetchByName id:{}", sqlText);
+        log.info("fetchByName id:{}", conditionParamMap.getParams());
 
         return this.namedParameterJdbcOperations.query(sqlText, conditionParamMap.getParams(), rs -> {
             if (rs.next()) {
@@ -140,6 +146,9 @@ public class EntityByClassFetchable<E extends Entity> implements ConditionHost<E
         ParamMap conditionParamMap = ParamMap.of();
         this.where.writeToParamMap(conditionParamMap);
         pagerProvider.writeToParamMap(conditionParamMap, PAGER_ONE);
+
+        log.info("fetchByWhere id:{}", sqlText);
+        log.info("fetchByWhere id:{}", conditionParamMap.getParams());
 
         return this.namedParameterJdbcOperations.query(sqlText, conditionParamMap.getParams(), rs -> {
             if (rs.next()) {
