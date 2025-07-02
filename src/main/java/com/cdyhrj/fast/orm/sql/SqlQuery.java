@@ -3,6 +3,7 @@ package com.cdyhrj.fast.orm.sql;
 import com.cdyhrj.fast.orm.api.parameter.ParamMap;
 import com.cdyhrj.fast.orm.pager.IPagerProvider;
 import com.cdyhrj.fast.orm.pager.Pager;
+import com.cdyhrj.fast.orm.sql.util.ResultUtils;
 import com.cdyhrj.fast.orm.sql.where.AndGroup;
 import com.google.common.collect.Lists;
 import lombok.Getter;
@@ -161,7 +162,7 @@ public class SqlQuery {
         ParamMap paramMap = getQueryParamMap();
         log.info("paramMap: {}", paramMap);
 
-        return this.namedParameterJdbcOperations.queryForList(sqlText, paramMap.getParams());
+        return ResultUtils.valuesToCamelKey(this.namedParameterJdbcOperations.queryForList(sqlText, paramMap.getParams()));
     }
 
 //    public <T> List<T> queryFieldForList(Class<T> classOfT) {
@@ -211,7 +212,7 @@ public class SqlQuery {
         log.info("paramMap: {}", paramMap);
 
         try {
-            return Optional.of(this.namedParameterJdbcOperations.queryForMap(sqlText, paramMap.getParams()));
+            return Optional.of(ResultUtils.valuesToCamelKey(this.namedParameterJdbcOperations.queryForMap(sqlText, paramMap.getParams())));
         } catch (Exception e) {
             return Optional.empty();
         }
