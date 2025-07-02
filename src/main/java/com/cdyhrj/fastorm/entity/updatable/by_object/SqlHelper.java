@@ -20,17 +20,20 @@ public class SqlHelper {
                 .add(toUpdateFields(fieldNameSpecs))
                 .add("WHERE");
 
+        // 判断Id
         Long id = entityProxy.getIdValue(entity);
-        String name = entityProxy.getNameValue(entity);
-
         if (Objects.nonNull(id) && id > 0) {
             String idField = entityProxy.getIdFieldName();
             joiner.add("%s=:%s".formatted(idField, idField));
-        } else if (Objects.nonNull(name)) {
-            String nameField = entityProxy.getNameFieldName();
-            joiner.add("%s=:%s".formatted(nameField, nameField));
         } else {
-            throw new KeyValueRequiredException(entity.getClass());
+            // 判断Name
+            String name = entityProxy.getNameValue(entity);
+            if (Objects.nonNull(name)) {
+                String nameField = entityProxy.getNameFieldName();
+                joiner.add("%s=:%s".formatted(nameField, nameField));
+            } else {
+                throw new KeyValueRequiredException(entity.getClass());
+            }
         }
 
         return joiner.toString();
