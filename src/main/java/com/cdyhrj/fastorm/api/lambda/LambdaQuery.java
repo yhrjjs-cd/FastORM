@@ -2,6 +2,9 @@ package com.cdyhrj.fastorm.api.lambda;
 
 
 import com.cdyhrj.fastorm.annotation.Column;
+import com.cdyhrj.fastorm.annotation.ManyToMany;
+import com.cdyhrj.fastorm.annotation.OneToMany;
+import com.cdyhrj.fastorm.annotation.OneToOne;
 import com.cdyhrj.fastorm.api.lambda.exception.ColumnAnnotationRequiredException;
 import com.cdyhrj.fastorm.api.lambda.exception.ImpossibleException;
 import com.cdyhrj.fastorm.api.lambda.exception.NotLambdaSyntheticClassException;
@@ -99,9 +102,11 @@ public class LambdaQuery {
     }
 
     private static String getFieldName(Field field, String propertyName) {
-//        if (field.isAnnotationPresent(OneToMany.class) || field.isAnnotationPresent(OneToOne.class) || field.isAnnotationPresent(ManyToMany.class)) {
-//            return field.getName();
-//        }
+        if (field.isAnnotationPresent(OneToMany.class)
+                || field.isAnnotationPresent(OneToOne.class)
+                || field.isAnnotationPresent(ManyToMany.class)) {
+            return field.getName();
+        }
 
         Column column = field.getAnnotation(Column.class);
         if (Objects.isNull(column)) {
