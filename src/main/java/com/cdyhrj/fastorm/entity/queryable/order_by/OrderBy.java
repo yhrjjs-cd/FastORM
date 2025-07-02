@@ -8,6 +8,7 @@ import com.cdyhrj.fastorm.api.order.Order;
 import com.cdyhrj.fastorm.condition.ConditionHost;
 import com.cdyhrj.fastorm.entity.Entity;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +55,8 @@ public class OrderBy<E extends Entity, H extends ConditionHost<E>> implements Sq
     }
 
     public H ret() {
+        Assert.notEmpty(segments, "orderBy is empty");
+
         return queryable;
     }
 }

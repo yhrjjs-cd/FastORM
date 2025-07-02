@@ -110,8 +110,6 @@ public class EntityByClassFetchable<E extends Entity> implements ConditionHost<E
         ParamMap conditionParamMap = ParamMap.of(PARAM_HOLDER_NAME, id);
         pagerProvider.writeToParamMap(conditionParamMap, PAGER_ONE);
 
-        log.info("fetchById id:{}", sqlText);
-        log.info("fetchById id:{}", conditionParamMap.getParams());
         return this.namedParameterJdbcOperations.query(sqlText, conditionParamMap.getParams(), rs -> {
             if (rs.next()) {
                 return Optional.of(ResultSetUtils.toEntity(rs, entityClass));
@@ -127,8 +125,6 @@ public class EntityByClassFetchable<E extends Entity> implements ConditionHost<E
 
         ParamMap conditionParamMap = ParamMap.of(PARAM_HOLDER_NAME, name);
         pagerProvider.writeToParamMap(conditionParamMap, PAGER_ONE);
-        log.info("fetchByName id:{}", sqlText);
-        log.info("fetchByName id:{}", conditionParamMap.getParams());
 
         return this.namedParameterJdbcOperations.query(sqlText, conditionParamMap.getParams(), rs -> {
             if (rs.next()) {
@@ -146,9 +142,6 @@ public class EntityByClassFetchable<E extends Entity> implements ConditionHost<E
         ParamMap conditionParamMap = ParamMap.of();
         this.where.writeToParamMap(conditionParamMap);
         pagerProvider.writeToParamMap(conditionParamMap, PAGER_ONE);
-
-        log.info("fetchByWhere id:{}", sqlText);
-        log.info("fetchByWhere id:{}", conditionParamMap.getParams());
 
         return this.namedParameterJdbcOperations.query(sqlText, conditionParamMap.getParams(), rs -> {
             if (rs.next()) {
