@@ -13,9 +13,9 @@ import com.cdyhrj.fast.orm.pager.Pager;
 public class Oracle11gPagerProvider implements IPagerProvider {
     @Override
     public String withSql(String sqlText, Pager pager) {
-        return "SELECT * FROM (SELECT T.*, ROWNUM RN FROM (" +
+        return "SELECT * FROM (SELECT T.*, ROWNUM _RN FROM (" +
                 sqlText +
-                ") T WHERE ROWNUM <= :__R_N_T__) WHERE RN > :__R_N_F__";
+                ") T WHERE ROWNUM <= :__R_N_T__) WHERE _RN > :__R_N_F__";
     }
 
     @Override

@@ -156,9 +156,10 @@ public class SqlQuery {
      *
      * @return 数据列表
      */
-    public List<?> query() {
+    public List<Map<String, Object>> query() {
         String sqlText = getQuerySqlText();
         ParamMap paramMap = getQueryParamMap();
+        log.info("paramMap: {}", paramMap);
 
         return this.namedParameterJdbcOperations.queryForList(sqlText, paramMap.getParams());
     }
@@ -206,6 +207,8 @@ public class SqlQuery {
     public Optional<?> fetch() {
         String sqlText = getFetchSqlText();
         ParamMap paramMap = getFetchParamMap();
+
+        log.info("paramMap: {}", paramMap);
 
         try {
             return Optional.of(this.namedParameterJdbcOperations.queryForMap(sqlText, paramMap.getParams()));
