@@ -1,9 +1,11 @@
 package com.cdyhrj.fast.orm.sql;
 
 import com.cdyhrj.fast.orm.api.parameter.ParamMap;
+import com.cdyhrj.fast.orm.pager.IPagerProvider;
 import com.cdyhrj.fast.orm.pager.Pager;
 import com.cdyhrj.fast.orm.sql.where.AndGroup;
 import com.google.common.collect.Lists;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 
@@ -11,6 +13,7 @@ import java.sql.ResultSetMetaData;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -21,6 +24,9 @@ import java.util.Set;
  */
 @Slf4j
 public class SqlQuery {
+    @Getter
+    private final IPagerProvider pagerProvider;
+
     /**
      * 条件插入位置
      */
@@ -41,12 +47,13 @@ public class SqlQuery {
      */
     protected NamedParameterJdbcOperations namedParameterJdbcOperations;
 
-    public static SqlQuery of(NamedParameterJdbcOperations namedParameterJdbcOperations) {
-        return new SqlQuery(namedParameterJdbcOperations);
+    public static SqlQuery of(NamedParameterJdbcOperations namedParameterJdbcOperations, IPagerProvider pagerProvider) {
+        return new SqlQuery(namedParameterJdbcOperations, pagerProvider);
     }
 
-    protected SqlQuery(NamedParameterJdbcOperations namedParameterJdbcOperations) {
+    protected SqlQuery(NamedParameterJdbcOperations namedParameterJdbcOperations, IPagerProvider pagerProvider) {
         this.namedParameterJdbcOperations = namedParameterJdbcOperations;
+        this.pagerProvider = pagerProvider;
     }
 
     private String sql;
@@ -144,18 +151,18 @@ public class SqlQuery {
         return this;
     }
 
-//    /**
-//     * 查询列表
-//     *
-//     * @return 数据列表
-//     */
-//    public QueryResult query() {
-//        String sqlText = getQuerySqlText();
-//        ParamMap paramMap = getQueryParamMap();
-//
-//        return QueryResult.from(this.namedParameterJdbcOperations.queryForList(sqlText, paramMap.getParams()));
-//    }
-//
+    /**
+     * 查询列表
+     *
+     * @return 数据列表
+     */
+    public List<?> query() {
+        String sqlText = getQuerySqlText();
+        ParamMap paramMap = getQueryParamMap();
+
+        return this.namedParameterJdbcOperations.queryForList(sqlText, paramMap.getParams());
+    }
+
 //    public <T> List<T> queryFieldForList(Class<T> classOfT) {
 //        String sqlText = getQuerySqlText();
 //        ParamMap paramMap = getQueryParamMap();
@@ -191,24 +198,22 @@ public class SqlQuery {
 //        return this.namedParameterJdbcOperations.queryForObject(sqlText, paramMap.getParams(), Long.class);
 //    }
 
-//    /**
-//     * 查询Map对象,如果不存在，返回:<b style=color:red>空对象</b>
-//     *
-//     * @return 查询结果
-//     */
-//    public Result fetch() {
-//        Assert.notNull(this.sql, "SQL can not been null.");
-//
-//
-//        String sqlText = getFetchSqlText();
-//        ParamMap paramMap = getFetchParamMap();
-//
-//        try {
-//            return Result.from(this.namedParameterJdbcOperations.queryForMap(sqlText, paramMap.getParams()));
-//        } catch (Exception ex) {
-//            return Result.from(null);
-//        }
-//    }
+    /**
+     * 查询Map对象,如果不存在，返回:<b style=color:red>空对象</b>
+     *
+     * @return 查询结果
+     */
+    public Optional<?> fetch() {
+        String sqlText = getFetchSqlText();
+        ParamMap paramMap = getFetchParamMap();
+
+        try {
+            return Optional.of(this.namedParameterJdbcOperations.queryForMap(sqlText, paramMap.getParams()));
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+
+    }
 
     /**
      * 查找SQL对应的所有字段名,
@@ -227,16 +232,15 @@ public class SqlQuery {
         return fields;
     }
 
-//    private String getQuerySqlText() {
-//        String sqlText = getSourceSqlText();
-//
-//        if (Objects.nonNull(this.pager)) {
-//            PagerProvider pagerProvider = this.databaseType.getPagerProvider();
-//            sqlText = pagerProvider.withSql(sqlText, this.pager);
-//        }
-//
-//        return sqlText;
-//    }
+    private String getQuerySqlText() {
+        String sqlText = getSourceSqlText();
+
+        if (Objects.nonNull(this.pager)) {
+            sqlText = pagerProvider.withSql(sqlText, this.pager);
+        }
+
+        return sqlText;
+    }
 
     private String getQueryLongSqlText() {
         return getSourceSqlText();
@@ -246,25 +250,23 @@ public class SqlQuery {
     private String getSourceSqlText() {
         String sqlText = this.sql;
 
-//        if (Objects.nonNull(this.condition)) {
-//            if (this.sql.contains(CONDITION_APPEND_POSITION)) {
-//                sqlText = sqlText.replace(CONDITION_APPEND_POSITION,
-//                        " AND " + this.condition.toParametricExpression(PropertyToFieldNameMap.of()));
-//            } else if (this.sql.contains(CONDITION_INSERT_POSITION)) {
-//                sqlText = sqlText.replace(CONDITION_INSERT_POSITION,
-//                        " WHERE " + this.condition.toParametricExpression(PropertyToFieldNameMap.of()));
-//            } else {
-//                sqlText += " WHERE " + this.condition.toParametricExpression(PropertyToFieldNameMap.of());
-//            }
-//        } else {
-//            if (this.sql.contains(CONDITION_APPEND_POSITION)) {
-//                sqlText = sqlText.replace(CONDITION_APPEND_POSITION, "");
-//            }
-//
-//            if (this.sql.contains(CONDITION_INSERT_POSITION)) {
-//                sqlText = sqlText.replace(CONDITION_INSERT_POSITION, "");
-//            }
-//        }
+        if (Objects.nonNull(this.where)) {
+            if (this.sql.contains(CONDITION_APPEND_POSITION)) {
+                sqlText = sqlText.replace(CONDITION_APPEND_POSITION, " AND " + this.where.toSql());
+            } else if (this.sql.contains(CONDITION_INSERT_POSITION)) {
+                sqlText = sqlText.replace(CONDITION_INSERT_POSITION, " WHERE " + this.where.toSql());
+            } else {
+                sqlText += " WHERE " + this.where.toSql();
+            }
+        } else {
+            if (this.sql.contains(CONDITION_APPEND_POSITION)) {
+                sqlText = sqlText.replace(CONDITION_APPEND_POSITION, "");
+            }
+
+            if (this.sql.contains(CONDITION_INSERT_POSITION)) {
+                sqlText = sqlText.replace(CONDITION_INSERT_POSITION, "");
+            }
+        }
 
         sqlText = this.updateVars(sqlText);
 
@@ -272,18 +274,31 @@ public class SqlQuery {
     }
 
     private ParamMap getQueryParamMap() {
-        ParamMap paramMap = ParamMap.of();
+        if (Objects.nonNull(this.pager)) {
+            pagerProvider.writeToParamMap(paramMap, this.pager);
+        }
 
-//        if (Objects.nonNull(this.pager)) {
-//            PagerProvider pagerProvider = this.databaseType.getPagerProvider();
-//            pagerProvider.withParamMap(paramMap, this.pager);
-//        }
-//
-//        this.params.writeToParamMap(paramMap);
-//
-//        if (Objects.nonNull(this.condition)) {
-//            this.condition.writeToParamMap(paramMap);
-//        }
+        if (Objects.nonNull(this.where)) {
+            this.where.writeToParamMap(paramMap);
+        }
+
+        return paramMap;
+    }
+
+    private String getFetchSqlText() {
+        String sqlText = this.sql;
+        sqlText = this.updateVars(sqlText);
+        sqlText = pagerProvider.withSql(sqlText, PAGER_ONE_ROW);
+
+        return sqlText;
+    }
+
+    private ParamMap getFetchParamMap() {
+        pagerProvider.writeToParamMap(paramMap, PAGER_ONE_ROW);
+
+        if (Objects.nonNull(this.where)) {
+            this.where.writeToParamMap(paramMap);
+        }
 
         return paramMap;
     }
