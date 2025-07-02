@@ -106,6 +106,6 @@ public class FastORM {
     }
 
     public SqlQuery sqlQuery() {
-        return SqlQuery.of(namedParamOps);
+        return SqlQuery.of(namedParamOps, pagerProvider);
     }
 }
