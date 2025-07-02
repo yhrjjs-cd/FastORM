@@ -59,6 +59,7 @@ public class EntitiesInsertable<E extends Entity> {
     public void insert() {
         if (entities.isEmpty()) {
             log.warn("entities is empty");
+            return;
         }
 
         Entity entity = entities.get(0);
