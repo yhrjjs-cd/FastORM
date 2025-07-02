@@ -3,11 +3,11 @@ package com.cdyhrj.fastorm.enhance.generator.proxy;
 import com.cdyhrj.fastorm.annotation.ManyToMany;
 import com.cdyhrj.fastorm.annotation.OneToMany;
 import com.cdyhrj.fastorm.annotation.OneToOne;
+import com.cdyhrj.fastorm.api.enums.RelationType;
 import org.springframework.javapoet.MethodSpec;
 import org.springframework.util.ReflectionUtils;
 
 import javax.lang.model.element.Modifier;
-import javax.management.relation.RelationType;
 
 /**
  * getRelationType 生成器
