@@ -10,7 +10,6 @@ import org.springframework.lang.NonNull;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
-import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,8 +36,6 @@ public class EntitiesInsertable<E extends Entity> {
                               TransactionTemplate transactionTemplate,
                               FastOrmConfig fastOrmConfig,
                               List<E> entities) {
-        Assert.notEmpty(entities, "entities must not be empty");
-
         this.namedParameterJdbcOperations = namedParameterJdbcOperations;
         this.transactionTemplate = transactionTemplate;
         this.entities = entities;
@@ -60,6 +57,10 @@ public class EntitiesInsertable<E extends Entity> {
 
     @SuppressWarnings("unchecked")
     public void insert() {
+        if (entities.isEmpty()) {
+            log.warn("entities is empty");
+        }
+
         Entity entity = entities.get(0);
         EntityProxy entityProxy = Entity.getEntityProxy(entity.getClass());
         String sqlText = SqlHelper.generateInsertSqlText(entityProxy, entity);
