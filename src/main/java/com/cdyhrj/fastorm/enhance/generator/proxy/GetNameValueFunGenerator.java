@@ -20,8 +20,8 @@ import java.lang.reflect.Field;
 public class GetNameValueFunGenerator implements FunGenerator {
     @Override
     public String generate(Class<?> classOfT) {
-        Field[] idFields = FieldUtils.getFieldsWithAnnotation(classOfT, Name.class);
-        if (idFields.length == 0) {
+        Field[] nameFields = FieldUtils.getFieldsWithAnnotation(classOfT, Name.class);
+        if (nameFields.length == 0) {
             // 构造一个空函数
             return MethodSpec.methodBuilder("getNameValue")
                     .addModifiers(Modifier.PUBLIC)
@@ -32,7 +32,7 @@ public class GetNameValueFunGenerator implements FunGenerator {
                     .toString();
         }
 
-        Field nameField = idFields[0];
+        Field nameField = nameFields[0];
         String name = nameField.getName();
         if (nameField.getType() != String.class) {
             throw new StringFieldTypeRequiredException(name, classOfT);
